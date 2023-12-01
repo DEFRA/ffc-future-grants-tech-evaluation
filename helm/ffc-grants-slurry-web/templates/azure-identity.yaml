@@ -1,0 +1,3 @@
+{{- include "ffc-helm-library.azure-identity" (list . "ffc-grants-slurry-web.azure-identity") -}}
+{{- define "ffc-grants-slurry-web.azure-identity" -}}
+{{- end -}}

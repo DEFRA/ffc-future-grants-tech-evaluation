@@ -1,0 +1,185 @@
+{% extends '.layout.njk' %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "./components/macro.njk" import crumbToken %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+{% block pageTitle %}
+  Check your details - {{siteTitle}}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: backUrl,
+	  attributes: {id: 'linkBack'}
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-body">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">Check your details</h1>
+        
+        <div>
+          <h2 class="govuk-heading-m check-detail-heading">Business details</h2>
+          <a class="check-detail-change" title="Change business details" href="{{businessDetailsLink}}">Change<span class="govuk-visually-hidden"> business details</span></a>
+          <hr/>
+        </div>
+      
+        {{ govukSummaryList({
+            rows: [
+              {
+                key: {
+                  text: "Project name"
+                },
+                value: {
+                  text:  businessDetails.projectName
+                }
+              },
+              {
+                key: {
+                  text: "Business name"
+                },
+                value: {
+                  text: businessDetails.businessName
+                }
+              },
+              {
+                key: {
+                  text: "Number of employees"
+                },
+                value: {
+                  text: businessDetails.numberEmployees
+                }
+              },
+              {
+                key: {
+                  text: "Business turnover"
+                },
+                value: {
+                  text: businessDetails.businessTurnover
+                }
+              },
+              {
+                key: {
+                  text: "Single Business Identifier (SBI)"
+                },
+                value: {
+                  text: businessDetails.sbi
+                }
+              }
+            ]
+          })
+        }}
+        
+        {% if applying == 'Agent' %}
+
+          <div>
+            <h2 class="govuk-heading-m check-detail-heading">Agent's details</h2>
+            <a title="Change agent's details" class="check-detail-change" href="{{agentDetailsLink}}">Change<span class="govuk-visually-hidden"> agent's details</span></a>
+            <hr/>
+          </div>
+          
+          {{ govukSummaryList({
+            rows: [
+              {
+                key: {
+                  text: "Name"
+                },
+                value: {
+                  text: agentDetails.name
+                }
+              },
+              {
+                key: {
+                  text: "Business name"
+                },
+                value: {
+                  html: agentDetails.businessName
+                }
+              },
+              {
+                key: {
+                  text: "Contact details"
+                },
+                value: {
+                  html: agentDetails.contact
+                }
+              },
+              {
+                key: {
+                  text: "Business address"
+                },
+                value: {
+                  html: agentDetails.address
+                }
+              }
+            ]
+          }) }}
+        {% endif %}
+
+        <br/>
+      
+        {% set farmerSummaryItems = [
+            {
+              key: {
+                text: "Name"
+              },
+              value: {
+                text:  farmerDetails.name
+              }
+            },
+            {
+              key: {
+                text: "Contact details"
+              },
+              value: {
+                html: farmerDetails.contact
+              }
+            },
+            {
+              key: {
+                text: "Business address"
+              },
+              value: {
+                html: farmerDetails.address
+              }
+            },
+            {
+              key: {
+                text: "Project postcode"
+              },
+              value: {
+                html: farmerDetails.projectPostcode
+              }
+            }
+          ]
+        %}
+
+        <div>
+            <h2 class="govuk-heading-m check-detail-heading">Applicant’s details</h2>
+            <a title="Change Applicant’s details" class="check-detail-change" href="{{farmerDetailsLink}}">Change<span class="govuk-visually-hidden"> applicant's details</span></a>
+            <hr/>
+        </div>
+
+        {{ govukSummaryList({ rows: farmerSummaryItems }) }}
+      
+      </div>
+    </div>
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <form method="POST" action="{{ formActionPage }}" autocomplete="off" novalidate>
+          {{ crumbToken(crumb)}}
+          {{ govukButton({
+            text: "Continue",
+            attributes: {id: "btnContinue"}
+          }) }}
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

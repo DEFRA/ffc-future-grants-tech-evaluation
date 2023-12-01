@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  ffc-grants-slurry-web:
+    build:
+      context: .
+      target: production
+    image: ffc-grants-slurry-web    
+    environment:     
+      NODE_ENV: production
+      PORT: ${PORT:-3000}
+      SITE_URL: localhost:3000
+      LOGIN_REQUIRED: ${LOGIN_REQUIRED:-false}
+      AUTH_USERNAME: ${AUTH_USERNAME:-grants}
+      AUTH_PASSWORD_HASH: ${AUTH_PASSWORD_HASH:-grants}
+      GOOGLE_TAG_MANAGER_KEY: 'GT-MJPRKW7'
+      GOOGLE_TAG_MANAGER_SERVER_KEY: ${GOOGLE_TAG_MANAGER_SERVER_KEY:-notset}
+      ANALYTICS_PROPERTY_API: ${ANALYTICS_PROPERTY_API:-notset}
+      COOKIE_PASSWORD: thisistestcookiepasswordthisistestcookiepasswordthisistestcookiepassword
+      SERVICE_BUS_HOST: ${SERVICE_BUS_HOST:-notset}
+      SERVICE_BUS_PASSWORD: ${SERVICE_BUS_PASSWORD:-notset}
+      SERVICE_BUS_USER: ${SERVICE_BUS_USER:-notset}
+      CONTACT_DETAILS_QUEUE_ADDRESS: ${CONTACT_DETAILS_QUEUE_ADDRESS:-notset}
+      BACKEND_POLLING_HOST: http://host.docker.internal:3021
+      POLLING_INTERVAL: 200
+      POLLING_RETRIES: 20
+      APPINSIGHTS_CLOUDROLE: ffc-grants-slurry
+      APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY:-notset}
+      REDIS_HOSTNAME: redis
+      REDIS_PORT: 6379
+      REDIS_PARTITION: ffc-grants-slurry-web
+      REDIS_PASSWORD: ""
+      SESSION_CACHE_TTL: 1200000
+      SURVEY_LINK: https://defragroup.eu.qualtrics.com/jfe/preview/SV_8elUWS7UgbUh3iC?Q_CHL=preview&Q_SurveyVersionID=current
+      COST_REQUEST_QUEUE_ADDRESS: ${COST_REQUEST_QUEUE_ADDRESS:-ffc-grants-slurry-cost-details-req}${MESSAGE_QUEUE_SUFFIX}
+      COST_RESPONSE_QUEUE_ADDRESS: ${COST_RESPONSE_QUEUE_ADDRESS:-ffc-grants-slurry-cost-details-res}${MESSAGE_QUEUE_SUFFIX}
+      DESIRABILITY_SUBMITTED_TOPIC_ADDRESS: ${DESIRABILITY_SUBMITTED_TOPIC_ADDRESS:-notset}
+      WORKSHEET_HIDE_EMPTY_ROWS: ${WORKSHEET_HIDE_EMPTY_ROWS:-false}
+      WORKSHEET_PROTECT_ENABLED: ${WORKSHEET_PROTECT_ENABLED:-false}
+      SEND_EMAIL_TO_RPA: ${SEND_EMAIL_TO_RPA:-false}
+      WORKSHEET_PROTECT_PASSWORD: ${WORKSHEET_PROTECT_PASSWORD:-notset}
+      NOTIFY_EMAIL_TEMPLATE: ${NOTIFY_EMAIL_TEMPLATE:-notset}
+      EXCEL_UPLOAD_ENVIRONMENT: ${EXCEL_UPLOAD_ENVIRONMENT:-notset}

@@ -1,0 +1,33 @@
+{{- include "ffc-helm-library.container-config-map" (list . "ffc-grants-slurry-web.config-map") -}}
+{{- define "ffc-grants-slurry-web.config-map" -}}
+data:
+  NODE_ENV: {{ quote .Values.environment }}
+  PORT: {{ quote .Values.container.port }}  
+  REDIS_HOSTNAME: {{ .Values.container.redisHostname | quote }}
+  REDIS_PORT: {{ .Values.container.redisPort | quote }}
+  REDIS_PARTITION: {{ .Values.container.redisPartition | quote }}
+  SESSION_CACHE_TTL: {{ .Values.container.sessionCacheTTL | quote }}  
+  LOGIN_REQUIRED: {{ .Values.container.loginRequired | quote }}
+  SERVICE_BUS_HOST: {{ .Values.container.messageQueueHost | quote }}
+  CONTACT_DETAILS_QUEUE_ADDRESS: {{ .Values.container.contactDetailsQueueAddress | quote }}
+  BACKEND_POLLING_HOST: {{ .Values.container.backendPollingHost | quote }}
+  POLLING_INTERVAL: {{ .Values.container.pollingInterval | quote }}
+  POLLING_RETRIES: {{ .Values.container.pollingRetries | quote }}
+  APPINSIGHTS_CLOUDROLE: {{ .Values.name }}
+  ANALYTICS_PROPERTY_API: {{.Values.container.analyticsPropertyApi | quote }}
+  ANALYTICS_TAG_KEY: {{ .Values.container.analyticsTagKey | quote }}
+  GOOGLE_TAG_MANAGER_KEY: {{ .Values.container.googleTagManagerKey | quote }}
+  GOOGLE_TAG_MANAGER_SERVER_KEY: {{ .Values.container.googleTagManagerServerKey | quote }}
+  START_PAGE_URL: {{ .Values.container.startPageUrl | quote }}
+  SERVICE_END_DATE : {{ .Values.container.serviceEndDate | quote }}
+  SERVICE_END_TIME : {{ .Values.container.serviceEndTime | quote }}
+  SURVEY_LINK: {{ .Values.container.surveyLink | quote }}
+  COST_REQUEST_QUEUE_ADDRESS: {{ .Values.container.costRequestQueueAddress | quote }}
+  COST_RESPONSE_QUEUE_ADDRESS: {{ .Values.container.costResponseQueueAddress | quote }}
+  DESIRABILITY_SUBMITTED_TOPIC_ADDRESS: {{ quote .Values.container.desirabilitySubmittedTopicAddress }}
+  NOTIFY_EMAIL_TEMPLATE: {{ .Values.container.notifyEmailTemplate | quote }}
+  WORKSHEET_HIDE_EMPTY_ROWS: {{ .Values.container.worksheetHideEmptyRows | quote }}
+  WORKSHEET_PROTECT_ENABLED: {{ .Values.container.worksheetProtectEnabled | quote }}
+  SEND_EMAIL_TO_RPA: {{ .Values.container.sendEmailToRpa | quote }}
+  EXCEL_UPLOAD_ENVIRONMENT: {{ .Values.container.excelUploadEnvironment | quote }}
+{{- end -}}
