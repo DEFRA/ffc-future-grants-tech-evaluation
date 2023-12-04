@@ -9,7 +9,7 @@ describe('Error Page', () => {
   test('should return 404', async () => {
     const options = {
       method: 'GET',
-      url: '/slurry-infrastructure/somethingnotavailable'
+      url: '/tech-evaluation/somethingnotavailable'
     }
 
     const response = await global.__SERVER__.inject(options)

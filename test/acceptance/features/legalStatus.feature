@@ -1,6 +1,6 @@
 Feature: Legal Status        
           Scenario Outline: Choosing differents types of legal status
-              Given I open the url "/slurry-infrastructure/applicant-type"
+              Given I open the url "/tech-evaluation/applicant-type"
               And I pause for 500ms
               When I click on the element "#applicantType-2"  
               When I click on the button "#Continue"
@@ -26,7 +26,7 @@ Feature: Legal Status
             #  |BenCom        |
 
             #  Scenario Outline: Choosing differents types of legal status
-            #  Given I open the url "/slurry-infrastructure/applicant-type"
+            #  Given I open the url "/tech-evaluation/applicant-type"
             #  And I pause for 500ms
             #  When I click on the element "#applicantType-2"  
             #  When I click on the button "#Continue"

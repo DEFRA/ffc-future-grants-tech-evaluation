@@ -13,7 +13,7 @@ describe('getUrl()', () => {
     jest.resetAllMocks()
   })
   it('should return url if urlObject is empty', () => {
-    expect(getUrl(urlObject, 'mock-url', {}, secBtn, '')).toEqual('/slurry-infrastructure/score')
+    expect(getUrl(urlObject, 'mock-url', {}, secBtn, '')).toEqual('/tech-evaluation/score')
 
     secBtn = ''
     expect(getUrl(urlObject, 'mock-url', {}, secBtn, '')).toEqual('mock-url')
@@ -51,20 +51,20 @@ describe('getUrl()', () => {
     dict = {
       dependentQuestionYarKey: 'dependentAnswerKeysArray'
     }
-    expect(getUrl(urlObject, 'mock-url', {}, 'Back to score', '')).toEqual('/slurry-infrastructure/score')
+    expect(getUrl(urlObject, 'mock-url', {}, 'Back to score', '')).toEqual('/tech-evaluation/score')
   })
   it('should navigate to /planning-permission-summary if secBtn is not "Back to score" and current url is /grid-reference', () => {
     urlObject = null
     dict = {
       dependentQuestionYarKey: 'dependentAnswerKeysArray'
     }
-    expect(getUrl(urlObject, 'mock-url', {}, 'i_hate_js', 'grid-reference')).toEqual('/slurry-infrastructure/planning-permission-summary')
+    expect(getUrl(urlObject, 'mock-url', {}, 'i_hate_js', 'grid-reference')).toEqual('/tech-evaluation/planning-permission-summary')
   })
   it('should default to /check-details if secBtn is not "Back to score" and current url is not a building or planning page', () => {
     urlObject = null
     dict = {
       dependentQuestionYarKey: 'dependentAnswerKeysArray'
     }
-    expect(getUrl(urlObject, 'mock-url', {}, 'i-wish-i-was-writing-python', 'or-even-java')).toEqual('/slurry-infrastructure/check-details')
+    expect(getUrl(urlObject, 'mock-url', {}, 'i-wish-i-was-writing-python', 'or-even-java')).toEqual('/tech-evaluation/check-details')
   })
 })

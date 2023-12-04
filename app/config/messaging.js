@@ -81,7 +81,7 @@ const config = {
   fetchCostRequestMsgType: `${msgTypePrefix}.fetch.cost.request`,
   eligibilityAnswersMsgType: `${msgTypePrefix}.slurry.eligibility.details`,
   contactDetailsMsgType: `${msgTypePrefix}.slurry.contact.details`,
-  msgSrc: 'ffc-grants-slurry-web'
+  msgSrc: 'ffc-future-grants-tech-evaluation'
 }
 
 // Validate config

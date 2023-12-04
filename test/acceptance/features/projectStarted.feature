@@ -1,6 +1,6 @@
 Feature: ProjectStart
      Scenario Outline: Choosing different start work on the project
-              Given I open the url "/slurry-infrastructure/applicant-type"
+              Given I open the url "/tech-evaluation/applicant-type"
               And I pause for 500ms
               When I click on the element "#applicantType-2"  
               When I click on the button "#btnContinue"
@@ -21,7 +21,7 @@ Feature: ProjectStart
 #              |trust   |noWorkDoneYet  |
 
 #     Scenario: Choosing begun project work
-#              Given I open the url "/slurry-infrastructure/applicant-type"
+#              Given I open the url "/tech-evaluation/applicant-type"
 #              And I pause for 500ms
 #              When I click on the element "#applicantType-2"  
 #              When I click on the button "#btnContinue"

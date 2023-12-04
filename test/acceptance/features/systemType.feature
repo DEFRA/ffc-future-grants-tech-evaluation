@@ -1,6 +1,6 @@
 Feature: System Type
      Scenario Outline: Choosing Slurry based system
-              Given I open the url "/slurry-infrastructure/applicant-type"
+              Given I open the url "/tech-evaluation/applicant-type"
               And I pause for 500ms
               When I click on the element "#applicantType-2"  
               When I click on the button "#btnContinue"
@@ -26,7 +26,7 @@ Feature: System Type
               |trades  |preparatoryWork|
 
     #Scenario: Choosing farm and slurry
-    #    Given I open the url "/slurry-infrastructure/applicant-type"
+    #    Given I open the url "/tech-evaluation/applicant-type"
     #          And I pause for 500ms
     #          When I click on the element "#applicantType-2"  
     #          When I click on the button "#btnContinue"
@@ -51,7 +51,7 @@ Feature: System Type
               
 
     #Scenario: Choosing farm no slurry
-    #    Given I open the url "/slurry-infrastructure/applicant-type"
+    #    Given I open the url "/tech-evaluation/applicant-type"
     #          And I pause for 500ms
     #          When I click on the element "#applicantType-2"  
     #          When I click on the button "#btnContinue"
@@ -76,7 +76,7 @@ Feature: System Type
               
 
     #Scenario: Choosing farm no slurry
-    #    Given I open the url "/slurry-infrastructure/applicant-type"
+    #    Given I open the url "/tech-evaluation/applicant-type"
     #          And I pause for 500ms
     #          When I click on the element "#applicantType-2"  
     #          When I click on the button "#btnContinue"

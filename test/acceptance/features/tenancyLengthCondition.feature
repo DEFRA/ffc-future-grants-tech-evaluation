@@ -1,6 +1,6 @@
 Feature: Tenancy Length Condition
             Scenario Outline: Choosing No land farm business owns with No tenancy agreement
-              Given I open the url "/slurry-infrastructure/applicant-type"
+              Given I open the url "/tech-evaluation/applicant-type"
               And I pause for 500ms
               When I click on the element "#applicantType-2"  
               When I click on Continue button

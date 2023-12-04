@@ -2,7 +2,7 @@
 
     #Scenario: Choosing Beef applicant type
 
-    #    Given I open the url "/slurry-infrastructure/applicant-type"
+    #    Given I open the url "/tech-evaluation/applicant-type"
     #    And I pause for 500ms
     #    Then I expect that the url contains "/applicant-type" 
     #    When I click on the element "#applicantType-2"  
@@ -12,7 +12,7 @@
 
     #Scenario: Choosing Pig applicant type
 
-    #    Given I open the url "/slurry-infrastructure/applicant-type"
+    #    Given I open the url "/tech-evaluation/applicant-type"
     #    And I pause for 500ms
     #    Then I expect that the url contains "/applicant-type" 
     #    When I click on the element "#applicantType"  
@@ -22,7 +22,7 @@
 
     #Scenario: Choosing Dairy applicant type
 
-    #    Given I open the url "/slurry-infrastructure/applicant-type"
+    #    Given I open the url "/tech-evaluation/applicant-type"
     #    And I pause for 500ms
     #    Then I expect that the url contains "/applicant-type" 
     #    When I click on the element "#applicantType-3"  
@@ -32,7 +32,7 @@
     #    
     #Scenario: Choosing none of the above
 
-    #    Given I open the url "/slurry-infrastructure/applicant-type"
+    #    Given I open the url "/tech-evaluation/applicant-type"
     #    And I pause for 500ms
     #    Then I expect that the url contains "/applicant-type" 
     #    When I click on the element "#applicantType-5"  
@@ -43,7 +43,7 @@
 
 
     #Scenario: Navigate on the link
-    #    Given I open the url "/slurry-infrastructure/applicant-type"
+    #    Given I open the url "/tech-evaluation/applicant-type"
     #    And I pause for 500ms
     #    Then I expect that the url contains "/applicant-type" 
     #    When I click on the element "#applicantType-5"  
@@ -55,7 +55,7 @@
     #    Then I expect that element "h1" contains the text "Rural payments and grants"
 
     #Scenario: Navigate through back link
-    #    Given I open the url "/slurry-infrastructure/applicant-type"
+    #    Given I open the url "/tech-evaluation/applicant-type"
     #    And I pause for 500ms
     #    Then I expect that the url contains "/applicant-type" 
     #    When I click on the element "#applicantType-5"  
@@ -68,28 +68,28 @@
 
     #Scenario: User click on Accessibility link
     #    
-    #     Given I open the url "/slurry-infrastructure/applicant-type"
+    #     Given I open the url "/tech-evaluation/applicant-type"
     #     And I pause for 500ms
     #     Then I expect that the url contains "/applicant-type"
     #     When I click on the link "Accessibility"
     #     Then I expect that element "h1" contains the text "Accessibility statement"
 
     #Scenario: User click on cookies link
-    #    Given I open the url "/slurry-infrastructure/applicant-type"
+    #    Given I open the url "/tech-evaluation/applicant-type"
     #    And I pause for 500ms
     #    Then I expect that the url contains "/applicant-type"
     #    When I click on the link "Cookies"
     #    Then I expect that element "h2" contains the text "Cookies"
 
     #Scenario: User click on © Crown copyright link
-    #    Given I open the url "/slurry-infrastructure/applicant-type"
+    #    Given I open the url "/tech-evaluation/applicant-type"
     #    And I pause for 500ms
     #    Then I expect that the url contains "/applicant-type"
     #    When I click on the link "© Crown copyright"
     #    Then I expect that element "h1" contains the text "Crown copyright"
 
     #Scenario: User click on feedback link
-    #    Given I open the url "/slurry-infrastructure/applicant-type"
+    #    Given I open the url "/tech-evaluation/applicant-type"
     #    And I pause for 500ms
     #    Then I expect that the url contains "/applicant-type"
     #    When I click on the link "Feedback"
@@ -98,7 +98,7 @@
     #    #Then I expect that element "//div[@id='Header']/span/span/span/b/span/span/span" contains the text "Give feedback on the Farming" 
 
     #  Scenario: User click on privacy link
-    #    Given I open the url "/slurry-infrastructure/applicant-type"
+    #    Given I open the url "/tech-evaluation/applicant-type"
     #    And I pause for 500ms
     #    Then I expect that the url contains "/applicant-type"
     #    When I click on the link "Privacy" 
@@ -108,7 +108,7 @@
     #    #Then I expect that element "h1" contains the text "Personal information charter"
     # 
     #  Scenario: User click on Open Government Licence link
-    #    Given I open the url "/slurry-infrastructure/applicant-type"
+    #    Given I open the url "/tech-evaluation/applicant-type"
     #    And I pause for 500ms
     #    Then I expect that the url contains "/applicant-type"
     #    When I click on the link "Open Government Licence v3.0"

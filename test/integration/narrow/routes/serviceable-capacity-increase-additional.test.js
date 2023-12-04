@@ -86,7 +86,7 @@ describe('Page: /capacity-increase-additional', () => {
 
     const postResponse = await global.__SERVER__.inject(postOptions)
     expect(postResponse.statusCode).toBe(302)
-    expect(postResponse.headers.location).toBe('/slurry-infrastructure/cover-type')
+    expect(postResponse.headers.location).toBe('/tech-evaluation/cover-type')
   })
   it('enter valid value - redirect user cover type when existing cover `/No/` and grant funded `/Yes I need a cover/`', async () => {
     varList.grantFundedCover = 'Yes, I need a cover'
@@ -101,7 +101,7 @@ describe('Page: /capacity-increase-additional', () => {
 
     const postResponse = await global.__SERVER__.inject(postOptions)
     expect(postResponse.statusCode).toBe(302)
-    expect(postResponse.headers.location).toBe('/slurry-infrastructure/cover-type')
+    expect(postResponse.headers.location).toBe('/tech-evaluation/cover-type')
   })
 
   it('enter valid value - redirect user cover type when existing cover `/Yes/` and grant funded `/Yes, I already have a cover/`', async () => {
@@ -117,7 +117,7 @@ describe('Page: /capacity-increase-additional', () => {
 
     const postResponse = await global.__SERVER__.inject(postOptions)
     expect(postResponse.statusCode).toBe(302)
-    expect(postResponse.headers.location).toBe('/slurry-infrastructure/existing-cover-type')
+    expect(postResponse.headers.location).toBe('/tech-evaluation/existing-cover-type')
   })
 
   it('enter valid value - redirect user cover type when existing cover `/No/` and grant funded `/Yes, I already have a cover/`', async () => {
@@ -133,7 +133,7 @@ describe('Page: /capacity-increase-additional', () => {
 
     const postResponse = await global.__SERVER__.inject(postOptions)
     expect(postResponse.statusCode).toBe(302)
-    expect(postResponse.headers.location).toBe('/slurry-infrastructure/separator')
+    expect(postResponse.headers.location).toBe('/tech-evaluation/separator')
   })
 
   it('page loads with correct back link', async () => {

@@ -1,8 +1,8 @@
 environment: development
-name: ffc-grants-slurry-web
+name: ffc-future-grants-tech-evaluation
 namespace: ffc-grants
 workstream: ffc-grants
-image: ffc-grants-slurry-web
+image: ffc-future-grants-tech-evaluation
 
 labels: {}
 
@@ -12,12 +12,12 @@ appInsights:
 azureIdentity:
   clientID: not-a-real-clientID
   resourceID: not-a-real-resourceID
-  
+
 containerConfigMap:
-  name: ffc-grants-slurry-web-config-map
+  name: ffc-future-grants-tech-evaluation-config-map
 
 containerSecret:
-  name: ffc-grants-slurry-web-container-secret
+  name: ffc-future-grants-tech-evaluation-container-secret
   type: Opaque
 
 deployment:
@@ -43,7 +43,7 @@ container:
   redisPassword: redis
   cookiePassword: thisisnotarealpasswordthisisnotarealpassword
   redisPort: 6379
-  redisPartition: ffc-grants-slurry-web
+  redisPartition: ffc-future-grants-tech-evaluation
   sessionCacheTTL: 1200000
   messageQueueHost: dummy
   contactDetailsQueueAddress: contact-details
@@ -96,4 +96,4 @@ ingress:
   class: nginx
   endpoint: ffc-grants-frontend
   server: example.com
-  path: /slurry-infrastructure
+  path: /tech-evaluation

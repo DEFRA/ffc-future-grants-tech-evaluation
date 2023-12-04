@@ -71,12 +71,12 @@ describe('Page: /grant-funded-cover', () => {
 
     const postResponse = await global.__SERVER__.inject(postOptions)
     expect(postResponse.statusCode).toBe(302)
-    expect(postResponse.headers.location).toBe('/slurry-infrastructure/existing-cover-pig')
+    expect(postResponse.headers.location).toBe('/tech-evaluation/existing-cover-pig')
   })
 
   it('user selects eligible option -> store user response and redirect to /existing-cover', async () => {
     varList.applicantType = 'Beef',
-    varList.applyingFor = 'Building a new store, replacing or expanding an existing store'
+      varList.applyingFor = 'Building a new store, replacing or expanding an existing store'
     varList.projectType = 'Replace an existing store that is no longer fit for purpose with a new store'
 
     const postOptions = {
@@ -88,7 +88,7 @@ describe('Page: /grant-funded-cover', () => {
 
     const postResponse = await global.__SERVER__.inject(postOptions)
     expect(postResponse.statusCode).toBe(302)
-    expect(postResponse.headers.location).toBe('/slurry-infrastructure/existing-cover')
+    expect(postResponse.headers.location).toBe('/tech-evaluation/existing-cover')
   })
 
   it('page loads with correct back link', async () => {
@@ -114,6 +114,6 @@ describe('Page: /grant-funded-cover', () => {
 
     const postResponse = await global.__SERVER__.inject(postOptions)
     expect(postResponse.statusCode).toBe(302)
-    expect(postResponse.headers.location).toBe('/slurry-infrastructure/estimated-grant')
+    expect(postResponse.headers.location).toBe('/tech-evaluation/estimated-grant')
   })
 })

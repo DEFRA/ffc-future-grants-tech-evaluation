@@ -4,15 +4,15 @@ version: '3.8'
 # that test output is saved to the host
 
 services:
-  ffc-grants-slurry-web:
+  ffc-future-grants-tech-evaluation:
     build:
       target: development
-    image: ffc-grants-slurry-web-development
+    image: ffc-future-grants-tech-evaluation-development
     environment:
       NODE_ENV: test
       GOOGLE_TAG_MANAGER_KEY: 'GT-MJPRKW7'
       SESSION_CACHE_TTL: 1200000
-    container_name: ffc-grants-slurry-web-test
+    container_name: ffc-future-grants-tech-evaluation-test
     command: npm run test
     volumes:
       - ./test-output/:/home/node/test-output/
