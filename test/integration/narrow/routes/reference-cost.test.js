@@ -112,6 +112,6 @@ describe('reference Cost test', () => {
 
     const response = await global.__SERVER__.inject(options)
     expect(response.statusCode).toBe(302)
-    expect(response.headers.location).toBe('/slurry-infrastructure/start')
+    expect(response.headers.location).toBe('/tech-evaluation/start')
   })
 })

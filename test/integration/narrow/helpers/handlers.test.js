@@ -53,7 +53,7 @@ describe('Get & Post Handlers', () => {
     mockH = { redirect: jest.fn() }
 
     await getHandler(question)({}, mockH)
-    expect(mockH.redirect).toHaveBeenCalledWith('/slurry-infrastructure/start')
+    expect(mockH.redirect).toHaveBeenCalledWith('/tech-evaluation/start')
     expect(mockgetGrantValues).not.toHaveBeenCalled()
   })
 
@@ -67,7 +67,7 @@ describe('Get & Post Handlers', () => {
     mockH = { redirect: jest.fn() }
 
     await getHandler(question)({}, mockH)
-    expect(mockH.redirect).toHaveBeenCalledWith('/slurry-infrastructure/start')
+    expect(mockH.redirect).toHaveBeenCalledWith('/tech-evaluation/start')
   })
 
   test('getHandler called with grants info', async () => {
@@ -85,7 +85,7 @@ describe('Get & Post Handlers', () => {
     await getHandler(question)({}, mockH)
     expect(mockgetGrantValues).toHaveBeenCalledTimes(1)
     expect(mockgetGrantValues).toHaveBeenCalledWith(null, { grantCap: 10000, maxGrant: 10000, minGrant: 1000 })
-    expect(mockH.redirect).toHaveBeenCalledWith('/slurry-infrastructure/start')
+    expect(mockH.redirect).toHaveBeenCalledWith('/tech-evaluation/start')
   })
 
   test('getPostHandler', async () => {
@@ -101,6 +101,6 @@ describe('Get & Post Handlers', () => {
     mockH = { redirect: jest.fn() }
     const mockSet = jest.fn()
     await getPostHandler(question)({ payload: { a: 'mock-value' }, yar: { set: mockSet } }, mockH)
-    expect(mockH.redirect).toHaveBeenCalledWith('/slurry-infrastructure/existing-cover')
+    expect(mockH.redirect).toHaveBeenCalledWith('/tech-evaluation/existing-cover')
   })
 })

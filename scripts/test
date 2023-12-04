@@ -4,8 +4,8 @@ set -e
 projectRoot="$(a="/$0"; a=${a%/*}; a=${a:-.}; a=${a#/}/; cd "$a/.." || return; pwd)"
 
 command="$@"
-project="ffc-grants-slurry-web"
-service="ffc-grants-slurry-web"
+project="ffc-future-grants-tech-evaluation"
+service="ffc-future-grants-tech-evaluation"
 
 compose() {
   docker-compose \

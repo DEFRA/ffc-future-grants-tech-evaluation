@@ -1,5 +1,5 @@
-{{- include "ffc-helm-library.horizontal-pod-autoscaler" (list . "ffc-grants-slurry-web.horizontal-pod-autoscaler") -}}
-{{- define "ffc-grants-slurry-web.horizontal-pod-autoscaler" -}}
+{{- include "ffc-helm-library.horizontal-pod-autoscaler" (list . "ffc-future-grants-tech-evaluation.horizontal-pod-autoscaler") -}}
+{{- define "ffc-future-grants-tech-evaluation.horizontal-pod-autoscaler" -}}
 spec:
   metrics:
   - type: Resource

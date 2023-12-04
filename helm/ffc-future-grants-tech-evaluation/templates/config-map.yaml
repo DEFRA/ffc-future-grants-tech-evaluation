@@ -1,5 +1,5 @@
-{{- include "ffc-helm-library.container-config-map" (list . "ffc-grants-slurry-web.config-map") -}}
-{{- define "ffc-grants-slurry-web.config-map" -}}
+{{- include "ffc-helm-library.container-config-map" (list . "ffc-future-grants-tech-evaluation.config-map") -}}
+{{- define "ffc-future-grants-tech-evaluation.config-map" -}}
 data:
   NODE_ENV: {{ quote .Values.environment }}
   PORT: {{ quote .Values.container.port }}  

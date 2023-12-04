@@ -1,8 +1,8 @@
 {
-  "name": "ffc-grants-slurry-web",
-  "version": "2.24.0",
+  "name": "ffc-future-grants-tech-evaluation",
+  "version": "1.0.0",
   "description": "Web frontend for FTF Slurry Infrastructure scheme",
-  "homepage": "https://github.com/DEFRA/ffc-grants-slurry-web",
+  "homepage": "https://github.com/DEFRA/ffc-future-grants-tech-evaluation",
   "main": "app/index.js",
   "scripts": {
     "build": "webpack",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DEFRA/ffc-grants-slurry-web.git"
+    "url": "git+https://github.com/DEFRA/ffc-future-grants-tech-evaluation.git"
   },
   "author": "Defra",
   "contributors": [
@@ -28,7 +28,7 @@
   ],
   "license": "OGL-UK-3.0",
   "bugs": {
-    "url": "https://github.com/DEFRA/ffc-grants-slurry-web/issues"
+    "url": "https://github.com/DEFRA/ffc-future-grants-tech-evaluation/issues"
   },
   "dependencies": {
     "@defra/hapi-gapi": "^2.1.1",

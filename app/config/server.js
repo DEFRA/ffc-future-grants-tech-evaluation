@@ -1,5 +1,5 @@
 const Joi = require('joi')
-const urlPrefix = '/slurry-infrastructure'
+const urlPrefix = '/tech-evaluation'
 const startPageUrl = '/start'
 const serviceEndDate = '2024/07/12'
 const serviceEndTime = '23:59:59'
@@ -28,7 +28,7 @@ const schema = Joi.object({
   }),
   appInsights: {
     key: Joi.string(),
-    role: Joi.string().default('ffc-grants-slurry')
+    role: Joi.string().default('ffc-future-grants-tech-evaluation')
   }
 })
 

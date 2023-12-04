@@ -86,7 +86,7 @@ describe('Separator test', () => {
     const responseSeparator = await global.__SERVER__.inject(optionSeparator)
     expect(responseSeparator.statusCode).toBe(200)
     expect(responseSeparator.payload).toContain(
-      '<a href="/slurry-infrastructure/pig-capacity-increase-replace" class="govuk-back-link">Back</a>'
+      '<a href="/tech-evaluation/pig-capacity-increase-replace" class="govuk-back-link">Back</a>'
     )
   })
 
@@ -101,7 +101,7 @@ describe('Separator test', () => {
     const response = await global.__SERVER__.inject(options)
     expect(response.statusCode).toBe(200)
     expect(response.payload).toContain(
-      '<a href="/slurry-infrastructure/pig-capacity-increase-additional" class="govuk-back-link">Back</a>'
+      '<a href="/tech-evaluation/pig-capacity-increase-additional" class="govuk-back-link">Back</a>'
     )
   })
 
@@ -116,7 +116,7 @@ describe('Separator test', () => {
     const response = await global.__SERVER__.inject(options)
     expect(response.statusCode).toBe(200)
     expect(response.payload).toContain(
-      '<a href="/slurry-infrastructure/capacity-increase-replace" class="govuk-back-link">Back</a>'
+      '<a href="/tech-evaluation/capacity-increase-replace" class="govuk-back-link">Back</a>'
     )
   })
 
@@ -130,7 +130,7 @@ describe('Separator test', () => {
     const response = await global.__SERVER__.inject(options)
     expect(response.statusCode).toBe(200)
     expect(response.payload).toContain(
-      '<a href="/slurry-infrastructure/capacity-increase-additional" class="govuk-back-link">Back</a>'
+      '<a href="/tech-evaluation/capacity-increase-additional" class="govuk-back-link">Back</a>'
     )
   })
 
@@ -144,7 +144,7 @@ describe('Separator test', () => {
     const response = await global.__SERVER__.inject(options)
     expect(response.statusCode).toBe(200)
     expect(response.payload).toContain(
-      '<a href="/slurry-infrastructure/cover-size" class="govuk-back-link">Back</a>'
+      '<a href="/tech-evaluation/cover-size" class="govuk-back-link">Back</a>'
     )
   })
 
@@ -158,7 +158,7 @@ describe('Separator test', () => {
     const response = await global.__SERVER__.inject(options)
     expect(response.statusCode).toBe(200)
     expect(response.payload).toContain(
-      '<a href="/slurry-infrastructure/existing-grant-funded-cover-size" class="govuk-back-link">Back</a>'
+      '<a href="/tech-evaluation/existing-grant-funded-cover-size" class="govuk-back-link">Back</a>'
     )
   })
 
@@ -173,7 +173,7 @@ describe('Separator test', () => {
     const response = await global.__SERVER__.inject(options)
     expect(response.statusCode).toBe(200)
     expect(response.payload).toContain(
-      '<a href="/slurry-infrastructure/existing-cover-size" class="govuk-back-link">Back</a>'
+      '<a href="/tech-evaluation/existing-cover-size" class="govuk-back-link">Back</a>'
     )
   })
 
@@ -185,7 +185,7 @@ describe('Separator test', () => {
     const response = await global.__SERVER__.inject(options)
     expect(response.statusCode).toBe(200)
     expect(response.payload).toContain(
-      '<a href="/slurry-infrastructure/existing-cover-size" class="govuk-back-link">Back</a>'
+      '<a href="/tech-evaluation/existing-cover-size" class="govuk-back-link">Back</a>'
     )
   })
   it('page loads with /cover-size/ back link when an impermeable cover only and fit for purpose is no', async () => {
@@ -204,7 +204,7 @@ describe('Separator test', () => {
     const response = await global.__SERVER__.inject(options)
     expect(response.statusCode).toBe(200)
     expect(response.payload).toContain(
-      '<a href="/slurry-infrastructure/cover-size" class="govuk-back-link">Back</a>'
+      '<a href="/tech-evaluation/cover-size" class="govuk-back-link">Back</a>'
     )
   })
 })

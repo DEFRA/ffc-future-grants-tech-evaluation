@@ -82,7 +82,7 @@ describe('Page: /fit-for-purpose', () => {
     expect(postResponse.statusCode).toBe(302)
     expect(postResponse.headers.location).toBe('estimated-grant')
   })
-  it("user selects eligible option: 'No' when applying-for page is Not impermeable cover only  -> store user response and redirect to /slurry-infrastructure/fit-for-purpose-conditional", async () => {
+  it("user selects eligible option: 'No' when applying-for page is Not impermeable cover only  -> store user response and redirect to /tech-evaluation/fit-for-purpose-conditional", async () => {
     varList.applyingFor =
       'Building a new store, replacing or expanding an existing store'
     varList.projectType =

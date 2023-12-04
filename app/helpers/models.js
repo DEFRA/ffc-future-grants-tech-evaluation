@@ -40,17 +40,17 @@ const getDependentSideBar = (sidebar, request) => {
         case 'separatorOptions':
           values[index].heading = 'Separator'
 
-          if (request.route.path === '/slurry-infrastructure/separator-type') {
+          if (request.route.path === '/tech-evaluation/separator-type') {
             setYarValue(request, 'separatorOptions', [])
             selectedAnswers = []
-          } else if (request.route.path === '/slurry-infrastructure/gantry') {
+          } else if (request.route.path === '/tech-evaluation/gantry') {
             const tempSeparatorVal = [getYarValue(request, 'separatorOptions')].flat()
 
             tempSeparatorVal.splice(1, tempSeparatorVal.length - 1)
 
             setYarValue(request, 'separatorOptions', tempSeparatorVal)
             selectedAnswers = tempSeparatorVal
-          } else if (request.route.path === '/slurry-infrastructure/short-term-storage') {
+          } else if (request.route.path === '/tech-evaluation/short-term-storage') {
             const tempSeparatorVal = [getYarValue(request, 'separatorOptions')].flat()
 
             if (tempSeparatorVal.includes('Gantry')) {

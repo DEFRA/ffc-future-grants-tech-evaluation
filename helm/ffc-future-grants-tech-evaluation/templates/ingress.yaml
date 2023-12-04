@@ -1,5 +1,5 @@
-{{- include "ffc-helm-library.azure-ingress" (list . "ffc-grants-slurry-web.ingress") -}}
-{{- define "ffc-grants-slurry-web.ingress" -}}
+{{- include "ffc-helm-library.azure-ingress" (list . "ffc-future-grants-tech-evaluation.ingress") -}}
+{{- define "ffc-future-grants-tech-evaluation.ingress" -}}
 {{- if not .Values.pr -}}
 metadata:
   annotations:
