@@ -94,6 +94,5 @@ service:
 
 ingress:
   class: nginx
-  endpoint: ffc-grants-frontend
-  server: example.com
-  path: /tech-evaluation
+  endpoint: ffc-future-grants-tech-evaluation
+  server: value.replaced.from.app.config
