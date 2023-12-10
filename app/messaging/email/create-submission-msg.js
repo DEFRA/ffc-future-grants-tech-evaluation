@@ -3,7 +3,7 @@ const spreadsheetConfig = require('../config/spreadsheet.js')
 const { microTurnover, smallTurnover, mediumTurnover, microEmployeesNum, smallEmployeesNum, mediumEmployeesNum } = require('./business-size-constants')
 const { getQuestionAnswer } = require('../../../app/helpers/utils.js')
 
-function generateRow (rowNumber, name, value, bold = false) {
+function generateRow(rowNumber, name, value, bold = false) {
   return {
     row: rowNumber,
     values: ['', name, value],
@@ -11,7 +11,7 @@ function generateRow (rowNumber, name, value, bold = false) {
   }
 }
 
-function calculateBusinessSize (employees, turnover) {
+function calculateBusinessSize(employees, turnover) {
   const employeesNum = Number(employees)
   const turnoverNum = Number(turnover)
 
@@ -26,7 +26,7 @@ function calculateBusinessSize (employees, turnover) {
   }
 }
 
-function addAgentDetails (agentsDetails) {
+function addAgentDetails(agentsDetails) {
   return [
     generateRow(26, 'Agent Surname', agentsDetails?.lastName ?? ''),
     generateRow(27, 'Agent Forename', agentsDetails?.firstName ?? ''),
@@ -43,7 +43,7 @@ function addAgentDetails (agentsDetails) {
   ]
 }
 
-function generateExcelFilename (scheme, projectName, businessName, referenceNumber, today) {
+function generateExcelFilename(scheme, projectName, businessName, referenceNumber, today) {
   const dateTime = new Intl.DateTimeFormat('en-GB', {
     timeStyle: 'short',
     dateStyle: 'short',
@@ -51,7 +51,7 @@ function generateExcelFilename (scheme, projectName, businessName, referenceNumb
   }).format(today).replace(/\//g, '-')
   return `${scheme}_${projectName}_${businessName}_${referenceNumber}_${dateTime}.xlsx`
 }
-function getBusinessTypeC53 (businessType) {
+function getBusinessTypeC53(businessType) {
   return `${businessType} Farmer`
 }
 
@@ -66,7 +66,7 @@ const getPlanningPermissionDoraValue = (planningPermission) => {
   }
 }
 
-function getProjectItemsFormattedArray (itemSizeQuantities, otherItems, storageType, storageCapacity, coverType, coverSize, existingCoverType, existingCoverSize, separatorOptions, concretebunkersize) {
+function getProjectItemsFormattedArray(itemSizeQuantities, otherItems, storageType, storageCapacity, coverType, coverSize, existingCoverType, existingCoverSize, separatorOptions, concretebunkersize) {
   const projectItems = []
 
   // list will look like storage -> cover -> existing cover -> separator -> other items
@@ -113,10 +113,10 @@ function getProjectItemsFormattedArray (itemSizeQuantities, otherItems, storageT
   return projectItems.join('|')
 }
 
-function getSpreadsheetDetails (submission) {
+function getSpreadsheetDetails(submission) {
   const today = new Date()
   const todayStr = today.toLocaleDateString('en-GB')
-  const schemeName = 'Slurry Infrastructure Round 2'
+  const schemeName = 'future grants Round 2'
   const subScheme = `FTF-${schemeName}`
   const {
     agentsDetails, applicantType, applyingFor, applying,
@@ -223,7 +223,7 @@ function getSpreadsheetDetails (submission) {
   }
 }
 
-function getImpermeableCover (grantFundedCover) {
+function getImpermeableCover(grantFundedCover) {
   if (grantFundedCover !== 'Yes, I need a cover') {
     grantFundedCover = 'No grant funded cover selected'
   }
@@ -231,7 +231,7 @@ function getImpermeableCover (grantFundedCover) {
   return grantFundedCover
 }
 
-function getCurrencyFormat (amount) {
+function getCurrencyFormat(amount) {
   return Number(amount).toLocaleString('en-US', { minimumFractionDigits: 0, style: 'currency', currency: 'GBP' })
 }
 
@@ -245,7 +245,7 @@ const getItemUnit = (otherItem) => {
   }
 }
 
-function displayObject (itemSizeQuantities, otherItems) {
+function displayObject(itemSizeQuantities, otherItems) {
   let unit
   const projectItems = Object.values(itemSizeQuantities).map((itemSizeQuantity, index) => {
     unit = getItemUnit(otherItems[index].toLowerCase())
@@ -255,7 +255,7 @@ function displayObject (itemSizeQuantities, otherItems) {
   return projectItems
 }
 
-function getPersonsDetails (isAgentEmail, submission) {
+function getPersonsDetails(isAgentEmail, submission) {
   const email = isAgentEmail ? submission.agentsDetails.emailAddress : submission.farmerDetails.emailAddress
   const firstName = isAgentEmail ? submission.agentsDetails.firstName : submission.farmerDetails.firstName
   const lastName = isAgentEmail ? submission.agentsDetails.lastName : submission.farmerDetails.lastName
@@ -267,7 +267,7 @@ function getPersonsDetails (isAgentEmail, submission) {
   }
 }
 
-function getEmailDetails (submission, rpaEmail, isAgentEmail = false) {
+function getEmailDetails(submission, rpaEmail, isAgentEmail = false) {
   const {
     agentsDetails, applicantBusiness, applicantType, applyingFor, businessDetails,
     calculatedGrant, consentOptional, confirmationId, concreteBunkerSize, coverSize, coverType,
