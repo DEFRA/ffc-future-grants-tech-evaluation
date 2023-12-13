@@ -3,7 +3,7 @@ const { getYarValue } = require('../helpers/session')
 const { ALL_QUESTIONS } = require('../config/question-bank')
 const { getQuestionAnswer } = require('../../app/helpers/utils.js')
 
-const isPigFarmer = getQuestionAnswer('applicant-type', 'applicant-type-A1')
+// const isPigFarmer = getQuestionAnswer('applicant-type', 'applicant-type-A1')
 // const isBackToScoreBtn = (btn) => btn === 'Back to score'
 const planningSummary = `${urlPrefix}/planning-permission-summary`
 const findDependentQuestion = (

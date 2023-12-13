@@ -10,30 +10,7 @@
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds govuk-body">
-      <h1 class="govuk-heading-l">Check if you can apply for a Slurry Infrastructure Grant</h1>
-      <p>Use this service to:</p>
-      <ul class="govuk-list govuk-list--bullet">
-        <li>check if you can apply for a grant for your project (takes about 5 minutes)</li>
-        <li>estimate how much grant funding you could get (takes about 10 minutes if you have all the project details)</li>
-      </ul>
-      <h2 class="govuk-heading-m">Who can apply</h2>
-      <p class="govuk-body">You can apply if:</p>
-      <ul class="govuk-list govuk-list--bullet">
-        <li>you are a dairy, beef or pig farmer</li>
-        <li>have an existing slurry system</li>
-        <li>the slurry store will be in England</li>
-      </ul>
-      <p class="govuk-body">You can apply for grant funding for:</p>
-      <ul class="govuk-list govuk-list--bullet">
-        <li>building a new store</li>
-        <li>expanding or replacing an existing store</li>
-        <li>adding an impermeable cover to an existing store</li>
-        <li>additional items such as separators, agitators, pumps or pipework</li>
-      </ul>
-      <p>Referenced costs are used to work out how much funding you may receive. The minimum grant you can claim is £25,000. The maximum grant is £250,000.</p>
-      {{ govukInsetText({
-        text: "If your project is eligible, you will be able to submit your online application to the Rural Payments Agency (RPA)."
-      }) }}
+      <h1 class="govuk-heading-l">Tech evaluation</h1>
 
       {{ govukButton({
         classes: "govuk-!-margin-top-2 govuk-!-margin-bottom-8",
@@ -41,34 +18,6 @@
         isStartButton: true,
         text: button.text
       }) }}
-      <h2 class="govuk-heading-m">Before you start</h2>
-      <p class="govuk-body">To use the checker, you need:</p>
-      <ul class="govuk-list govuk-list--bullet">
-        <li>information about your business (for example, number of employees and turnover)</li>
-        <li>information about the project (for example, type of store and capacity, type of cover and size, approximate size and
-          quantity of other items you need, the OS grid reference)</li>
-        <li>a list of the items you’d like to buy for the project</li>
-        <li>information about your planning permission</li>
-      </ul>
-      <p>If you do not enter any information for more than 20 minutes, your application will time out and you will have to
-        start again.</p>
-      <h2 class="govuk-heading-m">Problems using the online service</h2>
-      <span>If you have any problems using the online service, call the RPA and follow the options for the Farming
-        Transformation Fund scheme.</span>
-      <br>
-        <br>
-          <h3 class="govuk-heading-s">Telephone</h3>
-          <p>Telephone: 0300 0200 301
-          </p>
-          <span>Monday to Friday, 9am to 5pm (except public holidays)
-          </span><br/>
-          <a class="govuk-link" target="_blank" rel="noopener noreferrer" href="https://www.gov.uk/call-charges">Find out about
-            call charges (opens in new tab)</a><br/>
-          <br>
-            <h3 class="govuk-heading-s">Email</h3>
-            <p>
-              <a class="govuk-link" title="Send email to RPA" href="mailto:FTF@rpa.gov.uk">FTF@rpa.gov.uk</a>
-            </p>
-          </div>
-        </div>
-      {% endblock %}
+    </div>
+  </div>
+{% endblock %}

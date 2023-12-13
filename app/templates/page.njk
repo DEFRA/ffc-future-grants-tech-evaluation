@@ -37,9 +37,8 @@
       <form method="POST" action="{{ url }}" novalidate="novalidate">
         {{ crumbToken(crumb) }}
 
-        {% if type ==='single-answer' %}
+        {% if type ==='single-answer' or type ==='boolean' %}
           {{ govukRadios(items) }}
-          {# {{ items["items"] | dump }} #}
         {% endif %}
 
         {% if type ==='multi-answer' %}

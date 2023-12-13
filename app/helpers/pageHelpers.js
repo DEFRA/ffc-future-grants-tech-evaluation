@@ -1,6 +1,8 @@
 const { getHtml } = require('../helpers/conditionalHTML')
 const { setOptionsLabel } = require('../helpers/answer-options')
 const { getYarValue, setYarValue } = require('../helpers/session')
+const urlPrefix = require('../config/server').urlPrefix
+const { formatUKCurrency } = require('../helpers/data-formats')
 
 const getConfirmationId = (guid) => {
   const prefix = 'SI'
@@ -28,50 +30,54 @@ const saveValuesToArray = (yarKey, fields) => {
   return result
 }
 
-const getCheckDetailsModel = (request, question, backUrl, nextUrl) => {
+const getCheckDetailsModel = (request, question) => {
   setYarValue(request, 'reachedCheckDetails', true)
-
-  const applying = getYarValue(request, 'applying')
-  const businessDetails = getYarValue(request, 'businessDetails')
-  const agentDetails = getYarValue(request, 'agentsDetails')
-  const farmerDetails = getYarValue(request, 'farmerDetails')
-
-  const agentContact = saveValuesToArray(agentDetails, ['emailAddress', 'mobileNumber', 'landlineNumber'])
-  const agentAddress = saveValuesToArray(agentDetails, ['address1', 'address2', 'town', 'county', 'postcode'])
-
-  const farmerContact = saveValuesToArray(farmerDetails, ['emailAddress', 'mobileNumber', 'landlineNumber'])
-  const farmerAddress = saveValuesToArray(farmerDetails, ['address1', 'address2', 'town', 'county', 'postcode'])
-
-  return ({
-    ...question.pageData,
-    backUrl,
-    nextUrl,
-    applying,
-    businessDetails,
-    farmerDetails: {
-      ...farmerDetails,
-      ...(farmerDetails
-        ? {
-            name: `${farmerDetails.firstName} ${farmerDetails.lastName}`,
-            contact: farmerContact.join('<br/>'),
-            address: farmerAddress.join('<br/>')
+  
+  if (question.summarySections) {
+    question.summarySections.forEach((summary) => {
+      if (summary.type === 'simple') {
+        summary.rows.forEach((row) => {
+          let value = getYarValue(request, row.yarKey);
+          // Checks if the value to be displayed needs formatting
+          if (row.format) {
+            switch (row.format) {
+              case "currency": 
+                value = '£' + formatUKCurrency(value);
+              default:
+                break;
+            }
           }
-        : {}
-      )
-    },
-    agentDetails: {
-      ...agentDetails,
-      ...(agentDetails
-        ? {
-            name: `${agentDetails.firstName} ${agentDetails.lastName}`,
-            contact: agentContact.join('<br/>'),
-            address: agentAddress.join('<br/>')
+          // Adds the specific fields for it to render in the gov summayr list
+          row.value = {
+            text: value
           }
-        : {}
-      )
-    }
-
-  })
+          let rowTitle = row.title;
+          // Checks to see if the summary title needs a yar key replacing with a value
+          if (rowTitle.includes('{{_')) {
+            const cleanUpYarKey = RegExp(/{{_(.+?)_}}/ig).exec(rowTitle)[1];
+            rowTitle = rowTitle.replace(/{{_(.+?)_}}/, getYarValue(request, cleanUpYarKey));
+          }
+          row.key = {
+            text: rowTitle
+          }
+          if (row.changeUrl) {
+            row.actions = {
+              items: [
+                {
+                  href: `${urlPrefix}/${row.changeUrl}`,
+                  text: "Change",
+                }
+              ]
+            }
+          }
+        });
+      }
+    });
+  }
+ 
+  return {
+    ...question,
+  }
 }
 
 const getEvidenceSummaryModel = (request, question, backUrl, nextUrl) => {

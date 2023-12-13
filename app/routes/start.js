@@ -1,6 +1,6 @@
 const urlPrefix = require('../config/server').urlPrefix
 const currentPath = `${urlPrefix}/start`
-const nextPath = `${urlPrefix}/applicant-type`
+const nextPath = `${urlPrefix}/project-location`
 
 module.exports = {
   method: 'GET',
