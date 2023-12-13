@@ -187,7 +187,7 @@ const questionBank = {
             },
             {
               type: 'REGEX',
-              regex: WHOLE_NUMBER_REGEX,
+              regex: /^\d+$/,
               error: 'Enter a number'
             }
           ],

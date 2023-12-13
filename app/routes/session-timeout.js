@@ -4,6 +4,6 @@ module.exports = {
   method: 'GET',
   path: `${urlPrefix}/session-timeout`,
   handler: function (_request, h) {
-    return h.view('session-timeout', { startLink: `${urlPrefix}/start` })
+    return h.view('session-timeout', { startLink: `${urlPrefix}/login` })
   }
 }

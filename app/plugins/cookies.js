@@ -1,5 +1,4 @@
 const { cookieOptions, urlPrefix } = require('../config/server')
-const { ALL_URLS } = require('../config/question-bank')
 const { getCurrentPolicy, validSession, sessionIgnorePaths } = require('../cookies')
 const cacheConfig = require('../config/cache')
 
@@ -15,7 +14,7 @@ module.exports = {
         let showTimeout = false
         if (!sessionIgnorePaths.find(path => request.path.startsWith(path)) && request.path !== '/') {
           showTimeout = true
-          if (!validSession(request) && ALL_URLS.filter(route => request.path.toLowerCase() === `${urlPrefix}/${route.toLowerCase()}`).length > 0) {
+          if (!validSession(request)) {
             return h.redirect(`${urlPrefix}/session-timeout`)
           }
         }

@@ -1,20 +1,16 @@
-const Joi = require('joi')
-const authConfig = require('../config/auth')
-const bcrypt = require('bcrypt')
-
-const { urlPrefix, startPageUrl } = require('../config/server')
+const { urlPrefix } = require('../config/server')
 const viewTemplate = 'login'
 const currentPath = `${urlPrefix}/${viewTemplate}`
-const nextPath = startPageUrl
-
-const errorText = 'Enter the username and password you\'ve been given'
+const nextPath = `${urlPrefix}/choose-organisation`
+const { accountInformation } = require('../config/account-information');
+const { setYarValue } = require('../helpers/session')
 
 function createModel (errorMessage) {
   return {
     formActionPage: currentPath,
     usernameInput: {
       label: {
-        text: 'Username'
+        text: 'Customer reference number (CRN)'
       },
       classes: 'govuk-input--width-10',
       id: 'username',
@@ -50,26 +46,11 @@ module.exports = [
     path: currentPath,
     options: {
       auth: false,
-      validate: {
-        payload: Joi.object({
-          username: Joi.string().valid(authConfig.credentials.username),
-          password: Joi.string().custom((value, _helpers) => {
-            if (bcrypt.compareSync(value, authConfig.credentials.passwordHash)) {
-              return value
-            }
-
-            throw new Error('Incorrect password')
-          })
-        }),
-        failAction: (_request, h, _err) => {
-          console.log('Authentication failed')
-          return h.view(viewTemplate, createModel(errorText)).takeover()
-        }
-      },
-      handler: (request, h) => {
-        request.cookieAuth.set({ authenticated: true })
-        return h.redirect(nextPath)
-      }
+    },
+    handler: (request, h) => {
+      const farmerData = accountInformation[request.payload.username];
+      setYarValue(request, 'account-information', farmerData);
+      return h.redirect(nextPath);
     }
   }
 ]
