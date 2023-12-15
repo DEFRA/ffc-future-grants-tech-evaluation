@@ -13,7 +13,7 @@ const availableGrants = {
       "subTitle": "Round 1 application window closes 8 March 2026"
     }
   ]
-};
+}
 
 module.exports = {
   availableGrants

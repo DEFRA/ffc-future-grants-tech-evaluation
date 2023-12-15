@@ -1,7 +1,7 @@
 const { cookieOptions, urlPrefix } = require('../config/server')
 const { getCurrentPolicy, validSession, sessionIgnorePaths } = require('../cookies')
 const cacheConfig = require('../config/cache')
-const { getYarValue } = require('../helpers/session');
+const { getYarValue } = require('../helpers/session')
 require('dotenv')
 
 module.exports = {
@@ -14,8 +14,8 @@ module.exports = {
         let showTimeout = false
         if (!sessionIgnorePaths.find(path => request.path.startsWith(path)) && request.path !== '/') {
           showTimeout = true
-          const allUrls = [];
-          const allQuestions = getYarValue(request, 'grant-questions');
+          const allUrls = []
+          const allQuestions = getYarValue(request, 'grant-questions')
           if (allQuestions) {
             allQuestions.forEach(item => allUrls.push(item.url))
           }

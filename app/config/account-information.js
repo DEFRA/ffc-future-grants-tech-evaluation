@@ -84,7 +84,7 @@ const accountInformation = {
       }
     ]
   }
-};
+}
 
 module.exports = {
   accountInformation

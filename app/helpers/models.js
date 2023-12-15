@@ -130,9 +130,9 @@ const getModel = (data, question, request, conditionalHtml = '') => {
     ? getDependentSideBar(sidebar, request)
     : sidebar
 
-  const showSidebar = sidebar?.showSidebar;
-  const farmerData = getYarValue(request, 'account-information');
-  const chosenOrganisation = getYarValue(request, 'chosen-organisation');
+  const showSidebar = sidebar?.showSidebar
+  const farmerData = getYarValue(request, 'account-information')
+  const chosenOrganisation = getYarValue(request, 'chosen-organisation')
   return {
     type,
     key,

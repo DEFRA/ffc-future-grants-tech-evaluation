@@ -59,19 +59,19 @@ const processGA = async (question, request) => {
 }
 
 const interpolateString = (stringToCheck, request) => {
-  const itemsToReplace = stringToCheck.match(/{{_(.+?)_}}/ig);
+  const itemsToReplace = stringToCheck.match(/{{_(.+?)_}}/ig)
   if (!itemsToReplace || itemsToReplace.length === 0) {
-    return stringToCheck;
+    return stringToCheck
   }
   itemsToReplace.forEach((item) => {
-    const cleanUpYarKey = RegExp(/{{_(.+?)_}}/ig).exec(item)[1];
-    const yarValue = getYarValue(request, cleanUpYarKey);
-    stringToCheck = stringToCheck.replace(item, yarValue);
-  });
-  return stringToCheck;
+    const cleanUpYarKey = RegExp(/{{_(.+?)_}}/ig).exec(item)[1]
+    const yarValue = getYarValue(request, cleanUpYarKey)
+    stringToCheck = stringToCheck.replace(item, yarValue)
+  })
+  return stringToCheck
 }
 const titleInterpolation = (title, question, request) => {
-  const changedTitle = interpolateString(title, request);
+  const changedTitle = interpolateString(title, request)
   return {
     ...question,
     title: changedTitle
@@ -79,7 +79,7 @@ const titleInterpolation = (title, question, request) => {
 }
 
 const labelInterpolation = (label, question, request) => {
-  const labelText = interpolateString(label.text, request);
+  const labelText = interpolateString(label.text, request)
   return {
     ...question,
     label: {
@@ -100,10 +100,10 @@ const getPage = async (question, request, h) => {
   } = question
 
   if (title) {
-    question = titleInterpolation(title, question ,request);
+    question = titleInterpolation(title, question ,request)
   }
   if (label) {
-    question = labelInterpolation(label, question ,request);
+    question = labelInterpolation(label, question ,request)
   }
 
   const data = getDataFromYarValue(request, yarKey, type)
@@ -116,9 +116,9 @@ const getPage = async (question, request, h) => {
       )
     }
     case 'confirmation': {
-      const confirmationId = getConfirmationId(request.yar.id);
-      const farmerData = getYarValue(request, 'account-information');
-      const chosenFarm = getYarValue(request, 'chosen-organisation');
+      const confirmationId = getConfirmationId(request.yar.id)
+      const farmerData = getYarValue(request, 'account-information')
+      const chosenFarm = getYarValue(request, 'chosen-organisation')
       return h.view(
         'confirmation',
         {
@@ -214,10 +214,10 @@ const showPostPage = async (currentQuestion, request, h) => {
   const thisAnswer = createAnswerObj(payload, yarKey, type, request, answers)
 
   if (title) {
-    currentQuestion = titleInterpolation(title, currentQuestion ,request);
+    currentQuestion = titleInterpolation(title, currentQuestion ,request)
   }
   if (label) {
-    currentQuestion = labelInterpolation(label, currentQuestion ,request);
+    currentQuestion = labelInterpolation(label, currentQuestion ,request)
   }
 
   const errors = checkErrors(payload, currentQuestion, h, request)
