@@ -19,6 +19,7 @@ const {
   getCheckDetailsModel,
   getDataFromYarValue
 } = require('./pageHelpers')
+const urlPrefix = require('../config/server').urlPrefix
 
 const setGrantsData = (question, request) => {
   if (question.grantInfo) {
@@ -95,7 +96,6 @@ const getPage = async (question, request, h) => {
     title,
     yarKey,
     backUrl,
-    nextUrl,
     label
   } = question
 
@@ -117,6 +117,8 @@ const getPage = async (question, request, h) => {
     }
     case 'confirmation': {
       const confirmationId = getConfirmationId(request.yar.id);
+      const farmerData = getYarValue(request, 'account-information');
+      const chosenFarm = getYarValue(request, 'chosen-organisation');
       return h.view(
         'confirmation',
         {
@@ -126,7 +128,14 @@ const getPage = async (question, request, h) => {
             titleText: "Application complete",
             html: `Your reference number<br><strong>${confirmationId}</strong>`
           },
-          confirmationId
+          confirmationId,
+          headerData: {
+            chosenFarm: farmerData.companies.find((company) => company.id === chosenFarm).name,
+            sbi: farmerData.sbi,
+            firstName: farmerData.firstName,
+            lastName: farmerData.lastName
+          },
+          portalUrl: `${urlPrefix}/portal`
         }
       )
     }

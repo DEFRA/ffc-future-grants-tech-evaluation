@@ -5,7 +5,7 @@ const urlPrefix = require('../config/server').urlPrefix
 const { formatUKCurrency } = require('../helpers/data-formats')
 
 const getConfirmationId = (guid) => {
-  const prefix = 'SI'
+  const prefix = 'FG'
   return `${prefix}-${guid.substr(0, 3)}-${guid.substr(3, 3)}`.toUpperCase()
 }
 
@@ -32,7 +32,8 @@ const saveValuesToArray = (yarKey, fields) => {
 
 const getCheckDetailsModel = (request, question) => {
   setYarValue(request, 'reachedCheckDetails', true)
-  
+  const farmerData = getYarValue(request, 'account-information');
+  const chosenOrganisation = getYarValue(request, 'chosen-organisation');
   if (question.summarySections) {
     question.summarySections.forEach((summary) => {
       if (summary.type === 'simple') {
@@ -77,6 +78,14 @@ const getCheckDetailsModel = (request, question) => {
  
   return {
     ...question,
+    farmerData,
+    chosenOrganisation,
+    headerData: {
+      chosenFarm: farmerData.companies.find((company) => company.id === chosenOrganisation).name,
+      sbi: farmerData.sbi,
+      firstName: farmerData.firstName,
+      lastName: farmerData.lastName
+    },
   }
 }
 
