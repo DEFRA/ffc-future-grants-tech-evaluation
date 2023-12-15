@@ -63,12 +63,12 @@ const config = {
     ...sharedConfig
   },
   costRequestQueue: {
-    address: process.env.COST_REQUEST_QUEUE_ADDRESS,
+    address: process.env.GRANTS_REQUEST_QUEUE_ADDRESS,
     type: 'queue',
     ...sharedConfig
   },
   costResponseQueue: {
-    address: process.env.COST_RESPONSE_QUEUE_ADDRESS,
+    address: process.env.GRANTS_RESPONSE_QUEUE_ADDRESS,
     type: 'queue',
     ...sharedConfig
   },
@@ -78,7 +78,7 @@ const config = {
     ...sharedConfig
   },
   desirabilitySubmittedMsgType: `${msgTypePrefix}.slurry.desirability.notification`,
-  fetchCostRequestMsgType: `${msgTypePrefix}.fetch.cost.request`,
+  fetchCostRequestMsgType: `${msgTypePrefix}.fetch.grants.request`,
   eligibilityAnswersMsgType: `${msgTypePrefix}.slurry.eligibility.details`,
   contactDetailsMsgType: `${msgTypePrefix}.slurry.contact.details`,
   msgSrc: 'ffc-future-grants-tech-evaluation'

@@ -3,7 +3,7 @@ const { costRequestQueue, fetchCostRequestMsgType, costResponseQueue } = require
 
 async function getReferenceCosts (sessionId) {
   console.log('[MADE IT TO MESSAGE]', sessionId)
-  await sendMessage({}, fetchCostRequestMsgType, costRequestQueue, { sessionId })
+  await sendMessage({userID: 'Farmer Giles'}, fetchCostRequestMsgType, costRequestQueue, { sessionId })
 
   console.log('[FINISHED SENDING MESSAGE MOVING TO RECEIVING]')
   return receiveMessage(sessionId, costResponseQueue)
