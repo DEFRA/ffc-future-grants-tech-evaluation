@@ -217,9 +217,9 @@ const getOptions = (data, question, conditionalHtml, request) => {
       for (const answer in answersList) {
         // check for Above ground. If there, dont show Safety fencing, otherwise dont show Inspection platform
 
-        if (answersList[answer].value.startsWith('Safety fencing') && getYarValue(request, 'storageType') === getQuestionAnswer('storage-type', 'storage-type-A1')) {
+        if (answersList[answer].value.startsWith('Safety fencing') && getYarValue(request, 'storageType') === getQuestionAnswer(request, 'storage-type', 'storage-type-A1')) {
           console.log('Not needed Safe')
-        } else if (answersList[answer].value.startsWith('Inspection platform') && getYarValue(request, 'storageType') !== getQuestionAnswer('storage-type', 'storage-type-A1') && getYarValue(request, 'storageType') != null) {
+        } else if (answersList[answer].value.startsWith('Inspection platform') && getYarValue(request, 'storageType') !== getQuestionAnswer(request, 'storage-type', 'storage-type-A1') && getYarValue(request, 'storageType') != null) {
           console.log('Not needed Inspect')
         } else {
           question.answers.unshift(answersList[answer])

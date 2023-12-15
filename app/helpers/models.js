@@ -1,7 +1,6 @@
 const { getUrl } = require('../helpers/urls')
 const { getOptions } = require('../helpers/answer-options')
 const { getYarValue, setYarValue } = require('../helpers/session')
-const { getQuestionByKey, allAnswersSelected } = require('../helpers/utils')
 const { formatUKCurrency } = require('../helpers/data-formats')
 
 const getPrefixSufixString = (prefixSufix, selectedValueOfLinkedQuestion) => {
@@ -133,15 +132,6 @@ const getModel = (data, question, request, conditionalHtml = '') => {
 
   const showSidebar = sidebar?.showSidebar
 
-  let warningDetails
-  if (warningCondition) {
-    const { dependentWarningQuestionKey, dependentWarningAnswerKeysArray } = warningCondition
-    if (allAnswersSelected(request, dependentWarningQuestionKey, dependentWarningAnswerKeysArray)) {
-      warningDetails = warningCondition.warning
-    }
-  } else if (warning) {
-    warningDetails = warning
-  }
   return {
     type,
     key,
@@ -151,7 +141,6 @@ const getModel = (data, question, request, conditionalHtml = '') => {
     items: getOptions(data, question, conditionalHtml, request),
     sideBarText,
     showSidebar,
-    ...(warningDetails ? ({ warning: warningDetails }) : {}),
     reachedCheckDetails: showBackToDetailsButton(key, request),
     reachedEvidenceSummary: showBackToEvidenceSummaryButton(key, request),
     diaplaySecondryBtn: hasScore && score?.isDisplay

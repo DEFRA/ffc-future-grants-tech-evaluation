@@ -1,4 +1,3 @@
-const { ALL_QUESTIONS } = require('../config/question-bank')
 const { getYarValue } = require('../helpers/session')
 
 const notUniqueSelection = (answers, option) => (
@@ -14,42 +13,19 @@ const uniqueSelection = (answers, option) => (
     )
 )
 
-const getQuestionByKey = (questionKey) => ALL_QUESTIONS.find(({ key }) => (key === questionKey))
+const getQuestionByKey = (request, questionKey) => {
+  const allQuestions = getYarValue(request, 'grant-questions');
+  return allQuestions.find(({ key }) => (key === questionKey))
+}
 
-const getQuestionAnswer = (questionKey, answerKey) => {
-  const question = getQuestionByKey(questionKey)
+const getQuestionAnswer = (request, questionKey, answerKey) => {
+  const question = getQuestionByKey(request, questionKey)
   return (question.answers.find(({ key }) => (key === answerKey))?.value)
-}
-
-const allAnswersSelected = (request, questionKey, answerKeyList) => {
-  const { yarKey, answers } = getQuestionByKey(questionKey)
-  const yarValue = getYarValue(request, yarKey)
-  return (
-    answerKeyList.every(answerKey => (
-      answers.some(({ key, value }) => (
-        yarValue.includes(value) && key === answerKey
-      ))
-    ))
-  )
-}
-
-const someAnswersSelected = (request, questionKey, answerKeyList) => {
-  const { yarKey, answers } = getQuestionByKey(questionKey)
-  const yarValue = getYarValue(request, yarKey)
-  return (
-    answerKeyList.some(answerKey => (
-      answers.some(({ value, key }) => (
-        key === answerKey && yarValue.includes(value)
-      ))
-    ))
-  )
 }
 
 module.exports = {
   notUniqueSelection,
   uniqueSelection,
   getQuestionByKey,
-  getQuestionAnswer,
-  allAnswersSelected,
-  someAnswersSelected
+  getQuestionAnswer
 }
