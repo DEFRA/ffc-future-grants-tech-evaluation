@@ -1,6 +1,5 @@
 const urlPrefix = require('../config/server').urlPrefix
 const { getYarValue } = require('../helpers/session')
-const { ALL_QUESTIONS } = require('../config/question-bank')
 const { getQuestionAnswer } = require('../../app/helpers/utils.js')
 
 // const isPigFarmer = getQuestionAnswer('applicant-type', 'applicant-type-A1')
@@ -9,9 +8,11 @@ const planningSummary = `${urlPrefix}/planning-permission-summary`
 const findDependentQuestion = (
   dependentQuestionYarKey,
   dependentAnswerKeysArray,
-  dependentAnswer
+  dependentAnswer,
+  request
 ) => {
-  return ALL_QUESTIONS.find((thisQuestion) => {
+  const allQuestions = getYarValue(request, 'grant-questions');
+  return allQuestions.find((thisQuestion) => {
     const hasMatchingAnswer = thisQuestion.answers?.some((answer) => {
       return (
         dependentAnswer &&
@@ -51,7 +52,7 @@ const getUrl = (urlObject, url, request, secBtn, currentUrl) => {
     elseUrl = 'pig-capacity-increase-additional'
   }
   const dependentAnswer = getYarValue(request, dependentQuestionYarKey)
-  const selectThenUrl = findDependentQuestion(dependentQuestionYarKey, dependentAnswerKeysArray, dependentAnswer)
+  const selectThenUrl = findDependentQuestion(dependentQuestionYarKey, dependentAnswerKeysArray, dependentAnswer, request)
   const selectedElseUrl = dependentAnswer ? elseUrl : nonDependentUrl
   return selectThenUrl ? thenUrl : selectedElseUrl
 }

@@ -144,3 +144,25 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
   text-decoration-skip: none;
   color: #003078;
 }
+
+.panel-background-color {
+  background-color: govuk-colour("light-grey");
+}
+
+.button-dressed-as-link {
+  border: 0 solid transparent;
+  background-color: transparent;
+  color: blue;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  text-decoration: underline;
+  &:hover,
+  &:focus,
+  &:visited,
+  &:active:disabled {
+    background-color: transparent;
+    color: black;
+    text-decoration: underline;
+  }
+}

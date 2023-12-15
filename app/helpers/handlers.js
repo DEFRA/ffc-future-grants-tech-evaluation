@@ -12,20 +12,13 @@ const { guardPage } = require('../helpers/page-guard')
 const senders = require('../messaging/senders')
 const createMsg = require('../messaging/create-msg')
 const gapiService = require('../services/gapi-service')
-const { startPageUrl, urlPrefix } = require('../config/server')
-const { ALL_QUESTIONS } = require('../config/question-bank')
 const { formatOtherItems } = require('./../helpers/other-items-sizes')
 const emailFormatting = require('./../messaging/email/process-submission')
-const { getQuestionAnswer } = require('../../app/helpers/utils.js')
 const {
   getConfirmationId,
   getCheckDetailsModel,
-  getEvidenceSummaryModel,
-  getDataFromYarValue,
-  getConsentOptionalData,
-  handleConditinalHtmlData
+  getDataFromYarValue
 } = require('./pageHelpers')
-const { validateAnswerField } = require('./errorHelpers')
 
 const setGrantsData = (question, request) => {
   if (question.grantInfo) {

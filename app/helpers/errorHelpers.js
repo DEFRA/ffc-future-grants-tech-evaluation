@@ -1,6 +1,6 @@
 const { getQuestionAnswer } = require('../helpers/utils')
 
-const validateAnswerField = (value, validationType, details, payload) => {
+const validateAnswerField = (request, value, validationType, details, payload) => {
   switch (validationType) {
     case 'NOT_EMPTY': {
       return (!!value)
@@ -25,7 +25,7 @@ const validateAnswerField = (value, validationType, details, payload) => {
           answerKey: standaloneAnswerKey
         }
       } = details
-      const standAloneAnswer = getQuestionAnswer(standaloneQuestionKey, standaloneAnswerKey)
+      const standAloneAnswer = getQuestionAnswer(request, standaloneQuestionKey, standaloneAnswerKey)
 
       if (selectedAnswer.includes(standAloneAnswer)) {
         return selectedAnswer.length === 1
@@ -41,7 +41,7 @@ const validateAnswerField = (value, validationType, details, payload) => {
           combinationAnswerKeys
         }
       } = details
-      const combinationanswers = combinationAnswerKeys.map(answerKey => getQuestionAnswer(combinationQuestionKey, answerKey))
+      const combinationanswers = combinationAnswerKeys.map(answerKey => getQuestionAnswer(request, combinationQuestionKey, answerKey))
 
       if (selectedAnswer.includes(combinationanswers[0]) && selectedAnswer.length > 1) {
         return selectedAnswer.every((answer, index) => answer === combinationanswers[index])
@@ -84,11 +84,11 @@ const validateAnswerField = (value, validationType, details, payload) => {
   }
 }
 
-const checkInputError = (validate, isconditionalAnswer, payload, yarKey) => {
+const checkInputError = (request, validate, isconditionalAnswer, payload, yarKey) => {
   return validate.find(
     ({ type, dependentKey, ...details }) => (isconditionalAnswer && dependentKey)
-      ? (validateAnswerField(payload[dependentKey], type, details, payload) === false)
-      : !dependentKey && (validateAnswerField(payload[yarKey], type, details, payload) === false)
+      ? (validateAnswerField(request, payload[dependentKey], type, details, payload) === false)
+      : !dependentKey && (validateAnswerField(request, payload[yarKey], type, details, payload) === false)
   )
 }
 

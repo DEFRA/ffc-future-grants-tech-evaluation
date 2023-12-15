@@ -59,7 +59,7 @@ const checkErrors = (payload, currentQuestion, h, request) => {
         isconditionalAnswer = inputAnswers?.find(answer => answer.conditional)?.value === payload[inputYarKey]
 
         if (inputValidate) {
-          placeholderInputError = checkInputError(inputValidate, isconditionalAnswer, payload, inputYarKey)
+          placeholderInputError = checkInputError(request, inputValidate, isconditionalAnswer, payload, inputYarKey)
 
           if (placeholderInputError) {
             errorHrefList.push({
@@ -77,7 +77,7 @@ const checkErrors = (payload, currentQuestion, h, request) => {
   }
   if (Object.keys(payload).length === 0 && currentQuestion.type) {
     placeholderInputError = validate.find(
-      ({ type, dependentKey, ...details }) => (validateAnswerField(payload[yarKey], type, details, payload) === false))
+      ({ type, dependentKey, ...details }) => (validateAnswerField(request, payload[yarKey], type, details, payload) === false))
 
     errorHrefList.push({
       text: placeholderInputError.error,
@@ -89,7 +89,7 @@ const checkErrors = (payload, currentQuestion, h, request) => {
   const payloadValue = typeof payload[yarKey] === 'string' ? payload[yarKey].trim() : payload[yarKey]
   isconditionalAnswer = payload[yarKey]?.includes(conditionalAnswer?.value)
   if (validate) {
-    placeholderInputError = checkInputError(validate, isconditionalAnswer, payload, yarKey)
+    placeholderInputError = checkInputError(request, validate, isconditionalAnswer, payload, yarKey)
 
     if (placeholderInputError) {
       errorHrefList.push({
