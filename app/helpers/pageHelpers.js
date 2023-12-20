@@ -5,7 +5,7 @@ const urlPrefix = require('../config/server').urlPrefix
 const { formatUKCurrency } = require('../helpers/data-formats')
 
 const getConfirmationId = (guid) => {
-  const prefix = 'SI'
+  const prefix = 'FG'
   return `${prefix}-${guid.substr(0, 3)}-${guid.substr(3, 3)}`.toUpperCase()
 }
 
@@ -32,30 +32,31 @@ const saveValuesToArray = (yarKey, fields) => {
 
 const getCheckDetailsModel = (request, question) => {
   setYarValue(request, 'reachedCheckDetails', true)
-  
+  const farmerData = getYarValue(request, 'account-information')
+  const chosenOrganisation = getYarValue(request, 'chosen-organisation')
   if (question.summarySections) {
     question.summarySections.forEach((summary) => {
       if (summary.type === 'simple') {
         summary.rows.forEach((row) => {
-          let value = getYarValue(request, row.yarKey);
+          let value = getYarValue(request, row.yarKey)
           // Checks if the value to be displayed needs formatting
           if (row.format) {
             switch (row.format) {
               case "currency": 
-                value = '£' + formatUKCurrency(value);
+                value = '£' + formatUKCurrency(value)
               default:
-                break;
+                break
             }
           }
           // Adds the specific fields for it to render in the gov summayr list
           row.value = {
             text: value
           }
-          let rowTitle = row.title;
+          let rowTitle = row.title
           // Checks to see if the summary title needs a yar key replacing with a value
           if (rowTitle.includes('{{_')) {
-            const cleanUpYarKey = RegExp(/{{_(.+?)_}}/ig).exec(rowTitle)[1];
-            rowTitle = rowTitle.replace(/{{_(.+?)_}}/, getYarValue(request, cleanUpYarKey));
+            const cleanUpYarKey = RegExp(/{{_(.+?)_}}/ig).exec(rowTitle)[1]
+            rowTitle = rowTitle.replace(/{{_(.+?)_}}/, getYarValue(request, cleanUpYarKey))
           }
           row.key = {
             text: rowTitle
@@ -70,13 +71,21 @@ const getCheckDetailsModel = (request, question) => {
               ]
             }
           }
-        });
+        })
       }
-    });
+    })
   }
  
   return {
     ...question,
+    farmerData,
+    chosenOrganisation,
+    headerData: {
+      chosenFarm: farmerData.companies.find((company) => company.id === chosenOrganisation).name,
+      sbi: farmerData.sbi,
+      firstName: farmerData.firstName,
+      lastName: farmerData.lastName
+    },
   }
 }
 

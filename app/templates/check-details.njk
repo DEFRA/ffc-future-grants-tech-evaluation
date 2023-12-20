@@ -10,6 +10,19 @@
 {% endblock %}
 
 {% block beforeContent %}
+  {% if headerData %}
+    <div class="govuk-!-margin-top-3 govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds govuk-!-text-align-left">
+        <p class="govuk-heading-l govuk-grid-column-one-half govuk-!-margin-bottom-2 govuk-!-padding-left-0">{{headerData.chosenFarm}}</p>
+        <p class="govuk-grid-column-one-half govuk-caption-m govuk-!-margin-top-2 govuk-!-margin-bottom-2">SBI: {{headerData.sbi}}</p>
+      </div>
+      
+      <div class="govuk-!-text-align-right govuk-grid-column-one-third">
+        <p class="govuk-heading-l govuk-!-margin-bottom-2">{{headerData.firstName}} {{headerData.lastName}}</p>
+      </div>
+    </div>
+    <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible">
+  {% endif %}
   {{ govukBackLink({
     text: "Back",
     href: backUrl,
@@ -26,7 +39,6 @@
         {% for summary in summarySections %}
           <div>
             <h2 class="govuk-heading-m check-detail-heading">{{summary.title}}</h2>
-            <hr/>
           </div>
 
           {{ govukSummaryList({
@@ -34,8 +46,149 @@
             })
           }}
         {% endfor %}
-      </div>
 
+        <div>
+          <h2 class="govuk-heading-m check-detail-heading">Applicant's personal details</h2>
+
+          {{ govukSummaryList({
+            rows: [
+              {
+                key: {
+                  text: 'Your name'
+                },
+                value: {
+                  text: farmerData.firstName + ' ' + farmerData.lastName
+                }
+              },
+              {
+                key: {
+                  text: 'Customer reference number'
+                },
+                value: {
+                  text: farmerData.crn
+                }
+              },
+              {
+                key: {
+                  text: 'Registered email'
+                },
+                value: {
+                  text: farmerData.email
+                }
+              },
+              {
+                key: {
+                  text: 'Alternative email'
+                },
+                value: {
+                  text: 'No'
+                }
+              }
+            ]
+            })
+          }}
+        </div>
+
+        <div>
+          <h2 class="govuk-heading-m check-detail-heading">Applicant's business details</h2>
+
+          {{ govukSummaryList({
+            rows: [
+              {
+                key: {
+                  text: 'Business type'
+                },
+                value: {
+                  text: farmerData.businessType
+                }
+              }
+            ]
+            })
+          }}
+        </div>
+
+        <div>
+          <h2 class="govuk-heading-m check-detail-heading">Beneficiary's business details</h2>
+
+          {{ govukSummaryList({
+            rows: [
+              {
+                key: {
+                  text: 'Business name'
+                },
+                value: {
+                  text: headerData.chosenFarm
+                }
+              },
+              {
+                key: {
+                  text: 'Single business identifier'
+                },
+                value: {
+                  text: farmerData.sbi
+                }
+              },
+              {
+                key: {
+                  text: 'Business type'
+                },
+                value: {
+                  text: farmerData.businessType
+                }
+              },
+              {
+                key: {
+                  text: 'Registered address'
+                },
+                value: {
+                  text: farmerData.address
+                }
+              },
+              {
+                key: {
+                  text: 'Business size'
+                },
+                value: {
+                  text: farmerData.businesSize
+                }
+              },
+              {
+                key: {
+                  text: 'Registered owner'
+                },
+                value: {
+                  text: farmerData.registeredOwner
+                }
+              },
+              {
+                key: {
+                  text: 'Gender'
+                },
+                value: {
+                  text: farmerData.gender
+                }
+              },
+              {
+                key: {
+                  text: 'Landline phone'
+                },
+                value: {
+                  text: farmerData.landlinePhone
+                }
+              },
+              {
+                key: {
+                  text: 'Mobile phone'
+                },
+                value: {
+                  text: farmerData.mobilePhone
+                }
+              }
+            ]
+            })
+          }}
+        </div>
+      </div>
       <div class="govuk-grid-column-one-third govuk-body">
         <hr class="sideBarColor"/>
         {% for sidebarText in sidebar %}

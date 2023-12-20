@@ -2,7 +2,7 @@ const { urlPrefix } = require('../config/server')
 const viewTemplate = 'login'
 const currentPath = `${urlPrefix}/${viewTemplate}`
 const nextPath = `${urlPrefix}/choose-organisation`
-const { accountInformation } = require('../config/account-information');
+const { accountInformation } = require('../config/account-information')
 const { setYarValue } = require('../helpers/session')
 
 function createModel (errorMessage) {
@@ -48,9 +48,9 @@ module.exports = [
       auth: false,
     },
     handler: (request, h) => {
-      const farmerData = accountInformation[request.payload.username];
-      setYarValue(request, 'account-information', farmerData);
-      return h.redirect(nextPath);
+      const farmerData = accountInformation[request.payload.username]
+      setYarValue(request, 'account-information', farmerData)
+      return h.redirect(nextPath)
     }
   }
 ]

@@ -131,7 +131,8 @@ const getModel = (data, question, request, conditionalHtml = '') => {
     : sidebar
 
   const showSidebar = sidebar?.showSidebar
-
+  const farmerData = getYarValue(request, 'account-information')
+  const chosenOrganisation = getYarValue(request, 'chosen-organisation')
   return {
     type,
     key,
@@ -139,6 +140,12 @@ const getModel = (data, question, request, conditionalHtml = '') => {
     hint,
     backUrl: getBackUrl(hasScore, backUrlObject, backUrl, request),
     items: getOptions(data, question, conditionalHtml, request),
+    headerData: {
+      chosenFarm: farmerData.companies.find((company) => company.id === chosenOrganisation).name,
+      sbi: farmerData.sbi,
+      firstName: farmerData.firstName,
+      lastName: farmerData.lastName
+    },
     sideBarText,
     showSidebar,
     reachedCheckDetails: showBackToDetailsButton(key, request),

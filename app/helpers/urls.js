@@ -11,7 +11,7 @@ const findDependentQuestion = (
   dependentAnswer,
   request
 ) => {
-  const allQuestions = getYarValue(request, 'grant-questions');
+  const allQuestions = getYarValue(request, 'grant-questions')
   return allQuestions.find((thisQuestion) => {
     const hasMatchingAnswer = thisQuestion.answers?.some((answer) => {
       return (
