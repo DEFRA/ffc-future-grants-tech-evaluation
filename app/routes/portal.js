@@ -3,7 +3,7 @@ const viewTemplate = 'portal'
 const currentPath = `${urlPrefix}/${viewTemplate}`
 const { setYarValue, getYarValue } = require('../helpers/session')
 const {availableGrants:availableGrantsMock} = require('../config/available-grants-mock')
-const { questionBank } = require('../config/question-bank')
+const { questionBank, equipmentGrant } = require('../config/question-bank')
 const {drawSectionGetRequests, drawSectionPostRequests} = require('../routes')
 const grantStatus = {
   'available': {
@@ -59,7 +59,12 @@ module.exports = [
     handler: (request, h) => {
       const grantID = request.payload.grantId
       //GET the specific grants information / question bank
-      const questionBankData = questionBank
+      let questionBankData;
+      if (grantID === 'AHG001') {
+        questionBankData = questionBank
+      } else {
+        questionBankData = equipmentGrant
+      }
       // Save the whole grant information in cache
       setYarValue(request, 'grant-information', questionBankData)
       const allQuestions = []

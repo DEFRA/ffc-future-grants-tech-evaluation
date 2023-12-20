@@ -72,6 +72,32 @@ const getCheckDetailsModel = (request, question) => {
             }
           }
         })
+      } else if (summary.type === 'items') {
+        const questionWithItems = getYarValue(request, 'grant-questions').find((question) => question.type === 'item-list')
+        if (questionWithItems.itemList && questionWithItems.itemList.length > 0) {
+          const data = getYarValue(request, summary.yarKey)
+          // Formats the question and data so it can be displayed on the summary page
+          summary.itemDisplay = questionWithItems.itemList.map((item) => {
+            if (data[item.equipmentId]) {
+              const price = parseInt(item.referenceValue, 10)
+              let totalValue = 0
+              totalValue += price * parseInt(data[item.equipmentId], 10)
+          
+              return {
+                ...item,
+                formattedPrice: formatUKCurrency(item.referenceValue),
+                quantity: data[item.equipmentId],
+                itemTotalPrice: totalValue,
+                formattedTotalPrice: formatUKCurrency(totalValue)
+              }
+            } else {
+              // We only want to display the items the user has selected prevously so if 
+              // there is no value for the individual item in the yarKey then we can remove it from being displayed
+              return {}
+            }
+          }).filter((item) => item.quantity)
+          summary.totalGrantValue = formatUKCurrency(summary.itemDisplay.reduce((previousValue, currentValue) => previousValue + currentValue.itemTotalPrice ,0))
+        }
       }
     })
   }
