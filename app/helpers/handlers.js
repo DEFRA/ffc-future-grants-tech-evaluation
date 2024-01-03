@@ -131,7 +131,20 @@ const getPage = async (question, request, h) => {
       allQuestions.forEach((question) => {
         if (question.yarKey) {
           const questionAnswer = getYarValue(request, question.yarKey)
-          dataForBE.answers[question.yarKey] = questionAnswer
+          if (question.type === 'item-list') {
+            const answerArray = [];
+            Object.keys(questionAnswer).forEach((key) => {
+              if (questionAnswer[key] !== '') {
+                answerArray.push({
+                  id: key,
+                  value: questionAnswer[key]
+                })
+              }
+            });
+            dataForBE.answers[question.yarKey] = answerArray
+          } else {
+            dataForBE.answers[question.yarKey] = questionAnswer
+          }
         }
       })
       console.log('DATA SENT TO BE', dataForBE)

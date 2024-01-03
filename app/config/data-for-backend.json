@@ -34,7 +34,12 @@
   },
   "answers": {
     "projectLocation": "Yes",
-    "equipmentList": { "2001": "", "2003": "1" },
+    "equipmentList": [
+      {
+        "id": "2003",
+        "value": "1"
+      }
+    ],
     "projectPostcode": "RM14 1SW"
   }
 }
