@@ -119,6 +119,35 @@ const getPage = async (question, request, h) => {
       const confirmationId = getConfirmationId(request.yar.id)
       const farmerData = getYarValue(request, 'account-information')
       const chosenFarm = getYarValue(request, 'chosen-organisation')
+
+      // Format all of the yar keys and send the data to the BE
+      const allQuestions = getYarValue(request, 'grant-questions') 
+      const dataForBE = {
+        confirmationId,
+        chosenFarm,
+        farmerData,
+        answers: {}
+      }
+      allQuestions.forEach((question) => {
+        if (question.yarKey) {
+          const questionAnswer = getYarValue(request, question.yarKey)
+          if (question.type === 'item-list') {
+            const answerArray = [];
+            Object.keys(questionAnswer).forEach((key) => {
+              if (questionAnswer[key] !== '') {
+                answerArray.push({
+                  id: key,
+                  value: questionAnswer[key]
+                })
+              }
+            });
+            dataForBE.answers[question.yarKey] = answerArray
+          } else {
+            dataForBE.answers[question.yarKey] = questionAnswer
+          }
+        }
+      })
+      console.log('DATA SENT TO BE', dataForBE)
       return h.view(
         'confirmation',
         {
@@ -143,15 +172,24 @@ const getPage = async (question, request, h) => {
       break
   }
 
+  if (type === 'item-list') {
+    return h.view('item-list', getModel(data, question, request))
+  }
+
   return h.view('page', getModel(data, question, request))
 }
 
 const createAnswerObj = (payload, yarKey, type, request, answers) => {
   let thisAnswer
-  for (let [key, value] of Object.entries(payload)) {
-    thisAnswer = answers?.find((answer) => answer.value === value)
-    setYarValue(request, yarKey, value)
+  if (type === 'item-list') {
+    setYarValue(request, yarKey, payload)
+  } else {
+    for (let [key, value] of Object.entries(payload)) {
+      thisAnswer = answers?.find((answer) => answer.value === value)
+      setYarValue(request, yarKey, value)
+    }
   }
+  
   return thisAnswer
 }
 

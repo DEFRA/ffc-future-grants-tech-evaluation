@@ -15,9 +15,15 @@ module.exports = {
         if (!sessionIgnorePaths.find(path => request.path.startsWith(path)) && request.path !== '/') {
           showTimeout = true
           const allUrls = []
-          const allQuestions = getYarValue(request, 'grant-questions')
-          if (allQuestions) {
-            allQuestions.forEach(item => allUrls.push(item.url))
+          let allQuestions
+          try {
+            allQuestions = getYarValue(request, 'grant-questions')
+            if (allQuestions) {
+              allQuestions.forEach(item => allUrls.push(item.url))
+            }
+          }
+          catch (err) {
+            allQuestions = []
           }
           if (!validSession(request) && allUrls.filter(route => request.path.toLowerCase() === `${urlPrefix}/${route.toLowerCase()}`).length > 0) {
             return h.redirect(`${urlPrefix}/session-timeout`)

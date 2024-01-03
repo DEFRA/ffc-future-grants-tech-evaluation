@@ -121,18 +121,51 @@ const showBackToEvidenceSummaryButton = (key, request) => {
 }
 
 const getModel = (data, question, request, conditionalHtml = '') => {
-  let { type, backUrl, key, backUrlObject, sidebar, title, hint, score, label, warning, warningCondition } = question
+  let { type, backUrl, key, backUrlObject, sidebar, title, hint, score, label, itemList } = question
   const hasScore = !!getYarValue(request, 'current-score')
 
   title = title ?? label?.text
 
-  const sideBarText = (sidebar?.dependentQuestionKeys)
-    ? getDependentSideBar(sidebar, request)
-    : sidebar
-
-  const showSidebar = sidebar?.showSidebar
   const farmerData = getYarValue(request, 'account-information')
   const chosenOrganisation = getYarValue(request, 'chosen-organisation')
+
+  if (sidebar && sidebar.length > 0) {
+    // Swaps out the yarKeys / grant ammounts from the sidebar text
+    sidebar = sidebar.map((sideBarText) => {
+      const itemsToReplace = sideBarText.match(/{{_(.+?)_}}/ig)
+      if (!itemsToReplace || itemsToReplace.length === 0) {
+        return sideBarText
+      }
+      itemsToReplace.forEach((item) => {
+        const cleanUpYarKey = RegExp(/{{_(.+?)_}}/ig).exec(item)[1]
+        let valueToReplace;
+        if (cleanUpYarKey === "minGrant" || cleanUpYarKey === "maxGrant") {
+          valueToReplace = `£${formatUKCurrency(question.grantInfo[cleanUpYarKey])}`
+        } else {
+          valueToReplace = getYarValue(request, cleanUpYarKey)
+        }
+        sideBarText = sideBarText.replace(item, valueToReplace)
+      })
+      return sideBarText
+    });
+  }
+
+  if (itemList && itemList.length > 0) {
+    itemList = itemList.map((item) => {
+      return {
+        ...item,
+        formattedPrice: formatUKCurrency(item.referenceValue),
+        quantityInput: {
+          label: {
+            text: "Quantity"
+          },
+          classes: "govuk-input--width-3",
+          name: `${item.equipmentId}`,
+          value: data && data[item.equipmentId] ? data[item.equipmentId] : ""
+        }
+      }
+    })
+  }
   return {
     type,
     key,
@@ -146,8 +179,8 @@ const getModel = (data, question, request, conditionalHtml = '') => {
       firstName: farmerData.firstName,
       lastName: farmerData.lastName
     },
-    sideBarText,
-    showSidebar,
+    sidebar,
+    itemList,
     reachedCheckDetails: showBackToDetailsButton(key, request),
     reachedEvidenceSummary: showBackToEvidenceSummaryButton(key, request),
     diaplaySecondryBtn: hasScore && score?.isDisplay

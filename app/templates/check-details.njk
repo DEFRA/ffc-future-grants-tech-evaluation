@@ -4,6 +4,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "./components/macro.njk" import crumbToken %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
 
 {% block pageTitle %}
   Check your details - {{siteTitle}}
@@ -38,13 +39,59 @@
         
         {% for summary in summarySections %}
           <div>
-            <h2 class="govuk-heading-m check-detail-heading">{{summary.title}}</h2>
+            {% if summary.type === 'items' %}
+              <h2 class="govuk-heading-m check-detail-heading govuk-grid-column-one-half govuk-!-width-one-half">{{summary.title}}</h2>
+              <a href="{{summary.changeUrl}}" class="gokuv-link govuk-grid-column-one-half govuk-!-text-align-right govuk-!-padding-top-3">Change</a>
+            {% else %}
+              <h2 class="govuk-heading-m check-detail-heading">{{summary.title}}</h2>
+            {% endif %}
           </div>
 
-          {{ govukSummaryList({
-            rows: summary.rows
-            })
-          }}
+          {% if summary.type === 'simple' %}
+            {{ govukSummaryList({
+              rows: summary.rows
+              })
+            }}
+
+          {% elif summary.type === 'items' %}
+            {% for item in summary.itemDisplay %}
+              <div class="govuk-!-margin-top-3 govuk-!-margin-bottom-0">
+                <div class="govuk-grid-row">
+                  <div class="govuk-grid-column-three-quarters">
+                    <div class="govuk-grid-column-one-quarter govuk-!-padding-0">
+                      {{ govukTag({
+                        text: item.shortName,
+                        classes: "govuk-tag--grey"
+                      }) }}
+                    </div>
+                    <div class="govuk-grid-column-three-quarters govuk-!-padding-left-0 govuk-!-padding-right-0 govuk-heading-s">{{item.equipmentName}}</div>
+                  </div>
+                  <div class="govuk-grid-column-one-quarter govuk-!-text-align-right govuk-heading-s">Score: {{item.score}}</div>
+                </div>
+
+                <div class="govuk-grid-row govuk-body">
+                  <div class="govuk-grid-column-one-third govuk-!-text-align-left">
+                    <div>Item ammount (each)</div>
+                    <div>£{{item.formattedPrice}}</div>
+                  </div>
+                  <div class="govuk-grid-column-one-third govuk-!-text-align-centre">
+                    <div>Quantity</div>
+                    <div>{{item.quantity}}</div>
+                  </div>
+                  <div class="govuk-grid-column-one-third govuk-!-text-align-right">
+                    <div>Item ammount (total)</div>
+                    <div class="govuk-!-font-weight-bold">£{{item.formattedTotalPrice}}</div>
+                  </div>
+                </div>
+              </div>
+               <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible">
+            {% endfor %}
+            <div class="govuk-grid-row govuk-!-margin-top-3">
+              <p class="govuk-body govuk-grid-column-one-half govuk-!-text-align-left">Grant total</p>
+              <p class="govuk-body govuk-grid-column-one-half govuk-!-text-align-right govuk-!-font-weight-bold">£{{summary.totalGrantValue}}</p>
+            </div>
+            <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible govuk-!-margin-bottom-3">
+          {% endif %}
         {% endfor %}
 
         <div>
