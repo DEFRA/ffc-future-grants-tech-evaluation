@@ -34,6 +34,8 @@ const getCheckDetailsModel = (request, question) => {
   setYarValue(request, 'reachedCheckDetails', true)
   const farmerData = getYarValue(request, 'account-information')
   const chosenOrganisation = getYarValue(request, 'chosen-organisation')
+  const grantInformation = getYarValue(request, 'grant-information')
+  const grantId = grantInformation.grantScheme.grantID
   if (question.summarySections) {
     question.summarySections.forEach((summary) => {
       if (summary.type === 'simple') {
@@ -65,7 +67,7 @@ const getCheckDetailsModel = (request, question) => {
             row.actions = {
               items: [
                 {
-                  href: `${urlPrefix}/${row.changeUrl}`,
+                  href: `${urlPrefix}/${grantId}/${row.changeUrl}`,
                   text: "Change",
                 }
               ]
@@ -104,6 +106,7 @@ const getCheckDetailsModel = (request, question) => {
  
   return {
     ...question,
+    backUrl: `${urlPrefix}/${grantId}/${question.backUrl}`,
     farmerData,
     chosenOrganisation,
     headerData: {

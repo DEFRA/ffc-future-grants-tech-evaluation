@@ -2,21 +2,21 @@ const urlPrefix = require('../config/server').urlPrefix
 const { questionBank } = require('../config/question-bank')
 const { getHandler, getPostHandler } = require('../helpers/handlers')
 
-const drawSectionGetRequests = (section) => {
+const drawSectionGetRequests = (section, grantID) => {
   return section.questions.map(question => {
     return {
       method: 'GET',
-      path: `${urlPrefix}/${question.url}`,
+      path: `${urlPrefix}/${grantID}/${question.url}`,
       handler: getHandler(question)
     }
   })
 }
 
-const drawSectionPostRequests = (section) => {
+const drawSectionPostRequests = (section, grantID) => {
   return section.questions.map((question) => {
     return {
       method: 'POST',
-      path: `${urlPrefix}/${question.url}`,
+      path: `${urlPrefix}/${grantID}/${question.url}`,
       handler: getPostHandler(question)
     }
   })

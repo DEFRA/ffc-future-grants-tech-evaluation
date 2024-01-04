@@ -1,4 +1,4 @@
-const { getYarValue, setYarValue } = require('../helpers/session')
+const { getYarValue, setYarValue, clearYarValue } = require('../helpers/session')
 const { getModel } = require('../helpers/models')
 const { checkErrors } = require('../helpers/errorSummaryHandlers')
 const { getGrantValues } = require('../helpers/grants-info')
@@ -132,6 +132,7 @@ const getPage = async (question, request, h) => {
         if (question.yarKey) {
           const questionAnswer = getYarValue(request, question.yarKey)
           if (question.type === 'item-list') {
+            // Formats the items selected into a nicer format to be returned to the backend
             const answerArray = [];
             Object.keys(questionAnswer).forEach((key) => {
               if (questionAnswer[key] !== '') {
@@ -142,9 +143,14 @@ const getPage = async (question, request, h) => {
               }
             });
             dataForBE.answers[question.yarKey] = answerArray
+          } else if (question.answers.length > 0) {
+            // Returns the whole answer object instead of just the answer value
+            dataForBE.answers[question.yarKey] = question.answers.find((answer) => answer.value === questionAnswer)
           } else {
             dataForBE.answers[question.yarKey] = questionAnswer
           }
+          // After the Data has been added to the BE object for sending clear all the yarKeys
+          clearYarValue(request, question.yarKey)
         }
       })
       console.log('DATA SENT TO BE', dataForBE)
@@ -152,7 +158,6 @@ const getPage = async (question, request, h) => {
         'confirmation',
         {
           url,
-          backUrl,
           reference: {
             titleText: "Application complete",
             html: `Your reference number<br><strong>${confirmationId}</strong>`

@@ -9,7 +9,12 @@ function getYarValue (request, key) {
   return null
 }
 
+function clearYarValue (request, key) {
+  request.yar.clear(key)
+}
+
 module.exports = {
   setYarValue,
-  getYarValue
+  getYarValue,
+  clearYarValue
 }
