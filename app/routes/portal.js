@@ -1,10 +1,11 @@
 const { urlPrefix } = require('../config/server')
 const viewTemplate = 'portal'
 const currentPath = `${urlPrefix}/${viewTemplate}`
-const { setYarValue, getYarValue } = require('../helpers/session');
-const {availableGrants:availableGrantsMock} = require('../config/available-grants-mock');
-const { questionBank } = require('../config/question-bank');
-const {drawSectionGetRequests, drawSectionPostRequests} = require('../routes');
+const { setYarValue, getYarValue } = require('../helpers/session')
+const { getGrants } = require('../messaging/application')
+const {availableGrants:availableGrantsMock} = require('../config/available-grants-mock')
+const { questionBank } = require('../config/question-bank')
+const {drawSectionGetRequests, drawSectionPostRequests} = require('../routes')
 const grantStatus = {
   'available': {
     text: 'Available',
@@ -31,10 +32,20 @@ module.exports = [
     options: {
       auth: false
     },
-    handler: (request, h) => {
+    handler: async(request, h) => {
       //GET the available grants information and save it in a yarKey
-      const availableGrants = availableGrantsMock.grants;
-      setYarValue(request, 'available-grants', availableGrants);
+      try {
+        console.log('Sending session message .....')
+        const result = await getGrants(request.yar.id, getYarValue(request, 'msgQueueSuffix'))
+        console.log(result, '[THIS IS RESULT WE GOT BACK]')
+        request.yar.set('available-grants', result)
+        // return h.view(viewTemplate, createModel({ catagories: result.data.desirability.catagories }, request))
+      } catch (error) {
+        console.log(error)
+        return h.view('500').takeover()
+      }
+      const availableGrants = getYarValue(request, 'available-grants').grants
+      //setYarValue(request, 'available-grants', availableGrants);
       const farmerData = getYarValue(request, 'account-information');
       const chosenFarm = getYarValue(request, 'chosen-organisation');
       // Format the grant status to be displayed properly

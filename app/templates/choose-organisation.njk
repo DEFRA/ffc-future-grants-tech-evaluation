@@ -25,11 +25,32 @@
       <form method="POST" action="{{ url }}" novalidate="novalidate">
         {{ crumbToken(crumb) }}
         {{ govukRadios(radioInput) }}
-       
+
         {{ govukButton({
-            text: "Continue",
-            attributes: {id: "btnContinue"}
+            text: "Continue SF",
+            name: "queueSuffix",
+            value: "Sf",
+            attributes: {id: "btn-Continue-SF"}
           }) }}
+                {{ govukButton({
+            text: "Continue MS",
+            name: "queueSuffix",
+            value: "Snd",
+            attributes: {id: "btn-Continue-MS"}
+          }) }}
+        {{ govukButton({
+            text: "Continue SN",
+            name: "queueSuffix",
+            value: "Sn",
+            attributes: {id: "btn-Continue-SN"}
+          }) }}
+        {{ govukButton({
+            text: "Continue PEGA",
+            name: "queueSuffix",
+            value: "Pega",
+            attributes: {id: "btn-Continue-PEGA"}
+          }) }}
+        
       </form>
     </div>
   </div>

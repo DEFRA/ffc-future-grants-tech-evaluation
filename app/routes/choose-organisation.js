@@ -36,8 +36,8 @@ module.exports = [
       auth: false
     },
     handler: (request, h) => {
-      const farmerData = getYarValue(request, 'account-information');
-      return h.view(viewTemplate, createModel(farmerData));
+      const farmerData = getYarValue(request, 'account-information')
+      return h.view(viewTemplate, createModel(farmerData))
     }
   },
   {
@@ -47,8 +47,10 @@ module.exports = [
       auth: false,
     },
     handler: (request, h) => {
-      setYarValue(request, 'chosen-organisation', request.payload.chooseOrganisation);
-      return h.redirect(nextPath);
+      console.log(request.payload, 'LLLLLLLLLLLL')
+      setYarValue(request, 'msgQueueSuffix', request.payload.queueSuffix)
+      setYarValue(request, 'chosen-organisation', request.payload.chooseOrganisation)
+      return h.redirect(nextPath)
     }
   }
 ]

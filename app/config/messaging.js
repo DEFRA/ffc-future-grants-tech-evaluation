@@ -19,13 +19,23 @@ const messageConfigSchema = Joi.object({
     type: Joi.string(),
     ...sharedConfigSchema
   },
-  costRequestQueue: {
-    address: Joi.string().default('costRequestQueue'),
+  grantRequestQueueAddressSf: {
+    address: Joi.string().default('grantRequestQueueAddressSf'),
     type: Joi.string(),
     ...sharedConfigSchema
   },
-  costResponseQueue: {
-    address: Joi.string().default('costResponseQueue'),
+  grantResponseQueueAddressSf: {
+    address: Joi.string().default('grantResponseQueueAddressSf'),
+    type: Joi.string(),
+    ...sharedConfigSchema
+  },
+  grantRequestQueueAddressSnd: {
+    address: Joi.string().default('grantRequestQueueAddressSnd'),
+    type: Joi.string(),
+    ...sharedConfigSchema
+  },
+  grantResponseQueueAddressSnd: {
+    address: Joi.string().default('grantResponseQueueAddressSnd'),
     type: Joi.string(),
     ...sharedConfigSchema
   },
@@ -62,13 +72,23 @@ const config = {
     type: 'queue',
     ...sharedConfig
   },
-  costRequestQueue: {
-    address: process.env.GRANTS_REQUEST_QUEUE_ADDRESS,
+  grantRequestQueueAddressSf: {
+    address: process.env.GRANTS_REQUEST_QUEUE_ADDRESS_SF,
     type: 'queue',
     ...sharedConfig
   },
-  costResponseQueue: {
-    address: process.env.GRANTS_RESPONSE_QUEUE_ADDRESS,
+  grantResponseQueueAddressSf: {
+    address: process.env.GRANTS_RESPONSE_QUEUE_ADDRESS_SF,
+    type: 'queue',
+    ...sharedConfig
+  },
+  grantRequestQueueAddressSnd: {
+    address: process.env.GRANTS_REQUEST_QUEUE_ADDRESS_SND,
+    type: 'queue',
+    ...sharedConfig
+  },
+  grantResponseQueueAddressSnd: {
+    address: process.env.GRANTS_RESPONSE_QUEUE_ADDRESS_SND,
     type: 'queue',
     ...sharedConfig
   },
