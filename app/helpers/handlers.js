@@ -178,17 +178,7 @@ const getPage = async (question, request, h) => {
   }
 
   if (type === 'item-list') {
-    const model = getModel(data, question, request)
-    return h.view('item-list', {
-      ...model,
-      // updateTotals: (item, event) => {
-      //   console.log('LOOK HEREHEHRE', event)
-      //   // const itemInput = window.querySelector(`input[name="${item.equipmentId}"]`)
-      //   // const itemTotal = window.querySelector(`#${item.equipmentId}-total`)
-      //   // const newTotal = item.referenceValue * parseInt(itemInput.value)
-      //   // itemTotal.innerHTML = `£${formatUKCurrency(newTotal)}`
-      // }
-    })
+    return h.view('item-list', getModel(data, question, request))
   }
 
   return h.view('page', getModel(data, question, request))
