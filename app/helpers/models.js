@@ -2,6 +2,7 @@ const { getUrl } = require('../helpers/urls')
 const { getOptions } = require('../helpers/answer-options')
 const { getYarValue, setYarValue } = require('../helpers/session')
 const { formatUKCurrency } = require('../helpers/data-formats')
+const urlPrefix = require('../config/server').urlPrefix
 
 const getPrefixSufixString = (prefixSufix, selectedValueOfLinkedQuestion) => {
   if (prefixSufix.linkedPrefix || prefixSufix.linkedSufix) {
@@ -121,13 +122,15 @@ const showBackToEvidenceSummaryButton = (key, request) => {
 }
 
 const getModel = (data, question, request, conditionalHtml = '') => {
-  let { type, backUrl, key, backUrlObject, sidebar, title, hint, score, label, itemList } = question
+  let { type, backUrl, key, sidebar, title, hint, score, label, itemList } = question
   const hasScore = !!getYarValue(request, 'current-score')
 
   title = title ?? label?.text
 
   const farmerData = getYarValue(request, 'account-information')
   const chosenOrganisation = getYarValue(request, 'chosen-organisation')
+  const grantInformation = getYarValue(request, 'grant-information')
+  const grantId = grantInformation.grantScheme.grantID
 
   if (sidebar && sidebar.length > 0) {
     // Swaps out the yarKeys / grant ammounts from the sidebar text
@@ -166,12 +169,13 @@ const getModel = (data, question, request, conditionalHtml = '') => {
       }
     })
   }
+  const updatedBackUrl = backUrl === 'portal' ? `${urlPrefix}/${backUrl}` : `${urlPrefix}/${grantId}/${backUrl}`
   return {
     type,
     key,
     title,
     hint,
-    backUrl: getBackUrl(hasScore, backUrlObject, backUrl, request),
+    backUrl: updatedBackUrl,
     items: getOptions(data, question, conditionalHtml, request),
     headerData: {
       chosenFarm: farmerData.companies.find((company) => company.id === chosenOrganisation).name,

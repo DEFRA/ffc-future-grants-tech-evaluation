@@ -173,7 +173,7 @@ const questionBank = {
             html: `<p>Please enter the amount for your project.<p/>`
           },
           label: {
-            text: 'What is the total grant ammount you are applying for?',
+            text: 'What is the total grant amount you are applying for?',
             classes: 'govuk-label--l',
             isPageHeading: true
           },
@@ -217,7 +217,7 @@ const questionBank = {
                   changeUrl: 'livestock-quantity'
                 },
                 {
-                  title: 'What is the total grant ammount you are applying for?',
+                  title: 'What is the total grant amount you are applying for?',
                   yarKey: 'projectAmount',
                   changeUrl: 'project-amount',
                   format: 'currency'

@@ -74,12 +74,16 @@ module.exports = [
       // Saves all of the questions in a yar key as too many integral functions require the ALL_QUESTIONS property
       setYarValue(request, 'grant-questions', allQuestions)
       // Generate the new routes
-      const pages = questionBankData.themes.map(section => drawSectionGetRequests(section))[0]
-      .concat(questionBankData.themes.map(section => drawSectionPostRequests(section))[0])
+      const pages = questionBankData.themes.map(section => drawSectionGetRequests(section, grantID))[0]
+      .concat(questionBankData.themes.map(section => drawSectionPostRequests(section, grantID))[0])
       // Access server and register the new routes
-      request.server.route(pages)
+      try {
+        request.server.route(pages)
+      } catch (err) {
+        console.log('Failed to add routes, they potentially already exist')
+      }
       const startUrl = questionBankData.themes[0].questions.find((theme) => theme.journeyStart).url
-      return h.redirect(`${urlPrefix}/${startUrl}`)
+      return h.redirect(`${urlPrefix}/${grantID}/${startUrl}`)
     }
   }
 ]
