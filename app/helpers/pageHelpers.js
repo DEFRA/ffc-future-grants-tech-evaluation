@@ -36,6 +36,8 @@ const getCheckDetailsModel = (request, question) => {
   const chosenOrganisation = getYarValue(request, 'chosen-organisation')
   const grantInformation = getYarValue(request, 'grant-information')
   const grantId = grantInformation.grantScheme.grantID
+  const scoreArray = []
+  let totalScore = undefined
   if (question.summarySections) {
     question.summarySections.forEach((summary) => {
       if (summary.type === 'simple') {
@@ -84,7 +86,8 @@ const getCheckDetailsModel = (request, question) => {
               const price = parseInt(item.referenceValue, 10)
               let totalValue = 0
               totalValue += price * parseInt(data[item.equipmentId], 10)
-          
+              // Adds the items score to an array to keep track of whats been selected
+              scoreArray.push(parseInt(item.score, 10))
               return {
                 ...item,
                 formattedPrice: formatUKCurrency(item.referenceValue),
@@ -103,7 +106,11 @@ const getCheckDetailsModel = (request, question) => {
       }
     })
   }
- 
+  if (scoreArray.length > 0) {
+    const numberOfItems = scoreArray.length;
+    const itemScoreTotal = scoreArray.reduce((previousValue, currentValue) => previousValue + currentValue, 0)
+    totalScore = itemScoreTotal / numberOfItems
+  }
   return {
     ...question,
     backUrl: `${urlPrefix}/${grantId}/${question.backUrl}`,
@@ -115,6 +122,7 @@ const getCheckDetailsModel = (request, question) => {
       firstName: farmerData.firstName,
       lastName: farmerData.lastName
     },
+    totalScore
   }
 }
 
