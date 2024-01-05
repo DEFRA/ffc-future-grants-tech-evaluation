@@ -3,7 +3,7 @@ const viewTemplate = 'portal'
 const currentPath = `${urlPrefix}/${viewTemplate}`
 const { setYarValue, getYarValue } = require('../helpers/session')
 const { getGrants } = require('../messaging/application')
-const {availableGrants:availableGrantsMock} = require('../config/available-grants-mock')
+//const {availableGrants:availableGrantsMock} = require('../config/available-grants-mock')
 const { questionBank } = require('../config/question-bank')
 const {drawSectionGetRequests, drawSectionPostRequests} = require('../routes')
 const grantStatus = {
@@ -81,10 +81,10 @@ module.exports = [
       setYarValue(request, 'grant-questions', allQuestions);
       // Generate the new routes
       const pages = questionBankData.themes.map(section => drawSectionGetRequests(section))[0]
-      .concat(questionBankData.themes.map(section => drawSectionPostRequests(section))[0]);
+      .concat(questionBankData.themes.map(section => drawSectionPostRequests(section))[0])
       // Access server and register the new routes
-      request.server.route(pages);
-      const startUrl = questionBankData.themes[0].questions.find((theme) => theme.journeyStart).url;
+      request.server.route(pages)
+      const startUrl = questionBankData.themes[0].questions.find((theme) => theme.journeyStart).url
       return h.redirect(`${urlPrefix}/${startUrl}`);
     }
   }

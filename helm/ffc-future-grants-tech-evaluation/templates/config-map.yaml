@@ -26,6 +26,10 @@ data:
   GRANTS_RESPONSE_QUEUE_ADDRESS_SF: {{ .Values.container.grantResponseQueueAddressSf | quote }}
   GRANTS_REQUEST_QUEUE_ADDRESS_SND: {{ .Values.container.grantRequestQueueAddressSnd | quote }}
   GRANTS_RESPONSE_QUEUE_ADDRESS_SND: {{ .Values.container.grantResponseQueueAddressSnd | quote }}
+  GRANTS_REQUEST_QUEUE_ADDRESS_SN: {{ .Values.container.grantRequestQueueAddressSn | quote }}
+  GRANTS_RESPONSE_QUEUE_ADDRESS_SN: {{ .Values.container.grantResponseQueueAddressSn | quote }}
+  GRANTS_REQUEST_QUEUE_ADDRESS_PEGA: {{ .Values.container.grantRequestQueueAddressPega | quote }}
+  GRANTS_RESPONSE_QUEUE_ADDRESS_PEGA: {{ .Values.container.grantResponseQueueAddressPega | quote }}
   DESIRABILITY_SUBMITTED_TOPIC_ADDRESS: {{ quote .Values.container.desirabilitySubmittedTopicAddress }}
   NOTIFY_EMAIL_TEMPLATE: {{ .Values.container.notifyEmailTemplate | quote }}
   WORKSHEET_HIDE_EMPTY_ROWS: {{ .Values.container.worksheetHideEmptyRows | quote }}

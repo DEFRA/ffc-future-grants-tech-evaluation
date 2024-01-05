@@ -39,6 +39,26 @@ const messageConfigSchema = Joi.object({
     type: Joi.string(),
     ...sharedConfigSchema
   },
+  grantRequestQueueAddressSn: {
+    address: Joi.string().default('grantRequestQueueAddressSn'),
+    type: Joi.string(),
+    ...sharedConfigSchema
+  },
+  grantResponseQueueAddressSn: {
+    address: Joi.string().default('grantResponseQueueAddressSn'),
+    type: Joi.string(),
+    ...sharedConfigSchema
+  },
+  grantRequestQueueAddressPega: {
+    address: Joi.string().default('grantRequestQueueAddressPega'),
+    type: Joi.string(),
+    ...sharedConfigSchema
+  },
+  grantResponseQueueAddressPega: {
+    address: Joi.string().default('grantResponseQueueAddressPega'),
+    type: Joi.string(),
+    ...sharedConfigSchema
+  },
   desirabilitySubmittedTopic: {
     address: Joi.string().default('desirabilitySubmittedTopic'),
     type: Joi.string(),
@@ -89,6 +109,26 @@ const config = {
   },
   grantResponseQueueAddressSnd: {
     address: process.env.GRANTS_RESPONSE_QUEUE_ADDRESS_SND,
+    type: 'queue',
+    ...sharedConfig
+  },
+  grantRequestQueueAddressSn: {
+    address: process.env.GRANTS_REQUEST_QUEUE_ADDRESS_SN,
+    type: 'queue',
+    ...sharedConfig
+  },
+  grantResponseQueueAddressSn: {
+    address: process.env.GRANTS_RESPONSE_QUEUE_ADDRESS_SN,
+    type: 'queue',
+    ...sharedConfig
+  },
+  grantRequestQueueAddressPega: {
+    address: process.env.GRANTS_REQUEST_QUEUE_ADDRESS_PEGA,
+    type: 'queue',
+    ...sharedConfig
+  },
+  grantResponseQueueAddressPega: {
+    address: process.env.GRANTS_RESPONSE_QUEUE_ADDRESS_PEGA,
     type: 'queue',
     ...sharedConfig
   },

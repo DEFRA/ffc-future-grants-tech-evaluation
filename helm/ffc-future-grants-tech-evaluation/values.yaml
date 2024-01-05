@@ -66,6 +66,10 @@ container:
   grantResponseQueueAddressSf: ffc-grants-slurry-cost-details-res
   grantRequestQueueAddressSnd: ffc-grants-slurry-cost-details-req
   grantResponseQueueAddressSnd: ffc-grants-slurry-cost-details-res
+  grantRequestQueueAddressSn: dummy
+  grantResponseQueueAddressSn: dummy
+  grantRequestQueueAddressPega: dummy
+  grantResponseQueueAddressPega: dummy
   desirabilitySubmittedTopicAddress: desirability-submitted
   notifyEmailTemplate: dummy-template
   worksheetProtectPassword: dummy-pwd

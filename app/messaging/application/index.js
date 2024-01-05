@@ -2,9 +2,13 @@ const { sendMessage, receiveMessage } = require('../')
 const {
   grantRequestQueueAddressSf,
   grantRequestQueueAddressSnd,
+  grantRequestQueueAddressSn,
+  grantRequestQueueAddressPega,
   fetchCostRequestMsgType,
   grantResponseQueueAddressSf,
-  grantResponseQueueAddressSnd
+  grantResponseQueueAddressSnd,
+  grantResponseQueueAddressSn,
+  grantResponseQueueAddressPega
 } = require('../../config/messaging.js')
 
 async function getGrants(sessionId, msgQueueSuffix) {
@@ -28,6 +32,14 @@ const getGrantReqResQueueAddress = (msgQueueSuffix) => {
       grantRequestQueueAddress = grantRequestQueueAddressSnd
       grantResponseQueueAddress = grantResponseQueueAddressSnd
       break
+      case 'Sn':
+        grantRequestQueueAddress = grantRequestQueueAddressSn
+        grantResponseQueueAddress = grantResponseQueueAddressSn
+      break
+      case 'Pega':
+        grantRequestQueueAddress = grantRequestQueueAddressPega
+        grantResponseQueueAddress = grantResponseQueueAddressPega
+        break
   }
   return {grantRequestQueueAddress: grantRequestQueueAddress, grantResponseQueueAddress: grantResponseQueueAddress }
   
