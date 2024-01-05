@@ -3,6 +3,7 @@ const viewTemplate = 'portal'
 const currentPath = `${urlPrefix}/${viewTemplate}`
 const { setYarValue, getYarValue } = require('../helpers/session')
 //const {availableGrants:availableGrantsMock} = require('../config/available-grants-mock')
+const { getGrants } = require('../messaging/application')
 const { questionBank, equipmentGrant } = require('../config/question-bank')
 const {drawSectionGetRequests, drawSectionPostRequests} = require('../routes')
 const grantStatus = {
