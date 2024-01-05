@@ -1,6 +1,6 @@
 const { getQuestionAnswer } = require('../helpers/utils')
 
-const validateAnswerField = (request, value, validationType, details, payload) => {
+const validateAnswerField = (request, value, validationType, details, payload, quantityLimit = undefined) => {
   switch (validationType) {
     case 'NOT_EMPTY': {
       return (!!value)
@@ -79,16 +79,20 @@ const validateAnswerField = (request, value, validationType, details, payload) =
       const { max } = details
       return ([value].flat().length <= max)
     }
+
+    case 'QUANTITY': {
+      return quantityLimit ? value <= quantityLimit : true
+    }
     default:
       return false
   }
 }
 
-const checkInputError = (request, validate, isconditionalAnswer, payload, yarKey) => {
+const checkInputError = (request, validate, isconditionalAnswer, payload, yarKey, quantityLimit) => {
   return validate.find(
     ({ type, dependentKey, ...details }) => (isconditionalAnswer && dependentKey)
       ? (validateAnswerField(request, payload[dependentKey], type, details, payload) === false)
-      : !dependentKey && (validateAnswerField(request, payload[yarKey], type, details, payload) === false)
+      : !dependentKey && (validateAnswerField(request, payload[yarKey] ? payload[yarKey] : payload, type, details, payload, quantityLimit) === false)
   )
 }
 

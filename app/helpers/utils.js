@@ -14,7 +14,7 @@ const uniqueSelection = (answers, option) => (
 )
 
 const getQuestionByKey = (request, questionKey) => {
-  const allQuestions = getYarValue(request, 'grant-questions');
+  const allQuestions = getYarValue(request, 'grant-questions')
   return allQuestions.find(({ key }) => (key === questionKey))
 }
 

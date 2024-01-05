@@ -2,7 +2,7 @@ const { urlPrefix } = require('../config/server')
 const viewTemplate = 'choose-organisation'
 const currentPath = `${urlPrefix}/${viewTemplate}`
 const nextPath = `${urlPrefix}/portal`
-const { getYarValue, setYarValue } = require('../helpers/session');
+const { getYarValue, setYarValue } = require('../helpers/session')
 
 function createModel (farmerData) {
   const model = {
@@ -18,14 +18,14 @@ function createModel (farmerData) {
       },
       items: []
     }
-  };
+  }
   farmerData.companies.forEach((company) => {
     model.radioInput.items.push({
       text: company.name,
       value: company.id
-    });
-  });
-  return model;
+    })
+  })
+  return model
 }
 
 module.exports = [

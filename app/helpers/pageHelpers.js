@@ -5,7 +5,7 @@ const urlPrefix = require('../config/server').urlPrefix
 const { formatUKCurrency } = require('../helpers/data-formats')
 
 const getConfirmationId = (guid) => {
-  const prefix = 'SI'
+  const prefix = 'FG'
   return `${prefix}-${guid.substr(0, 3)}-${guid.substr(3, 3)}`.toUpperCase()
 }
 
@@ -32,30 +32,33 @@ const saveValuesToArray = (yarKey, fields) => {
 
 const getCheckDetailsModel = (request, question) => {
   setYarValue(request, 'reachedCheckDetails', true)
-  
+  const farmerData = getYarValue(request, 'account-information')
+  const chosenOrganisation = getYarValue(request, 'chosen-organisation')
+  const grantInformation = getYarValue(request, 'grant-information')
+  const grantId = grantInformation.grantScheme.grantID
   if (question.summarySections) {
     question.summarySections.forEach((summary) => {
       if (summary.type === 'simple') {
         summary.rows.forEach((row) => {
-          let value = getYarValue(request, row.yarKey);
+          let value = getYarValue(request, row.yarKey)
           // Checks if the value to be displayed needs formatting
           if (row.format) {
             switch (row.format) {
               case "currency": 
-                value = '£' + formatUKCurrency(value);
+                value = '£' + formatUKCurrency(value)
               default:
-                break;
+                break
             }
           }
           // Adds the specific fields for it to render in the gov summayr list
           row.value = {
             text: value
           }
-          let rowTitle = row.title;
+          let rowTitle = row.title
           // Checks to see if the summary title needs a yar key replacing with a value
           if (rowTitle.includes('{{_')) {
-            const cleanUpYarKey = RegExp(/{{_(.+?)_}}/ig).exec(rowTitle)[1];
-            rowTitle = rowTitle.replace(/{{_(.+?)_}}/, getYarValue(request, cleanUpYarKey));
+            const cleanUpYarKey = RegExp(/{{_(.+?)_}}/ig).exec(rowTitle)[1]
+            rowTitle = rowTitle.replace(/{{_(.+?)_}}/, getYarValue(request, cleanUpYarKey))
           }
           row.key = {
             text: rowTitle
@@ -64,19 +67,54 @@ const getCheckDetailsModel = (request, question) => {
             row.actions = {
               items: [
                 {
-                  href: `${urlPrefix}/${row.changeUrl}`,
+                  href: `${urlPrefix}/${grantId}/${row.changeUrl}`,
                   text: "Change",
                 }
               ]
             }
           }
-        });
+        })
+      } else if (summary.type === 'items') {
+        const questionWithItems = getYarValue(request, 'grant-questions').find((question) => question.type === 'item-list')
+        if (questionWithItems.itemList && questionWithItems.itemList.length > 0) {
+          const data = getYarValue(request, summary.yarKey)
+          // Formats the question and data so it can be displayed on the summary page
+          summary.itemDisplay = questionWithItems.itemList.map((item) => {
+            if (data[item.equipmentId]) {
+              const price = parseInt(item.referenceValue, 10)
+              let totalValue = 0
+              totalValue += price * parseInt(data[item.equipmentId], 10)
+          
+              return {
+                ...item,
+                formattedPrice: formatUKCurrency(item.referenceValue),
+                quantity: data[item.equipmentId],
+                itemTotalPrice: totalValue,
+                formattedTotalPrice: formatUKCurrency(totalValue)
+              }
+            } else {
+              // We only want to display the items the user has selected prevously so if 
+              // there is no value for the individual item in the yarKey then we can remove it from being displayed
+              return {}
+            }
+          }).filter((item) => item.quantity)
+          summary.totalGrantValue = formatUKCurrency(summary.itemDisplay.reduce((previousValue, currentValue) => previousValue + currentValue.itemTotalPrice ,0))
+        }
       }
-    });
+    })
   }
  
   return {
     ...question,
+    backUrl: `${urlPrefix}/${grantId}/${question.backUrl}`,
+    farmerData,
+    chosenOrganisation,
+    headerData: {
+      chosenFarm: farmerData.companies.find((company) => company.id === chosenOrganisation).name,
+      sbi: farmerData.sbi,
+      firstName: farmerData.firstName,
+      lastName: farmerData.lastName
+    },
   }
 }
 

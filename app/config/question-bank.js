@@ -173,7 +173,7 @@ const questionBank = {
             html: `<p>Please enter the amount for your project.<p/>`
           },
           label: {
-            text: 'What is the total grant ammount you are applying for?',
+            text: 'What is the total grant amount you are applying for?',
             classes: 'govuk-label--l',
             isPageHeading: true
           },
@@ -217,7 +217,7 @@ const questionBank = {
                   changeUrl: 'livestock-quantity'
                 },
                 {
-                  title: 'What is the total grant ammount you are applying for?',
+                  title: 'What is the total grant amount you are applying for?',
                   yarKey: 'projectAmount',
                   changeUrl: 'project-amount',
                   format: 'currency'
@@ -240,6 +240,169 @@ const questionBank = {
     }
   ]
 }
+
+const equipmentGrant = {
+  grantScheme: {
+    grantID: 'FFC002',
+    schemeName: 'FIF',
+    subScheme: {
+      subSchemeId: 'Fhs74',
+      subSchemeDisplayName: 'Farming equipment and technology fund'
+    },
+  },
+  themes: [
+    {
+      name: 'productivity',
+      title: 'Productivity',
+      questions: [
+        {
+          key: 'project-location',
+          journeyStart: true,
+          title: 'Is your project in England?',
+          backUrl: 'portal',
+          nextUrl: 'select-equipment',
+          classes: 'govuk-radios--inline govuk-fieldset__legend--l',
+          url: 'project-location',
+          ineligibleContent: {
+            messageContent: 'This grant is only for projects registered in England.'
+          },
+          type: 'boolean',
+          validate: [
+            {
+              type: 'NOT_EMPTY',
+              error: 'Select yes if the project is in England'
+            }
+          ],
+          answers: [
+            {
+              key: 'project-location-true',
+              value: 'Yes'
+            },
+            {
+              key: 'project-location-false',
+              value: 'No',
+              notEligible: true
+            }
+          ],
+          yarKey: 'projectLocation'
+        },
+        {
+          key: 'select-list',
+          title: 'Select equipment',
+          url: 'select-equipment',
+          backUrl: 'project-location',
+          nextUrl: 'project-postcode',
+          type: 'item-list',
+          grantInfo: {
+            minGrant: 2000,
+            maxGrant: 25000,
+          },
+          sidebar: [
+            'Note that the minimum grant value is {{_minGrant_}} and the maximum grant value is {{_maxGrant_}}. You can apply for a total of £50,000 over multiple rounds.'
+          ],
+          itemList: [
+            {
+              equipmentId: 2001,
+              equipmentName: 'Electronic tray filling machine',
+              shortName: 'FETF1',
+              description: 'Electronic tray filling machine. To be eligible machine must be able to fill polystyrene trays, plug trays, shuttle trays and pots in trays. Machine must be able to fill 500 trays per hour. Machine must be capable of varying filling density to achieve optimal compaction for different seeding requirements. Must be capable of handling 600mm x 400mm trays. While the machine can be used as a standalone tray filler, to allow for future expansion the tray filler must be capable of being used with a conveyor belt system to allow incorporation into a fully automated seeding line or transplanting line.',
+              referenceValue: '5938',
+              score: '60',
+            },
+            {
+              equipmentId: 2003,
+              equipmentName: 'Five row seeder',
+              shortName: 'FETF3',
+              description: 'Manual push seeder which can sow a minimum of 5 rows. It must have soil openers at the front and roller(s) at the rear, and changeable seed wheels/rollers for different crops and spacing. Maximum 2 per application.',
+              referenceValue: '16079',
+              score: '46',
+              quantityLimit: 2
+            }
+          ],
+          validate: [
+            {
+              type: 'REGEX',
+              regex: /^[1-9]\d*$/,
+              error: 'Enter a whole number for the item quantities'
+            },
+            {
+              type: 'QUANTITY',
+              error: 'Some items are over their maximum allowance'
+            }
+          ],
+          answers: [],
+          yarKey: 'equipmentList'
+        },
+        {
+          key: 'project-postcode',
+          classes: 'govuk-input--width-10',
+          url: 'project-postcode',
+          backUrl: 'select-equipment',
+          nextUrl: 'check-details',
+          type: 'input',
+          hint: {
+            html: `<p>Enter the postcode of the main location where the items will be located<p/>`
+          },
+          label: {
+            text: 'What is the project postcode?',
+            classes: 'govuk-label--l',
+            isPageHeading: true
+          },
+          validate: [
+            {
+              type: 'NOT_EMPTY',
+              error: 'Enter the projects postcode'
+            },
+            {
+              type: 'REGEX',
+              regex: /^[\s]*[a-z]{1,2}\d[a-z\d]?[\s]*\d[a-z]{2}[\s]*$/i,
+              error: 'Enter a project postcode, like AA1 1AA'
+            }
+          ],
+          answers: [],
+          yarKey: 'projectPostcode'
+        },
+        {
+          key: 'check-details',
+          title: 'Check application details and submit',
+          url: 'check-details',
+          backUrl: 'project-postcode',
+          nextUrl: 'confirmation',
+          summarySections: [
+            {
+              title: 'Equipment selections',
+              type: 'items',
+              changeUrl: 'select-equipment',
+              yarKey: 'equipmentList',
+            },
+            {
+              title: 'Equipment location',
+              type: 'simple',
+              rows: [
+                {
+                  title: 'Postcode',
+                  yarKey: 'projectPostcode',
+                  changeUrl: 'project-postcode'
+                }
+              ]
+            }
+          ],
+          sidebar: [
+            'Note that the minimum grant value is £2,000 and the maximum grant value is £25,000.',
+            'You can apply for a total of £50,000 over multiple rounds'
+          ],
+          answers: []
+        },
+        {
+          key: 'reference-number',
+          title: 'Details submitted',
+          url: 'confirmation',
+          answers: []
+        }
+      ]
+    }
+  ]
+}
 const ALL_QUESTIONS = []
 questionBank.themes.forEach(({ questions }) => {
   ALL_QUESTIONS.push(...questions)
@@ -250,6 +413,7 @@ const YAR_KEYS = ['itemsTotalValue', 'remainingCost', 'calculatedGrant', 'separa
 ALL_QUESTIONS.forEach(item => YAR_KEYS.push(item.yarKey))
 module.exports = {
   questionBank,
+  equipmentGrant,
   ALL_QUESTIONS,
   YAR_KEYS,
   ALL_URLS

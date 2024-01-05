@@ -1,4 +1,4 @@
-const { getYarValue, setYarValue } = require('../helpers/session')
+const { getYarValue, setYarValue, clearYarValue } = require('../helpers/session')
 const { getModel } = require('../helpers/models')
 const { checkErrors } = require('../helpers/errorSummaryHandlers')
 const { getGrantValues } = require('../helpers/grants-info')
@@ -19,6 +19,7 @@ const {
   getCheckDetailsModel,
   getDataFromYarValue
 } = require('./pageHelpers')
+const urlPrefix = require('../config/server').urlPrefix
 
 const setGrantsData = (question, request) => {
   if (question.grantInfo) {
@@ -58,19 +59,19 @@ const processGA = async (question, request) => {
 }
 
 const interpolateString = (stringToCheck, request) => {
-  const itemsToReplace = stringToCheck.match(/{{_(.+?)_}}/ig);
+  const itemsToReplace = stringToCheck.match(/{{_(.+?)_}}/ig)
   if (!itemsToReplace || itemsToReplace.length === 0) {
-    return stringToCheck;
+    return stringToCheck
   }
   itemsToReplace.forEach((item) => {
-    const cleanUpYarKey = RegExp(/{{_(.+?)_}}/ig).exec(item)[1];
-    const yarValue = getYarValue(request, cleanUpYarKey);
-    stringToCheck = stringToCheck.replace(item, yarValue);
-  });
-  return stringToCheck;
+    const cleanUpYarKey = RegExp(/{{_(.+?)_}}/ig).exec(item)[1]
+    const yarValue = getYarValue(request, cleanUpYarKey)
+    stringToCheck = stringToCheck.replace(item, yarValue)
+  })
+  return stringToCheck
 }
 const titleInterpolation = (title, question, request) => {
-  const changedTitle = interpolateString(title, request);
+  const changedTitle = interpolateString(title, request)
   return {
     ...question,
     title: changedTitle
@@ -78,7 +79,7 @@ const titleInterpolation = (title, question, request) => {
 }
 
 const labelInterpolation = (label, question, request) => {
-  const labelText = interpolateString(label.text, request);
+  const labelText = interpolateString(label.text, request)
   return {
     ...question,
     label: {
@@ -95,15 +96,14 @@ const getPage = async (question, request, h) => {
     title,
     yarKey,
     backUrl,
-    nextUrl,
     label
   } = question
 
   if (title) {
-    question = titleInterpolation(title, question ,request);
+    question = titleInterpolation(title, question ,request)
   }
   if (label) {
-    question = labelInterpolation(label, question ,request);
+    question = labelInterpolation(label, question ,request)
   }
 
   const data = getDataFromYarValue(request, yarKey, type)
@@ -116,17 +116,60 @@ const getPage = async (question, request, h) => {
       )
     }
     case 'confirmation': {
-      const confirmationId = getConfirmationId(request.yar.id);
+      const confirmationId = getConfirmationId(request.yar.id)
+      const farmerData = getYarValue(request, 'account-information')
+      const chosenFarm = getYarValue(request, 'chosen-organisation')
+
+      // Format all of the yar keys and send the data to the BE
+      const allQuestions = getYarValue(request, 'grant-questions') 
+      const dataForBE = {
+        confirmationId,
+        chosenFarm,
+        farmerData,
+        answers: {}
+      }
+      allQuestions.forEach((question) => {
+        if (question.yarKey) {
+          const questionAnswer = getYarValue(request, question.yarKey)
+          if (question.type === 'item-list') {
+            // Formats the items selected into a nicer format to be returned to the backend
+            const answerArray = [];
+            Object.keys(questionAnswer).forEach((key) => {
+              if (questionAnswer[key] !== '') {
+                answerArray.push({
+                  id: key,
+                  value: questionAnswer[key]
+                })
+              }
+            });
+            dataForBE.answers[question.yarKey] = answerArray
+          } else if (question.answers.length > 0) {
+            // Returns the whole answer object instead of just the answer value
+            dataForBE.answers[question.yarKey] = question.answers.find((answer) => answer.value === questionAnswer)
+          } else {
+            dataForBE.answers[question.yarKey] = questionAnswer
+          }
+          // After the Data has been added to the BE object for sending clear all the yarKeys
+          clearYarValue(request, question.yarKey)
+        }
+      })
+      console.log('DATA SENT TO BE', dataForBE)
       return h.view(
         'confirmation',
         {
           url,
-          backUrl,
           reference: {
             titleText: "Application complete",
             html: `Your reference number<br><strong>${confirmationId}</strong>`
           },
-          confirmationId
+          confirmationId,
+          headerData: {
+            chosenFarm: farmerData.companies.find((company) => company.id === chosenFarm).name,
+            sbi: farmerData.sbi,
+            firstName: farmerData.firstName,
+            lastName: farmerData.lastName
+          },
+          portalUrl: `${urlPrefix}/portal`
         }
       )
     }
@@ -134,15 +177,24 @@ const getPage = async (question, request, h) => {
       break
   }
 
+  if (type === 'item-list') {
+    return h.view('item-list', getModel(data, question, request))
+  }
+
   return h.view('page', getModel(data, question, request))
 }
 
 const createAnswerObj = (payload, yarKey, type, request, answers) => {
   let thisAnswer
-  for (let [key, value] of Object.entries(payload)) {
-    thisAnswer = answers?.find((answer) => answer.value === value)
-    setYarValue(request, yarKey, value)
+  if (type === 'item-list') {
+    setYarValue(request, yarKey, payload)
+  } else {
+    for (let [key, value] of Object.entries(payload)) {
+      thisAnswer = answers?.find((answer) => answer.value === value)
+      setYarValue(request, yarKey, value)
+    }
   }
+  
   return thisAnswer
 }
 
@@ -205,10 +257,10 @@ const showPostPage = async (currentQuestion, request, h) => {
   const thisAnswer = createAnswerObj(payload, yarKey, type, request, answers)
 
   if (title) {
-    currentQuestion = titleInterpolation(title, currentQuestion ,request);
+    currentQuestion = titleInterpolation(title, currentQuestion ,request)
   }
   if (label) {
-    currentQuestion = labelInterpolation(label, currentQuestion ,request);
+    currentQuestion = labelInterpolation(label, currentQuestion ,request)
   }
 
   const errors = checkErrors(payload, currentQuestion, h, request)

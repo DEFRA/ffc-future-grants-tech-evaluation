@@ -7,7 +7,7 @@ const accountInformation = {
     landlinePhone: '056712678',
     mobilePhone: '012345678',
     sbi: '908789876',
-    businessSize: 'Micro',
+    businesSize: 'Micro',
     numberOfEmployees: 5,
     areasManaged: {
       agricultural:  '20 Hectares',
@@ -38,7 +38,7 @@ const accountInformation = {
     landlinePhone: '076575678',
     mobilePhone: '076575678',
     sbi: '786756789',
-    businessSize: 'Micro',
+    businesSize: 'Micro',
     numberOfEmployees: 7,
     areasManaged: {
       agricultural:  '25 Hectares',
@@ -65,7 +65,7 @@ const accountInformation = {
     landlinePhone: '086127891',
     mobilePhone: '034567891',
     sbi: '767892234',
-    businessSize: 'Micro',
+    businesSize: 'Micro',
     numberOfEmployees: 6,
     areasManaged: {
       agricultural:  '15 Hectares',
@@ -84,7 +84,7 @@ const accountInformation = {
       }
     ]
   }
-};
+}
 
 module.exports = {
   accountInformation

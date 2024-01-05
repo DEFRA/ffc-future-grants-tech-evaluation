@@ -2,7 +2,7 @@ const { getModel } = require('../helpers/models')
 const { getHtml } = require('../helpers/conditionalHTML')
 const { getYarValue } = require('../helpers/session')
 const { formatOtherItems } = require('./../helpers/other-items-sizes')
-
+const { formatUKCurrency } = require('../helpers/data-formats')
 const { validateAnswerField, checkInputError } = require('../helpers/errorHelpers')
 
 const customiseErrorText = (value, currentQuestion, errorList, h, request) => {
@@ -41,7 +41,8 @@ const customiseErrorText = (value, currentQuestion, errorList, h, request) => {
     ...baseModel,
     errorList
   }
-  return h.view('page', modelWithErrors)
+  const template = currentQuestion.type === 'item-list' ? 'item-list' : 'page'
+  return h.view(template, modelWithErrors)
 }
 
 const checkErrors = (payload, currentQuestion, h, request) => {
@@ -86,6 +87,48 @@ const checkErrors = (payload, currentQuestion, h, request) => {
     return customiseErrorText('', currentQuestion, errorHrefList, h, request)
   }
 
+  if (currentQuestion.type === 'item-list') {
+    // Checks each item to see if any inputs cause errors
+    for (const [key, value] of Object.entries(payload)) {
+      const itemData = currentQuestion.itemList.find((item) => item.equipmentId.toString() === key)
+      const quantityLimit = itemData ? itemData.quantityLimit : undefined
+      placeholderInputError = checkInputError(request, validate, isconditionalAnswer, value, yarKey, quantityLimit)
+
+      if (placeholderInputError) {
+        errorHrefList.push({
+          text: placeholderInputError.error,
+          href: `#${placeholderInputError.dependentKey ?? yarKey}`
+        })
+      }
+    }
+    const maxGrant = currentQuestion.grantInfo.maxGrant
+    const minGrant = currentQuestion.grantInfo.minGrant
+    let totalValue = 0
+    // Checks to see if the total items cost are within the grant limits
+    for (const [key, value] of Object.entries(payload)) {
+      if (value) {
+        const price = parseInt(currentQuestion.itemList.find((item) => item.equipmentId.toString() === key).referenceValue, 10)
+        totalValue += price * parseInt(value, 10)
+      }
+    }
+    if (totalValue < minGrant) {
+      errorHrefList.push({
+        text: `Total value does not reach mimimum grant ammount of £${formatUKCurrency(minGrant)}`,
+        href: `#${yarKey}`
+      })
+    } else if (totalValue > maxGrant) {
+      errorHrefList.push({
+        text: `Total value exceeds maximum grant ammount of £${formatUKCurrency(maxGrant)}`,
+        href: `#${yarKey}`
+      })
+    }
+    if (errorHrefList.length > 0) {
+      return customiseErrorText(payload, currentQuestion, errorHrefList, h, request)
+    } else {
+      return false
+    }
+  }
+ 
   const payloadValue = typeof payload[yarKey] === 'string' ? payload[yarKey].trim() : payload[yarKey]
   isconditionalAnswer = payload[yarKey]?.includes(conditionalAnswer?.value)
   if (validate) {
@@ -100,7 +143,7 @@ const checkErrors = (payload, currentQuestion, h, request) => {
   }
 
   if (errorHrefList.length > 0) {
-    return customiseErrorText(payloadValue, currentQuestion, errorHrefList, h, request)
+    return customiseErrorText(payloadValue ? payloadValue : payload, currentQuestion, errorHrefList, h, request)
   }
 }
 
