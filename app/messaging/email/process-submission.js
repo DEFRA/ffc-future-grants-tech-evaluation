@@ -5,7 +5,7 @@ module.exports = async function (msg) {
   try {
     const { body: submissionDetails, correlationId } = msg
 
-    console.log('MADE IT TO DETAILS', submissionDetails, correlationId, 'WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW')
+    console.log('[MADE IT TO DETAILS]',)
     const msgOut = createMsg(submissionDetails)
 
     return msgOut

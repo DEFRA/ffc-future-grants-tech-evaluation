@@ -51,6 +51,8 @@ module.exports = [
       auth: false,
     },
     handler: (request, h) => {
+      console.log(request.payload, 'LLLLLLLLLLLL')
+      setYarValue(request, 'msgQueueSuffix', request.payload.queueSuffix)
       setYarValue(request, 'chosen-organisation', request.payload.chooseOrganisation)
       return h.redirect(nextPath)
     }
