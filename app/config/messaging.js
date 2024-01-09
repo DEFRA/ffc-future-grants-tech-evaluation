@@ -19,13 +19,43 @@ const messageConfigSchema = Joi.object({
     type: Joi.string(),
     ...sharedConfigSchema
   },
-  costRequestQueue: {
-    address: Joi.string().default('costRequestQueue'),
+  grantRequestQueueAddressSf: {
+    address: Joi.string().default('grantRequestQueueAddressSf'),
     type: Joi.string(),
     ...sharedConfigSchema
   },
-  costResponseQueue: {
-    address: Joi.string().default('costResponseQueue'),
+  grantResponseQueueAddressSf: {
+    address: Joi.string().default('grantResponseQueueAddressSf'),
+    type: Joi.string(),
+    ...sharedConfigSchema
+  },
+  grantRequestQueueAddressSnd: {
+    address: Joi.string().default('grantRequestQueueAddressSnd'),
+    type: Joi.string(),
+    ...sharedConfigSchema
+  },
+  grantResponseQueueAddressSnd: {
+    address: Joi.string().default('grantResponseQueueAddressSnd'),
+    type: Joi.string(),
+    ...sharedConfigSchema
+  },
+  grantRequestQueueAddressSn: {
+    address: Joi.string().default('grantRequestQueueAddressSn'),
+    type: Joi.string(),
+    ...sharedConfigSchema
+  },
+  grantResponseQueueAddressSn: {
+    address: Joi.string().default('grantResponseQueueAddressSn'),
+    type: Joi.string(),
+    ...sharedConfigSchema
+  },
+  grantRequestQueueAddressPega: {
+    address: Joi.string().default('grantRequestQueueAddressPega'),
+    type: Joi.string(),
+    ...sharedConfigSchema
+  },
+  grantResponseQueueAddressPega: {
+    address: Joi.string().default('grantResponseQueueAddressPega'),
     type: Joi.string(),
     ...sharedConfigSchema
   },
@@ -62,13 +92,43 @@ const config = {
     type: 'queue',
     ...sharedConfig
   },
-  costRequestQueue: {
-    address: process.env.COST_REQUEST_QUEUE_ADDRESS,
+  grantRequestQueueAddressSf: {
+    address: process.env.GRANTS_REQUEST_QUEUE_ADDRESS_SF,
     type: 'queue',
     ...sharedConfig
   },
-  costResponseQueue: {
-    address: process.env.COST_RESPONSE_QUEUE_ADDRESS,
+  grantResponseQueueAddressSf: {
+    address: process.env.GRANTS_RESPONSE_QUEUE_ADDRESS_SF,
+    type: 'queue',
+    ...sharedConfig
+  },
+  grantRequestQueueAddressSnd: {
+    address: process.env.GRANTS_REQUEST_QUEUE_ADDRESS_SND,
+    type: 'queue',
+    ...sharedConfig
+  },
+  grantResponseQueueAddressSnd: {
+    address: process.env.GRANTS_RESPONSE_QUEUE_ADDRESS_SND,
+    type: 'queue',
+    ...sharedConfig
+  },
+  grantRequestQueueAddressSn: {
+    address: process.env.GRANTS_REQUEST_QUEUE_ADDRESS_SN,
+    type: 'queue',
+    ...sharedConfig
+  },
+  grantResponseQueueAddressSn: {
+    address: process.env.GRANTS_RESPONSE_QUEUE_ADDRESS_SN,
+    type: 'queue',
+    ...sharedConfig
+  },
+  grantRequestQueueAddressPega: {
+    address: process.env.GRANTS_REQUEST_QUEUE_ADDRESS_PEGA,
+    type: 'queue',
+    ...sharedConfig
+  },
+  grantResponseQueueAddressPega: {
+    address: process.env.GRANTS_RESPONSE_QUEUE_ADDRESS_PEGA,
     type: 'queue',
     ...sharedConfig
   },
@@ -78,7 +138,7 @@ const config = {
     ...sharedConfig
   },
   desirabilitySubmittedMsgType: `${msgTypePrefix}.slurry.desirability.notification`,
-  fetchCostRequestMsgType: `${msgTypePrefix}.fetch.cost.request`,
+  fetchCostRequestMsgType: `${msgTypePrefix}.fetch.grants.request`,
   eligibilityAnswersMsgType: `${msgTypePrefix}.slurry.eligibility.details`,
   contactDetailsMsgType: `${msgTypePrefix}.slurry.contact.details`,
   msgSrc: 'ffc-future-grants-tech-evaluation'
