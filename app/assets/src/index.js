@@ -3,6 +3,7 @@ import './application.scss'
 import './scripts/cookies'
 import { accessibility } from './scripts/accessibility'
 import { validation } from './scripts/validation'
+import { itemsListChecker } from './scripts/items-list-live-update'
 
 import TimeoutWarning from '../../templates/components/timeout-warning/timeout-warning'
 export function nodeListForEach (nodes, callback) {
@@ -16,6 +17,7 @@ export function nodeListForEach (nodes, callback) {
 window.addEventListener('load', (_event) => {
   accessibility()
   validation()
+  itemsListChecker()
 })
 initAll()
 const $timeoutWarnings = document.querySelectorAll('[data-module="govuk-timeout-warning"]')

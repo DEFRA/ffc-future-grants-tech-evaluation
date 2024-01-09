@@ -166,3 +166,7 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
     text-decoration: underline;
   }
 }
+
+.error-panel-background-color {
+  background-color: $govuk-error-colour;
+}

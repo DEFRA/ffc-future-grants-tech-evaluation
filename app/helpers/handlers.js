@@ -251,7 +251,7 @@ const showPostPage = async (currentQuestion, request, h) => {
     type,
     label
   } = currentQuestion
-  const NOT_ELIGIBLE = { ...ineligibleContent, backUrl: url }
+  const NOT_ELIGIBLE = { ...ineligibleContent, backUrl: url, portalUrl: `${urlPrefix}/portal`}
   const payload = request.payload
 
   const thisAnswer = createAnswerObj(payload, yarKey, type, request, answers)

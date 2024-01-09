@@ -6,20 +6,24 @@ const {availableGrants:availableGrantsMock} = require('../config/available-grant
 const { questionBank, equipmentGrant } = require('../config/question-bank')
 const {drawSectionGetRequests, drawSectionPostRequests} = require('../routes')
 const grantStatus = {
-  'available': {
-    text: 'Available',
-    classes: 'govuk-tag--blue'
+  'not-started': {
+    text: 'Not started',
+    classes: 'govuk-tag--grey'
   },
-  'inProgress': {
-    text: 'In Progress',
+  'submitted': {
+    text: 'Submitted',
     classes: 'govuk-tag--light-blue'
   },
-  'rejected': {
-    text: 'Rejected',
-    classes: 'govuk-tag--red'
+  'under-review': {
+    text: 'Under review',
+    classes: 'govuk-tag--light-blue'
   },
-  'complete': {
-    text: 'Complete',
+  'successful': {
+    text: 'Successful',
+    classes: 'govuk-tag--green'
+  },
+  'unsuccessful': {
+    text: 'Unsuccessful',
     classes: 'govuk-tag--green'
   }
 }
