@@ -17,6 +17,10 @@ function createModel (farmerData) {
         }
       },
       items: []
+    },
+    headerData: {
+      firstName: farmerData.firstName,
+      lastName: farmerData.lastName
     }
   }
   farmerData.companies.forEach((company) => {

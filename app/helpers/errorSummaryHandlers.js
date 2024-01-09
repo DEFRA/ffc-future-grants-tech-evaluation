@@ -97,7 +97,7 @@ const checkErrors = (payload, currentQuestion, h, request) => {
       if (placeholderInputError) {
         errorHrefList.push({
           text: placeholderInputError.error,
-          href: `#${placeholderInputError.dependentKey ?? yarKey}`
+          href: `#${itemData.equipmentId}`
         })
       }
     }
@@ -114,12 +114,12 @@ const checkErrors = (payload, currentQuestion, h, request) => {
     if (totalValue < minGrant) {
       errorHrefList.push({
         text: `Total value does not reach mimimum grant ammount of £${formatUKCurrency(minGrant)}`,
-        href: `#${yarKey}`
+        href: "#items-list"
       })
     } else if (totalValue > maxGrant) {
       errorHrefList.push({
         text: `Total value exceeds maximum grant ammount of £${formatUKCurrency(maxGrant)}`,
-        href: `#${yarKey}`
+        href: "#items-list"
       })
     }
     if (errorHrefList.length > 0) {

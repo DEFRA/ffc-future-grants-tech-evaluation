@@ -38,7 +38,7 @@
               <div class="govuk-grid-column-two-thirds">
                 <p class="govuk-heading-m govuk-!-margin-bottom-3">{{grant.name}}</p>
                 <div class="govuk-inset-text govuk-!-margin-top-0">{{grant.subTitle}}</div>
-                {% if grant.status === 'available' %}
+                {% if grant.status === 'not-started' %}
                   <div>
                     {{ govukButton({
                       text: "Start application",
