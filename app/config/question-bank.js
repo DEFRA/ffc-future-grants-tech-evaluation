@@ -92,11 +92,11 @@ const questionBank = {
           ],
           answers: [
             {
-              key: 'project-location-true',
+              key: 'project-location-A1',
               value: 'Yes'
             },
             {
-              key: 'project-location-false',
+              key: 'project-location-A2',
               value: 'No',
               notEligible: true
             }
@@ -118,19 +118,19 @@ const questionBank = {
           ],
           answers: [
             {
-              key: 'livestock-type-beef',
+              key: 'livestock-type-A1',
               value: 'Beef cattle'
             },
             {
-              key: 'livestock-type-dairy',
+              key: 'livestock-type-A2',
               value: 'Dairy cattle'
             },
             {
-              key: 'livestock-type-sheep',
+              key: 'livestock-type-A3',
               value: 'Sheep'
             },
             {
-              key: 'livestock-type-pigs',
+              key: 'livestock-type-A3',
               value: 'Pigs'
             }
           ],

@@ -43,7 +43,6 @@ module.exports = [
         const result = await getGrants(request.yar.id, getYarValue(request, 'msgQueueSuffix'))
         console.log(result, '[THIS IS RESULT WE GOT BACK]')
         request.yar.set('available-grants', result)
-        // return h.view(viewTemplate, createModel({ catagories: result.data.desirability.catagories }, request))
       } catch (error) {
         console.log(error)
         return h.view('500').takeover()
@@ -71,18 +70,26 @@ module.exports = [
     options: {
       auth: false
     },
-    handler: (request, h) => {
+    handler: async(request, h) => {
       const grantID = request.payload.grantId
-      //GET the specific grants information / question bank
-      let questionBankData;
-      if (grantID === 'AHG001') {
-        questionBankData = questionBank
-      } else {
-        questionBankData = equipmentGrant
+      let questionBankData
+      // questionBankData = questionBank
+      
+    // GET the requested grant questions
+      try {
+        console.log('Sending session message .....')
+        questionBankData = await getGrants(request.yar.id, getYarValue(request, 'msgQueueSuffix'), grantID)
+        console.log(questionBankData.themes[0].questions, '[QUESTIONS WE GOT BACK]')
+        // return h.view(viewTemplate, createModel({ catagories: result.data.desirability.catagories }, request))
+      } catch (error) {
+        console.log(error)
+        return h.view('500').takeover()
       }
-      // Save the whole grant information in cache
+     //questionBankData = questionBank
+
       setYarValue(request, 'grant-information', questionBankData)
       const allQuestions = []
+      console.log(questionBankData,'LLLL')
       questionBankData.themes.forEach(({ questions }) => {
         allQuestions.push(...questions)
       })

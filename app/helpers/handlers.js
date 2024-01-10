@@ -143,7 +143,7 @@ const getPage = async (question, request, h) => {
               }
             });
             dataForBE.answers[question.yarKey] = answerArray
-          } else if (question.answers.length > 0) {
+          } else if (question?.answers?.length > 0) {
             // Returns the whole answer object instead of just the answer value
             dataForBE.answers[question.yarKey] = question.answers.find((answer) => answer.value === questionAnswer)
           } else {

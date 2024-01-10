@@ -58,7 +58,7 @@ const getCheckDetailsModel = (request, question) => {
           }
           let rowTitle = row.title
           // Checks to see if the summary title needs a yar key replacing with a value
-          if (rowTitle.includes('{{_')) {
+          if (rowTitle?.includes('{{_')) {
             const cleanUpYarKey = RegExp(/{{_(.+?)_}}/ig).exec(rowTitle)[1]
             rowTitle = rowTitle.replace(/{{_(.+?)_}}/, getYarValue(request, cleanUpYarKey))
           }
