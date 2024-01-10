@@ -20,6 +20,8 @@ const {
   getDataFromYarValue
 } = require('./pageHelpers')
 const urlPrefix = require('../config/server').urlPrefix
+const { grantSubmitted } = require('../messaging/application')
+
 
 const setGrantsData = (question, request) => {
   if (question.grantInfo) {
@@ -141,7 +143,7 @@ const getPage = async (question, request, h) => {
                   value: questionAnswer[key]
                 })
               }
-            });
+            })
             dataForBE.answers[question.yarKey] = answerArray
           } else if (question?.answers?.length > 0) {
             // Returns the whole answer object instead of just the answer value
@@ -149,11 +151,20 @@ const getPage = async (question, request, h) => {
           } else {
             dataForBE.answers[question.yarKey] = questionAnswer
           }
-          // After the Data has been added to the BE object for sending clear all the yarKeys
-          clearYarValue(request, question.yarKey)
         }
       })
       console.log('DATA SENT TO BE', dataForBE)
+      try {
+        console.log('Sending session message .....')
+        questionBankData = await grantSubmitted(request.yar.id, getYarValue(request, 'msgQueueSuffix'),dataForBE)
+        console.log('[USER RESPONSE WE SENT BACK]')
+      } catch (error) {
+        console.log(error)
+        return h.view('500').takeover()
+      }
+
+      // After the Data has been added to the BE object for sending clear all the yarKeys
+      clearYarValue(request, question.yarKey)
       return h.view(
         'confirmation',
         {
