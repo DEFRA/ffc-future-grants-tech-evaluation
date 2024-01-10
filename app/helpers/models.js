@@ -170,6 +170,7 @@ const getModel = (data, question, request, conditionalHtml = '') => {
     })
   }
   const updatedBackUrl = backUrl === 'portal' ? `${urlPrefix}/${backUrl}` : `${urlPrefix}/${grantId}/${backUrl}`
+  const chosenFarm = farmerData.companies.find((company) => company.id === chosenOrganisation)
   return {
     type,
     key,
@@ -178,8 +179,8 @@ const getModel = (data, question, request, conditionalHtml = '') => {
     backUrl: updatedBackUrl,
     items: getOptions(data, question, conditionalHtml, request),
     headerData: {
-      chosenFarm: farmerData.companies.find((company) => company.id === chosenOrganisation).name,
-      sbi: farmerData.sbi,
+      chosenFarm: chosenFarm.name,
+      sbi: chosenFarm.sbi,
       firstName: farmerData.firstName,
       lastName: farmerData.lastName
     },

@@ -57,5 +57,6 @@ const getGrantReqResQueueAddress = (msgQueueSuffix) => {
 }
 
 module.exports = {
-  getGrants
+  getGrants,
+  grantSubmitted
 }
