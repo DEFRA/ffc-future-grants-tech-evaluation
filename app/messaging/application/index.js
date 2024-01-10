@@ -23,7 +23,7 @@ async function getGrants(sessionId, msgQueueSuffix, grantID = null) {
 }
 
 async function grantSubmitted(msgQueueSuffix, msgBody) {
-  console.log('[MADE IT TO MESSAGE]', getGrantReqResQueueAddress(msgQueueSuffix), 'PPPPPPPPPPP')
+  console.log('[MADE IT TO MESSAGE Submitted]', msgQueueSuffix ,getGrantReqResQueueAddress(msgQueueSuffix), 'PPPPPPPPPPP')
   console.log(msgBody, 'MMMMMMMM')
   
   const {grantRequestQueueAddress }= getGrantReqResQueueAddress(msgQueueSuffix)
@@ -57,5 +57,6 @@ const getGrantReqResQueueAddress = (msgQueueSuffix) => {
 }
 
 module.exports = {
-  getGrants
+  getGrants,
+  grantSubmitted
 }
