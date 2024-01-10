@@ -9,7 +9,7 @@ const { drawSectionGetRequests, drawSectionPostRequests } = require('../routes')
 const grantStatus = {
   'available': {
     text: 'Not started',
-    classes: 'govuk-tag--grey'
+    classes: 'govuk-tag--blue'
   },
   'submitted': {
     text: 'Submitted',
@@ -25,7 +25,7 @@ const grantStatus = {
   },
   'unsuccessful': {
     text: 'Unsuccessful',
-    classes: 'govuk-tag--green'
+    classes: 'govuk-tag--red'
   }
 }
 
