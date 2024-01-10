@@ -16,7 +16,8 @@ function createModel (farmerData) {
           classes: "govuk-fieldset__legend--l"
         }
       },
-      items: []
+      items: [],
+      id: "chooseOrganisation"
     },
     headerData: {
       firstName: farmerData.firstName,
@@ -51,6 +52,19 @@ module.exports = [
       auth: false,
     },
     handler: (request, h) => {
+      if (!request.payload.chooseOrganisation) {
+        const farmerData = getYarValue(request, 'account-information')
+        const currentModel = createModel(farmerData)
+        return h.view(viewTemplate, {
+          ...currentModel,
+          errorList: [
+            {
+              text: 'Please select an organisation',
+              href: `#chooseOrganisation`
+            }
+          ]
+        } )
+      }
       console.log(request.payload, 'LLLLLLLLLLLL')
       setYarValue(request, 'msgQueueSuffix', request.payload.queueSuffix)
       setYarValue(request, 'chosen-organisation', request.payload.chooseOrganisation)

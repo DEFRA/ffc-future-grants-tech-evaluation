@@ -155,7 +155,7 @@ const questionBank = {
             },
             {
               type: 'REGEX',
-              regex: /^[1-9]\d*$/,
+              regex: "WHOLE_NUMBER_REGEX",
               error: 'Enter a whole number'
             }
           ],
@@ -187,7 +187,7 @@ const questionBank = {
             },
             {
               type: 'REGEX',
-              regex: /^\d+$/,
+              regex: "WHOLE_NUMBER_REGEX",
               error: 'Enter a number'
             }
           ],
@@ -322,7 +322,7 @@ const equipmentGrant = {
           validate: [
             {
               type: 'REGEX',
-              regex: /^[1-9]\d*$/,
+              regex: "WHOLE_NUMBER_REGEX",
               error: 'Enter a whole number for the item quantities'
             },
             {
@@ -355,7 +355,7 @@ const equipmentGrant = {
             },
             {
               type: 'REGEX',
-              regex: /^[\s]*[a-z]{1,2}\d[a-z\d]?[\s]*\d[a-z]{2}[\s]*$/i,
+              regex: "POSTCODE_REGEX",
               error: 'Enter a project postcode, like AA1 1AA'
             }
           ],
