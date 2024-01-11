@@ -91,26 +91,20 @@ const labelInterpolation = (label, question, request) => {
   }
 }
 
-const getPage = async (question, request, h) => {
-  const {
-    url,
-    type,
-    title,
-    yarKey,
-    backUrl,
-    label
-  } = question
-
-  if (title) {
-    question = titleInterpolation(title, question, request)
+const getPage = async (setUpQuestion, request, h) => {
+  const { key } = setUpQuestion
+  const listOfQuestions = getYarValue(request, 'grant-questions')
+  let question = listOfQuestions.find((question) => question.key === key)
+  if (question.title) {
+    question = titleInterpolation(question.title, question, request)
   }
-  if (label) {
-    question = labelInterpolation(label, question, request)
+  if (question.label) {
+    question = labelInterpolation(question.label, question, request)
   }
 
-  const data = getDataFromYarValue(request, yarKey, type)
+  const data = getDataFromYarValue(request, question.yarKey, question.type)
 
-  switch (url) {
+  switch (question.url) {
     case 'check-details': {
       return h.view(
         'check-details',
@@ -152,6 +146,8 @@ const getPage = async (question, request, h) => {
           } else {
             dataForBE.answers[question.yarKey] = questionAnswer
           }
+          // After the Data has been added to the BE object for sending clear all the yarKeys
+          clearYarValue(request, question.yarKey)
         }
       })
       try {
@@ -163,12 +159,10 @@ const getPage = async (question, request, h) => {
         return h.view('500').takeover()
       }
 
-      // After the Data has been added to the BE object for sending clear all the yarKeys
-      clearYarValue(request, question.yarKey)
       return h.view(
         'confirmation',
         {
-          url,
+          url: question.url,
           reference: {
             titleText: "Application complete",
             html: `Your reference number<br><strong>${confirmationId}</strong>`
@@ -188,7 +182,7 @@ const getPage = async (question, request, h) => {
       break
   }
 
-  if (type === 'item-list') {
+  if (question.type === 'item-list') {
     return h.view('item-list', getModel(data, question, request))
   }
 
@@ -250,28 +244,20 @@ const handleMultiInput = (
   }
 }
 
-const showPostPage = async (currentQuestion, request, h) => {
-  const {
-    yarKey,
-    answers,
-    url,
-    ineligibleContent,
-    nextUrl,
-    nextUrlObject,
-    title,
-    type,
-    label
-  } = currentQuestion
-  const NOT_ELIGIBLE = { ...ineligibleContent, backUrl: url, portalUrl: `${urlPrefix}/portal` }
+const showPostPage = async (setUpQuestion, request, h) => {
+  const {key} = setUpQuestion
+  const listOfQuestions = getYarValue(request, 'grant-questions')
+  let currentQuestion = listOfQuestions.find((question) => question.key === key)
+  const NOT_ELIGIBLE = { ...currentQuestion.ineligibleContent, backUrl: currentQuestion.url, portalUrl: `${urlPrefix}/portal` }
   const payload = request.payload
 
-  const thisAnswer = createAnswerObj(payload, yarKey, type, request, answers)
+  const thisAnswer = createAnswerObj(payload, currentQuestion.yarKey, currentQuestion.type, request, currentQuestion.answers)
 
-  if (title) {
-    currentQuestion = titleInterpolation(title, currentQuestion, request)
+  if (currentQuestion.title) {
+    currentQuestion = titleInterpolation(currentQuestion.title, currentQuestion, request)
   }
-  if (label) {
-    currentQuestion = labelInterpolation(label, currentQuestion, request)
+  if (currentQuestion.label) {
+    currentQuestion = labelInterpolation(currentQuestion.label, currentQuestion, request)
   }
 
   const errors = checkErrors(payload, currentQuestion, h, request)
@@ -284,7 +270,7 @@ const showPostPage = async (currentQuestion, request, h) => {
   }
 
   return h.redirect(
-    getUrl(nextUrlObject, nextUrl, request, payload.secBtn, currentQuestion.url)
+    getUrl(currentQuestion.nextUrlObject, currentQuestion.nextUrl, request, payload.secBtn, currentQuestion.url)
   )
 }
 
