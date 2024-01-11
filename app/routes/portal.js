@@ -1,7 +1,7 @@
 const { urlPrefix } = require('../config/server')
 const viewTemplate = 'portal'
 const currentPath = `${urlPrefix}/${viewTemplate}`
-const { setYarValue, getYarValue } = require('../helpers/session')
+const { setYarValue, getYarValue, clearYarValue } = require('../helpers/session')
 //const {availableGrants:availableGrantsMock} = require('../config/available-grants-mock')
 const { getGrants } = require('../messaging/application')
 const { questionBank, equipmentGrant } = require('../config/question-bank')
@@ -74,7 +74,8 @@ module.exports = [
       const grantID = request.payload.grantId
       let questionBankData
       // questionBankData = questionBank
-
+      // clearYarValue(request, 'grant-information')
+      // setYarValue(request, 'grant-information', questionBankData)
       // GET the requested grant questions
       try {
         console.log('Sending session message .....')

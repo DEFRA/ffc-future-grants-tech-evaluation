@@ -102,10 +102,10 @@ const getPage = async (question, request, h) => {
   } = question
 
   if (title) {
-    question = titleInterpolation(title, question ,request)
+    question = titleInterpolation(title, question, request)
   }
   if (label) {
-    question = labelInterpolation(label, question ,request)
+    question = labelInterpolation(label, question, request)
   }
 
   const data = getDataFromYarValue(request, yarKey, type)
@@ -122,9 +122,11 @@ const getPage = async (question, request, h) => {
       const farmerData = getYarValue(request, 'account-information')
       const chosenFarm = getYarValue(request, 'chosen-organisation')
       const chosenFarmObject = farmerData.companies.find((company) => company.id === chosenFarm)
+      const grantInformation = getYarValue(request, 'grant-information')
       // Format all of the yar keys and send the data to the BE
-      const allQuestions = getYarValue(request, 'grant-questions') 
+      const allQuestions = getYarValue(request, 'grant-questions')
       const dataForBE = {
+        grantId: grantInformation.grantScheme.grantID,
         confirmationId,
         chosenFarm,
         farmerData,
@@ -155,11 +157,10 @@ const getPage = async (question, request, h) => {
           clearYarValue(request, question.yarKey)
         }
       })
-      console.log('DATA SENT TO BE', dataForBE)
       try {
         console.log('Sending session message .....')
-        questionBankData = await grantSubmitted(request.yar.id, getYarValue(request, 'msgQueueSuffix'),dataForBE)
-        console.log('[USER RESPONSE WE SENT BACK]')
+        questionBankData = await grantSubmitted(getYarValue(request, 'msgQueueSuffix'), dataForBE)
+        console.log(dataForBE, '[USER RESPONSE WE SENT BACK]')
       } catch (error) {
         console.log(error)
         return h.view('500').takeover()
@@ -204,7 +205,7 @@ const createAnswerObj = (payload, yarKey, type, request, answers) => {
       setYarValue(request, yarKey, value)
     }
   }
-  
+
   return thisAnswer
 }
 
@@ -229,10 +230,10 @@ const handleMultiInput = (
       }
       const payloadYarVal = payload[field.yarKey]
         ? payload[field.yarKey]
-            .replace(DELETE_POSTCODE_CHARS_REGEX, '')
-            .split(/(?=.{3}$)/)
-            .join(' ')
-            .toUpperCase()
+          .replace(DELETE_POSTCODE_CHARS_REGEX, '')
+          .split(/(?=.{3}$)/)
+          .join(' ')
+          .toUpperCase()
         : ''
       dataObject = {
         ...dataObject,
@@ -261,16 +262,16 @@ const showPostPage = async (currentQuestion, request, h) => {
     type,
     label
   } = currentQuestion
-  const NOT_ELIGIBLE = { ...ineligibleContent, backUrl: url, portalUrl: `${urlPrefix}/portal`}
+  const NOT_ELIGIBLE = { ...ineligibleContent, backUrl: url, portalUrl: `${urlPrefix}/portal` }
   const payload = request.payload
 
   const thisAnswer = createAnswerObj(payload, yarKey, type, request, answers)
 
   if (title) {
-    currentQuestion = titleInterpolation(title, currentQuestion ,request)
+    currentQuestion = titleInterpolation(title, currentQuestion, request)
   }
   if (label) {
-    currentQuestion = labelInterpolation(label, currentQuestion ,request)
+    currentQuestion = labelInterpolation(label, currentQuestion, request)
   }
 
   const errors = checkErrors(payload, currentQuestion, h, request)
