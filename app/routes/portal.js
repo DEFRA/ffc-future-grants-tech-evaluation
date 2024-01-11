@@ -1,15 +1,15 @@
 const { urlPrefix } = require('../config/server')
 const viewTemplate = 'portal'
 const currentPath = `${urlPrefix}/${viewTemplate}`
-const { setYarValue, getYarValue } = require('../helpers/session')
+const { setYarValue, getYarValue, clearYarValue } = require('../helpers/session')
 //const {availableGrants:availableGrantsMock} = require('../config/available-grants-mock')
 const { getGrants } = require('../messaging/application')
 const { questionBank, equipmentGrant } = require('../config/question-bank')
-const {drawSectionGetRequests, drawSectionPostRequests} = require('../routes')
+const { drawSectionGetRequests, drawSectionPostRequests } = require('../routes')
 const grantStatus = {
-  'not-started': {
+  'available': {
     text: 'Not started',
-    classes: 'govuk-tag--grey'
+    classes: 'govuk-tag--blue'
   },
   'submitted': {
     text: 'Submitted',
@@ -25,7 +25,7 @@ const grantStatus = {
   },
   'unsuccessful': {
     text: 'Unsuccessful',
-    classes: 'govuk-tag--green'
+    classes: 'govuk-tag--red'
   }
 }
 
@@ -36,14 +36,13 @@ module.exports = [
     options: {
       auth: false
     },
-    handler: async(request, h) => {
+    handler: async (request, h) => {
       //GET the available grants information and save it in a yarKey
       try {
         console.log('Sending session message .....')
         const result = await getGrants(request.yar.id, getYarValue(request, 'msgQueueSuffix'))
         console.log(result, '[THIS IS RESULT WE GOT BACK]')
         request.yar.set('available-grants', result)
-        // return h.view(viewTemplate, createModel({ catagories: result.data.desirability.catagories }, request))
       } catch (error) {
         console.log(error)
         return h.view('500').takeover()
@@ -71,18 +70,27 @@ module.exports = [
     options: {
       auth: false
     },
-    handler: (request, h) => {
+    handler: async (request, h) => {
       const grantID = request.payload.grantId
-      //GET the specific grants information / question bank
-      let questionBankData;
-      if (grantID === 'AHG001') {
-        questionBankData = questionBank
-      } else {
-        questionBankData = equipmentGrant
+      let questionBankData
+      // questionBankData = questionBank
+      // clearYarValue(request, 'grant-information')
+      // setYarValue(request, 'grant-information', questionBankData)
+      // GET the requested grant questions
+      try {
+        console.log('Sending session message .....')
+        questionBankData = await getGrants(request.yar.id, getYarValue(request, 'msgQueueSuffix'), grantID)
+        console.log(questionBankData.themes[0].questions, '[QUESTIONS WE GOT BACK]')
+        // return h.view(viewTemplate, createModel({ catagories: result.data.desirability.catagories }, request))
+      } catch (error) {
+        console.log(error)
+        return h.view('500').takeover()
       }
-      // Save the whole grant information in cache
+      //questionBankData = questionBank
+
       setYarValue(request, 'grant-information', questionBankData)
       const allQuestions = []
+      console.log(questionBankData, 'LLLL')
       questionBankData.themes.forEach(({ questions }) => {
         allQuestions.push(...questions)
       })
@@ -90,7 +98,7 @@ module.exports = [
       setYarValue(request, 'grant-questions', allQuestions)
       // Generate the new routes
       const pages = questionBankData.themes.map(section => drawSectionGetRequests(section, grantID))[0]
-      .concat(questionBankData.themes.map(section => drawSectionPostRequests(section, grantID))[0])
+        .concat(questionBankData.themes.map(section => drawSectionPostRequests(section, grantID))[0])
       // Access server and register the new routes
       try {
         request.server.route(pages)

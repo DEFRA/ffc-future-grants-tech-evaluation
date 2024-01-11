@@ -1,4 +1,13 @@
 const { getQuestionAnswer } = require('../helpers/utils')
+const {
+  POSTCODE_REGEX,
+  WHOLE_NUMBER_REGEX,
+} = require('../helpers/regex')
+
+const regexTransformer = {
+  "WHOLE_NUMBER_REGEX": WHOLE_NUMBER_REGEX,
+  "POSTCODE_REGEX": POSTCODE_REGEX
+}
 
 const validateAnswerField = (request, value, validationType, details, payload, quantityLimit = undefined) => {
   switch (validationType) {
@@ -51,7 +60,8 @@ const validateAnswerField = (request, value, validationType, details, payload, q
     }
 
     case 'REGEX': {
-      const { regex } = details
+      let { regex } = details
+      regex = regexTransformer[regex]
       return (!value || regex.test(value))
     }
 

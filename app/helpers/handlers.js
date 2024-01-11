@@ -20,6 +20,8 @@ const {
   getDataFromYarValue
 } = require('./pageHelpers')
 const urlPrefix = require('../config/server').urlPrefix
+const { grantSubmitted } = require('../messaging/application')
+
 
 const setGrantsData = (question, request) => {
   if (question.grantInfo) {
@@ -100,10 +102,10 @@ const getPage = async (question, request, h) => {
   } = question
 
   if (title) {
-    question = titleInterpolation(title, question ,request)
+    question = titleInterpolation(title, question, request)
   }
   if (label) {
-    question = labelInterpolation(label, question ,request)
+    question = labelInterpolation(label, question, request)
   }
 
   const data = getDataFromYarValue(request, yarKey, type)
@@ -119,10 +121,11 @@ const getPage = async (question, request, h) => {
       const confirmationId = getConfirmationId(request.yar.id)
       const farmerData = getYarValue(request, 'account-information')
       const chosenFarm = getYarValue(request, 'chosen-organisation')
-
+      const grantInformation = getYarValue(request, 'grant-information')
       // Format all of the yar keys and send the data to the BE
-      const allQuestions = getYarValue(request, 'grant-questions') 
+      const allQuestions = getYarValue(request, 'grant-questions')
       const dataForBE = {
+        grantId: grantInformation.grantScheme.grantID,
         confirmationId,
         chosenFarm,
         farmerData,
@@ -141,19 +144,27 @@ const getPage = async (question, request, h) => {
                   value: questionAnswer[key]
                 })
               }
-            });
+            })
             dataForBE.answers[question.yarKey] = answerArray
-          } else if (question.answers.length > 0) {
+          } else if (question?.answers?.length > 0) {
             // Returns the whole answer object instead of just the answer value
             dataForBE.answers[question.yarKey] = question.answers.find((answer) => answer.value === questionAnswer)
           } else {
             dataForBE.answers[question.yarKey] = questionAnswer
           }
-          // After the Data has been added to the BE object for sending clear all the yarKeys
-          clearYarValue(request, question.yarKey)
         }
       })
-      console.log('DATA SENT TO BE', dataForBE)
+      try {
+        console.log('Sending session message .....')
+        questionBankData = await grantSubmitted(getYarValue(request, 'msgQueueSuffix'), dataForBE)
+        console.log(dataForBE, '[USER RESPONSE WE SENT BACK]')
+      } catch (error) {
+        console.log(error)
+        return h.view('500').takeover()
+      }
+
+      // After the Data has been added to the BE object for sending clear all the yarKeys
+      clearYarValue(request, question.yarKey)
       return h.view(
         'confirmation',
         {
@@ -194,7 +205,7 @@ const createAnswerObj = (payload, yarKey, type, request, answers) => {
       setYarValue(request, yarKey, value)
     }
   }
-  
+
   return thisAnswer
 }
 
@@ -219,10 +230,10 @@ const handleMultiInput = (
       }
       const payloadYarVal = payload[field.yarKey]
         ? payload[field.yarKey]
-            .replace(DELETE_POSTCODE_CHARS_REGEX, '')
-            .split(/(?=.{3}$)/)
-            .join(' ')
-            .toUpperCase()
+          .replace(DELETE_POSTCODE_CHARS_REGEX, '')
+          .split(/(?=.{3}$)/)
+          .join(' ')
+          .toUpperCase()
         : ''
       dataObject = {
         ...dataObject,
@@ -251,16 +262,16 @@ const showPostPage = async (currentQuestion, request, h) => {
     type,
     label
   } = currentQuestion
-  const NOT_ELIGIBLE = { ...ineligibleContent, backUrl: url, portalUrl: `${urlPrefix}/portal`}
+  const NOT_ELIGIBLE = { ...ineligibleContent, backUrl: url, portalUrl: `${urlPrefix}/portal` }
   const payload = request.payload
 
   const thisAnswer = createAnswerObj(payload, yarKey, type, request, answers)
 
   if (title) {
-    currentQuestion = titleInterpolation(title, currentQuestion ,request)
+    currentQuestion = titleInterpolation(title, currentQuestion, request)
   }
   if (label) {
-    currentQuestion = labelInterpolation(label, currentQuestion ,request)
+    currentQuestion = labelInterpolation(label, currentQuestion, request)
   }
 
   const errors = checkErrors(payload, currentQuestion, h, request)

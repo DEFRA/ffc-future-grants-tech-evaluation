@@ -92,11 +92,11 @@ const questionBank = {
           ],
           answers: [
             {
-              key: 'project-location-true',
+              key: 'project-location-A1',
               value: 'Yes'
             },
             {
-              key: 'project-location-false',
+              key: 'project-location-A2',
               value: 'No',
               notEligible: true
             }
@@ -118,19 +118,19 @@ const questionBank = {
           ],
           answers: [
             {
-              key: 'livestock-type-beef',
+              key: 'livestock-type-A1',
               value: 'Beef cattle'
             },
             {
-              key: 'livestock-type-dairy',
+              key: 'livestock-type-A2',
               value: 'Dairy cattle'
             },
             {
-              key: 'livestock-type-sheep',
+              key: 'livestock-type-A3',
               value: 'Sheep'
             },
             {
-              key: 'livestock-type-pigs',
+              key: 'livestock-type-A3',
               value: 'Pigs'
             }
           ],
@@ -155,7 +155,7 @@ const questionBank = {
             },
             {
               type: 'REGEX',
-              regex: /^[1-9]\d*$/,
+              regex: "WHOLE_NUMBER_REGEX",
               error: 'Enter a whole number'
             }
           ],
@@ -187,7 +187,7 @@ const questionBank = {
             },
             {
               type: 'REGEX',
-              regex: /^\d+$/,
+              regex: "WHOLE_NUMBER_REGEX",
               error: 'Enter a number'
             }
           ],
@@ -322,7 +322,7 @@ const equipmentGrant = {
           validate: [
             {
               type: 'REGEX',
-              regex: /^[1-9]\d*$/,
+              regex: "WHOLE_NUMBER_REGEX",
               error: 'Enter a whole number for the item quantities'
             },
             {
@@ -355,7 +355,7 @@ const equipmentGrant = {
             },
             {
               type: 'REGEX',
-              regex: /^[\s]*[a-z]{1,2}\d[a-z\d]?[\s]*\d[a-z]{2}[\s]*$/i,
+              regex: "POSTCODE_REGEX",
               error: 'Enter a project postcode, like AA1 1AA'
             }
           ],

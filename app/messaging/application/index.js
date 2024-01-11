@@ -11,13 +11,24 @@ const {
   grantResponseQueueAddressPega
 } = require('../../config/messaging.js')
 
-async function getGrants(sessionId, msgQueueSuffix) {
+async function getGrants(sessionId, msgQueueSuffix, grantID = null) {
   console.log('[MADE IT TO MESSAGE]', sessionId, getGrantReqResQueueAddress(msgQueueSuffix), 'PPPPPPPPPPP')
+  const msgBody = grantID ? { grantID: grantID } : { userID: 'Farmer Giles' }
+  console.log(msgBody, 'MMMMMMMM')
+  
   const {grantRequestQueueAddress, grantResponseQueueAddress }= getGrantReqResQueueAddress(msgQueueSuffix)
-  await sendMessage({ userID: 'Farmer Giles' }, fetchCostRequestMsgType, grantRequestQueueAddress , { sessionId })
-
+  await sendMessage(msgBody, fetchCostRequestMsgType, grantRequestQueueAddress , { sessionId })
   console.log('[FINISHED SENDING MESSAGE MOVING TO RECEIVING]')
   return receiveMessage(sessionId, grantResponseQueueAddress)
+}
+
+async function grantSubmitted(msgQueueSuffix, msgBody) {
+  console.log('[MADE IT TO MESSAGE Submitted]', msgQueueSuffix ,getGrantReqResQueueAddress(msgQueueSuffix), 'PPPPPPPPPPP')
+  console.log(msgBody, 'MMMMMMMM')
+  
+  const {grantRequestQueueAddress }= getGrantReqResQueueAddress(msgQueueSuffix)
+  await sendMessage(msgBody, fetchCostRequestMsgType, grantRequestQueueAddress)
+  console.log('[FINISHED SENDING GRANT SUBMITTED]')
 }
 
 const getGrantReqResQueueAddress = (msgQueueSuffix) => {
@@ -46,5 +57,6 @@ const getGrantReqResQueueAddress = (msgQueueSuffix) => {
 }
 
 module.exports = {
-  getGrants
+  getGrants,
+  grantSubmitted
 }
