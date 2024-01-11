@@ -143,7 +143,7 @@ const checkErrors = (payload, currentQuestion, h, request) => {
   }
 
   if (errorHrefList.length > 0) {
-    return customiseErrorText(payloadValue ? payloadValue : payload, currentQuestion, errorHrefList, h, request)
+    return customiseErrorText(payloadValue, currentQuestion, errorHrefList, h, request)
   }
 }
 
