@@ -65,8 +65,8 @@ const messageConfigSchema = Joi.object({
     ...sharedConfigSchema
   },
   desirabilitySubmittedMsgType: Joi.string(),
-  fetchCostRequestMsgType: Joi.string(),
-  eligibilityAnswersMsgType: Joi.string(),
+  fetchGrantRequestMsgType: Joi.string(),
+  fetchApplicationRequestMsgType: Joi.string(),
   contactDetailsMsgType: Joi.string(),
   msgSrc: Joi.string()
 })
@@ -138,8 +138,8 @@ const config = {
     ...sharedConfig
   },
   desirabilitySubmittedMsgType: `${msgTypePrefix}.slurry.desirability.notification`,
-  fetchCostRequestMsgType: `${msgTypePrefix}.fetch.grants.request`,
-  eligibilityAnswersMsgType: `${msgTypePrefix}.slurry.eligibility.details`,
+  fetchGrantRequestMsgType: `${msgTypePrefix}.fetch.grants.request`,
+  fetchApplicationRequestMsgType: `${msgTypePrefix}.fetch.application.request`,
   contactDetailsMsgType: `${msgTypePrefix}.slurry.contact.details`,
   msgSrc: 'ffc-future-grants-tech-evaluation'
 }

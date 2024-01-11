@@ -4,7 +4,8 @@ const {
   grantRequestQueueAddressSnd,
   grantRequestQueueAddressSn,
   grantRequestQueueAddressPega,
-  fetchCostRequestMsgType,
+  fetchGrantRequestMsgType,
+  fetchApplicationRequestMsgType,
   grantResponseQueueAddressSf,
   grantResponseQueueAddressSnd,
   grantResponseQueueAddressSn,
@@ -14,16 +15,16 @@ const {
 async function getGrants(sessionId, msgQueueSuffix, grantID = null) {
   console.log('[MADE IT TO MESSAGE]', sessionId, getGrantReqResQueueAddress(msgQueueSuffix), 'PPPPPPPPPPP')
   const msgBody = grantID ? { grantID: grantID } : { userID: 'Farmer Giles' }
-  console.log(msgBody, 'MMMMMMMM')
+  const { grantRequestQueueAddress, grantResponseQueueAddress } = getGrantReqResQueueAddress(msgQueueSuffix)
+  const getMsgType = grantID ? fetchApplicationRequestMsgType : fetchGrantRequestMsgType
   
-  const {grantRequestQueueAddress, grantResponseQueueAddress }= getGrantReqResQueueAddress(msgQueueSuffix)
-  await sendMessage(msgBody, fetchCostRequestMsgType, grantRequestQueueAddress , { sessionId })
+  await sendMessage(msgBody, getMsgType, grantRequestQueueAddress , { sessionId })
   console.log('[FINISHED SENDING MESSAGE MOVING TO RECEIVING]')
   return receiveMessage(sessionId, grantResponseQueueAddress)
 }
 
 async function grantSubmitted(msgQueueSuffix, msgBody) {
-  console.log('[MADE IT TO MESSAGE Submitted]', msgQueueSuffix ,getGrantReqResQueueAddress(msgQueueSuffix), 'PPPPPPPPPPP')
+  console.log('[MADE IT TO MESSAGE Submitted]')
   console.log(msgBody, 'MMMMMMMM')
   
   const {grantRequestQueueAddress }= getGrantReqResQueueAddress(msgQueueSuffix)
