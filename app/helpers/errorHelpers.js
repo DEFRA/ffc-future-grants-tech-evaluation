@@ -102,7 +102,7 @@ const checkInputError = (request, validate, isconditionalAnswer, payload, yarKey
   return validate.find(
     ({ type, dependentKey, ...details }) => (isconditionalAnswer && dependentKey)
       ? (validateAnswerField(request, payload[dependentKey], type, details, payload) === false)
-      : !dependentKey && (validateAnswerField(request, payload[yarKey] ? payload[yarKey] : payload, type, details, payload, quantityLimit) === false)
+      : !dependentKey && (validateAnswerField(request, (payload[yarKey] !== undefined && payload[yarKey] !== null) ? payload[yarKey] : payload, type, details, payload, quantityLimit) === false)
   )
 }
 
