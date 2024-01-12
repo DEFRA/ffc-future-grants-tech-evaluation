@@ -140,6 +140,19 @@ const getPage = async (setUpQuestion, request, h) => {
               }
             })
             dataForBE.answers[question.yarKey] = answerArray
+            // Calculate the total score
+            const scoreArray = []
+            question.itemList.forEach((item) => {
+              // If the user has selected an item then add the score to the array
+              if (questionAnswer[item.equipmentId]) {
+                scoreArray.push(item.score)
+              }
+            })
+            if (scoreArray.length > 0) {
+              const numberOfItems = scoreArray.length;
+              const itemScoreTotal = scoreArray.reduce((previousValue, currentValue) => previousValue + currentValue, 0)
+              dataForBE["score"] = itemScoreTotal / numberOfItems
+            }
           } else if (question?.answers?.length > 0) {
             // Returns the whole answer object instead of just the answer value
             dataForBE.answers[question.yarKey] = question.answers.find((answer) => answer.value === questionAnswer)
