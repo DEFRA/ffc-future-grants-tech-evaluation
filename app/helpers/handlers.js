@@ -143,12 +143,17 @@ const getPage = async (setUpQuestion, request, h) => {
             dataForBE.answers[question.yarKey] = answerArray
             // Calculate the total score
             const scoreArray = []
+            let grantTotal = 0
             question.itemList.forEach((item) => {
               // If the user has selected an item then add the score to the array
               if (questionAnswer[item.equipmentId]) {
                 scoreArray.push(item.score)
+                const value = parseInt(item.referenceValue, 10)
+                const ammount = parseInt(questionAnswer[item.equipmentId], 10)
+                grantTotal += value * ammount
               }
             })
+            dataForBE["totalGrantValue"] = grantTotal
             if (scoreArray.length > 0) {
               const numberOfItems = scoreArray.length;
               const itemScoreTotal = scoreArray.reduce((previousValue, currentValue) => previousValue + currentValue, 0)
