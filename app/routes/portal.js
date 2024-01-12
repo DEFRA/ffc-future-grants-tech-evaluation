@@ -38,9 +38,13 @@ module.exports = [
     },
     handler: async (request, h) => {
       //GET the available grants information and save it in a yarKey
+      const chosenFarm = getYarValue(request, 'chosen-organisation')
+      const farmerData = getYarValue(request, 'account-information')
+      const chosenFarmObject = farmerData.companies.find((company) => company.id === chosenFarm)
+      const userData = {userID: farmerData.crn , sbi: chosenFarmObject.sbi}
       try {
         console.log('Sending session message .....')
-        const result = await getGrants(request.yar.id, getYarValue(request, 'msgQueueSuffix'))
+        const result = await getGrants(request.yar.id, getYarValue(request, 'msgQueueSuffix'), userData)
         // const result = availableGrantsMock
         console.log(result, '[THIS IS RESULT WE GOT BACK]')
         request.yar.set('available-grants', result)
@@ -50,8 +54,6 @@ module.exports = [
       }
       const availableGrants = getYarValue(request, 'available-grants').grants
       //setYarValue(request, 'available-grants', availableGrants);
-      const farmerData = getYarValue(request, 'account-information');
-      const chosenFarm = getYarValue(request, 'chosen-organisation');
       // Format the grant status to be displayed properly
       availableGrants.forEach((grant) => {
         grant.tagDisplay = grantStatus[grant.status]
@@ -78,18 +80,15 @@ module.exports = [
       // GET the requested grant questions
       try {
         console.log('Sending session message .....')
-        questionBankData = await getGrants(request.yar.id, getYarValue(request, 'msgQueueSuffix'), grantID)
+        questionBankData = await getGrants(request.yar.id, getYarValue(request, 'msgQueueSuffix'), null, grantID)
         console.log(questionBankData.themes[0].questions, '[QUESTIONS WE GOT BACK]')
-        // return h.view(viewTemplate, createModel({ catagories: result.data.desirability.catagories }, request))
       } catch (error) {
         console.log(error)
         return h.view('500').takeover()
       }
-      //questionBankData = questionBank
 
       setYarValue(request, 'grant-information', questionBankData)
       const allQuestions = []
-      console.log(questionBankData, 'LLLL')
       questionBankData.themes.forEach(({ questions }) => {
         allQuestions.push(...questions)
       })

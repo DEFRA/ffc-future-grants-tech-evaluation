@@ -115,6 +115,7 @@ const getPage = async (setUpQuestion, request, h) => {
       const confirmationId = getConfirmationId(request.yar.id)
       const farmerData = getYarValue(request, 'account-information')
       const chosenFarm = getYarValue(request, 'chosen-organisation')
+      const chosenFarmObject = farmerData.companies.find((company) => company.id === chosenFarm)
       const grantInformation = getYarValue(request, 'grant-information')
       // Format all of the yar keys and send the data to the BE
       const allQuestions = getYarValue(request, 'grant-questions')
@@ -176,7 +177,6 @@ const getPage = async (setUpQuestion, request, h) => {
         console.log(error)
         return h.view('500').takeover()
       }
-
       return h.view(
         'confirmation',
         {
@@ -187,8 +187,8 @@ const getPage = async (setUpQuestion, request, h) => {
           },
           confirmationId,
           headerData: {
-            chosenFarm: farmerData.companies.find((company) => company.id === chosenFarm).name,
-            sbi: farmerData.sbi,
+            chosenFarm: chosenFarmObject.name,
+            sbi: chosenFarmObject.sbi,
             firstName: farmerData.firstName,
             lastName: farmerData.lastName
           },
