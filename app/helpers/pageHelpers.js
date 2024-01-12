@@ -111,14 +111,15 @@ const getCheckDetailsModel = (request, question) => {
     const itemScoreTotal = scoreArray.reduce((previousValue, currentValue) => previousValue + currentValue, 0)
     totalScore = itemScoreTotal / numberOfItems
   }
+  const chosenFarm = farmerData.companies.find((company) => company.id === chosenOrganisation)
   return {
     ...question,
     backUrl: `${urlPrefix}/${grantId}/${question.backUrl}`,
     farmerData,
     chosenOrganisation,
     headerData: {
-      chosenFarm: farmerData.companies.find((company) => company.id === chosenOrganisation).name,
-      sbi: farmerData.sbi,
+      chosenFarm: chosenFarm.name,
+      sbi: chosenFarm.sbi,
       firstName: farmerData.firstName,
       lastName: farmerData.lastName
     },

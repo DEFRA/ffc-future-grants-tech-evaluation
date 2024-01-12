@@ -6,7 +6,6 @@ const accountInformation = {
     email: 'Giles@testnull.com',
     landlinePhone: '056712678',
     mobilePhone: '012345678',
-    sbi: '908789876',
     businesSize: 'Micro',
     numberOfEmployees: 5,
     areasManaged: {
@@ -22,11 +21,13 @@ const accountInformation = {
     companies: [
       {
         name: 'Imaginary Farm',
-        id: 'imaginary-farm'
+        id: 'imaginary-farm',
+        sbi: '908789876'
       },
       {
         name: 'Apple Farm',
-        id: 'apple-farm'
+        id: 'apple-farm',
+        sbi: '678987809'
       }
     ]
   },
@@ -37,7 +38,6 @@ const accountInformation = {
     email: 'Gill@testnull.com',
     landlinePhone: '076575678',
     mobilePhone: '076575678',
-    sbi: '786756789',
     businesSize: 'Micro',
     numberOfEmployees: 7,
     areasManaged: {
@@ -53,7 +53,8 @@ const accountInformation = {
     companies: [
       {
         name: 'Berry Farm',
-        id: 'berry-farm'
+        id: 'berry-farm',
+        sbi: '786756789'
       }
     ]
   },
@@ -64,7 +65,6 @@ const accountInformation = {
     email: 'Tom@testnull.com',
     landlinePhone: '086127891',
     mobilePhone: '034567891',
-    sbi: '767892234',
     businesSize: 'Micro',
     numberOfEmployees: 6,
     areasManaged: {
@@ -80,7 +80,8 @@ const accountInformation = {
     companies: [
       {
         name: 'Green Farm',
-        id: 'green-farm'
+        id: 'green-farm',
+        sbi: '767892234'
       }
     ]
   }
