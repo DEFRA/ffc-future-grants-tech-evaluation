@@ -28,7 +28,7 @@ async function grantSubmitted(msgQueueSuffix, msgBody) {
   console.log(msgBody, 'MMMMMMMM')
   
   const {grantRequestQueueAddress }= getGrantReqResQueueAddress(msgQueueSuffix)
-  await sendMessage(msgBody, fetchCostRequestMsgType, grantRequestQueueAddress)
+  await sendMessage(msgBody, getMsgType, grantRequestQueueAddress)
   console.log('[FINISHED SENDING GRANT SUBMITTED]')
 }
 
