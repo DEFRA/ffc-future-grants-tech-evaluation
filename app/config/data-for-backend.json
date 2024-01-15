@@ -8,7 +8,6 @@
     "email": "Giles@testnull.com",
     "landlinePhone": "056712678",
     "mobilePhone": "012345678",
-    "sbi": "908789876",
     "businesSize": "Micro",
     "numberOfEmployees": 5,
     "areasManaged": {
@@ -24,11 +23,13 @@
     "companies": [
       {
         "name": "Imaginary Farm",
-        "id": "imaginary-farm"
+        "id": "imaginary-farm",
+        "sbi": "908789876"
       },
       {
         "name": "Apple Farm",
-        "id": "apple-farm"
+        "id": "apple-farm",
+        "sbi": "678987809"
       }
     ]
   },

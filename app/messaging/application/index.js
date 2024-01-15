@@ -12,10 +12,9 @@ const {
   grantResponseQueueAddressPega
 } = require('../../config/messaging.js')
 
-async function getGrants(sessionId, msgQueueSuffix, grantID = null) {
-  console.log('[MADE IT TO MESSAGE]', sessionId, getGrantReqResQueueAddress(msgQueueSuffix), 'PPPPPPPPPPP')
-  const msgBody = grantID ? { grantID: grantID } : { userID: 'Farmer Giles' }
-  const { grantRequestQueueAddress, grantResponseQueueAddress } = getGrantReqResQueueAddress(msgQueueSuffix)
+async function getGrants(sessionId, msgQueueSuffix, userData, grantID = null) {
+  console.log('[MADE IT TO MESSAGE]', getGrantReqResQueueAddress(msgQueueSuffix), 'PPPPPPPPPPP')
+  const msgBody = grantID ? { grantID: grantID } : userData
   const getMsgType = grantID ? fetchApplicationRequestMsgType : fetchGrantRequestMsgType
   
   await sendMessage(msgBody, getMsgType, grantRequestQueueAddress , { sessionId })

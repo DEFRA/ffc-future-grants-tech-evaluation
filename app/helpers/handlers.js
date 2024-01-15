@@ -115,6 +115,7 @@ const getPage = async (setUpQuestion, request, h) => {
       const confirmationId = getConfirmationId(request.yar.id)
       const farmerData = getYarValue(request, 'account-information')
       const chosenFarm = getYarValue(request, 'chosen-organisation')
+      const chosenFarmObject = farmerData.companies.find((company) => company.id === chosenFarm)
       const grantInformation = getYarValue(request, 'grant-information')
       // Format all of the yar keys and send the data to the BE
       const allQuestions = getYarValue(request, 'grant-questions')
@@ -140,6 +141,24 @@ const getPage = async (setUpQuestion, request, h) => {
               }
             })
             dataForBE.answers[question.yarKey] = answerArray
+            // Calculate the total score
+            const scoreArray = []
+            let grantTotal = 0
+            question.itemList.forEach((item) => {
+              // If the user has selected an item then add the score to the array
+              if (questionAnswer[item.equipmentId]) {
+                scoreArray.push(item.score)
+                const value = parseInt(item.referenceValue, 10)
+                const ammount = parseInt(questionAnswer[item.equipmentId], 10)
+                grantTotal += value * ammount
+              }
+            })
+            dataForBE["totalGrantValue"] = grantTotal
+            if (scoreArray.length > 0) {
+              const numberOfItems = scoreArray.length;
+              const itemScoreTotal = scoreArray.reduce((previousValue, currentValue) => previousValue + currentValue, 0)
+              dataForBE["score"] = itemScoreTotal / numberOfItems
+            }
           } else if (question?.answers?.length > 0) {
             // Returns the whole answer object instead of just the answer value
             dataForBE.answers[question.yarKey] = question.answers.find((answer) => answer.value === questionAnswer)
@@ -158,7 +177,6 @@ const getPage = async (setUpQuestion, request, h) => {
         console.log(error)
         return h.view('500').takeover()
       }
-
       return h.view(
         'confirmation',
         {
@@ -169,8 +187,8 @@ const getPage = async (setUpQuestion, request, h) => {
           },
           confirmationId,
           headerData: {
-            chosenFarm: farmerData.companies.find((company) => company.id === chosenFarm).name,
-            sbi: farmerData.sbi,
+            chosenFarm: chosenFarmObject.name,
+            sbi: chosenFarmObject.sbi,
             firstName: farmerData.firstName,
             lastName: farmerData.lastName
           },
