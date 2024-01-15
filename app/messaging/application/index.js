@@ -16,6 +16,7 @@ async function getGrants(sessionId, msgQueueSuffix, userData, grantID = null) {
   console.log('[MADE IT TO MESSAGE]', getGrantReqResQueueAddress(msgQueueSuffix), 'PPPPPPPPPPP')
   const msgBody = grantID ? { grantID: grantID } : userData
   const getMsgType = grantID ? fetchApplicationRequestMsgType : fetchGrantRequestMsgType
+  const { grantRequestQueueAddress, grantResponseQueueAddress } = getGrantReqResQueueAddress(msgQueueSuffix)
   
   await sendMessage(msgBody, getMsgType, grantRequestQueueAddress , { sessionId })
   console.log('[FINISHED SENDING MESSAGE MOVING TO RECEIVING]')
