@@ -157,7 +157,7 @@ const getPage = async (setUpQuestion, request, h) => {
             if (scoreArray.length > 0) {
               const numberOfItems = scoreArray.length;
               const itemScoreTotal = scoreArray.reduce((previousValue, currentValue) => previousValue + currentValue, 0)
-              dataForBE["score"] = itemScoreTotal / numberOfItems
+              dataForBE["score"] = (itemScoreTotal / numberOfItems).toFixed(2)
             }
           } else if (question?.answers?.length > 0) {
             // Returns the whole answer object instead of just the answer value
@@ -177,6 +177,7 @@ const getPage = async (setUpQuestion, request, h) => {
         console.log(error)
         return h.view('500').takeover()
       }
+      // After the Data has been added to the BE object for sending clear all the yarKeys
       return h.view(
         'confirmation',
         {
