@@ -147,7 +147,7 @@ const getPage = async (setUpQuestion, request, h) => {
             question.itemList.forEach((item) => {
               // If the user has selected an item then add the score to the array
               if (questionAnswer[item.equipmentId]) {
-                scoreArray.push(item.score)
+                scoreArray.push(parseInt(item.score, 10))
                 const value = parseInt(item.referenceValue, 10)
                 const ammount = parseInt(questionAnswer[item.equipmentId], 10)
                 grantTotal += value * ammount
@@ -177,7 +177,7 @@ const getPage = async (setUpQuestion, request, h) => {
         console.log(error)
         return h.view('500').takeover()
       }
-      // After the Data has been added to the BE object for sending clear all the yarKeys
+
       return h.view(
         'confirmation',
         {
