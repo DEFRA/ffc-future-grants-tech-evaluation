@@ -147,7 +147,7 @@ const getPage = async (setUpQuestion, request, h) => {
             question.itemList.forEach((item) => {
               // If the user has selected an item then add the score to the array
               if (questionAnswer[item.equipmentId]) {
-                scoreArray.push(item.score)
+                scoreArray.push(parseInt(item.score, 10))
                 const value = parseInt(item.referenceValue, 10)
                 const ammount = parseInt(questionAnswer[item.equipmentId], 10)
                 grantTotal += value * ammount
@@ -157,7 +157,7 @@ const getPage = async (setUpQuestion, request, h) => {
             if (scoreArray.length > 0) {
               const numberOfItems = scoreArray.length;
               const itemScoreTotal = scoreArray.reduce((previousValue, currentValue) => previousValue + currentValue, 0)
-              dataForBE["score"] = itemScoreTotal / numberOfItems
+              dataForBE["score"] = (itemScoreTotal / numberOfItems).toFixed(2)
             }
           } else if (question?.answers?.length > 0) {
             // Returns the whole answer object instead of just the answer value
@@ -177,6 +177,7 @@ const getPage = async (setUpQuestion, request, h) => {
         console.log(error)
         return h.view('500').takeover()
       }
+
       return h.view(
         'confirmation',
         {

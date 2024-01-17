@@ -109,7 +109,7 @@ const getCheckDetailsModel = (request, question) => {
   if (scoreArray.length > 0) {
     const numberOfItems = scoreArray.length;
     const itemScoreTotal = scoreArray.reduce((previousValue, currentValue) => previousValue + currentValue, 0)
-    totalScore = itemScoreTotal / numberOfItems
+    totalScore = (itemScoreTotal / numberOfItems).toFixed(2)
   }
   const chosenFarm = farmerData.companies.find((company) => company.id === chosenOrganisation)
   return {
