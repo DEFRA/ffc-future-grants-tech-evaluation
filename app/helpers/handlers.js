@@ -112,7 +112,7 @@ const getPage = async (setUpQuestion, request, h) => {
       )
     }
     case 'confirmation': {
-      const confirmationId = getConfirmationId(request.yar.id)
+      const confirmationId = getConfirmationId()
       const farmerData = getYarValue(request, 'account-information')
       const chosenFarm = getYarValue(request, 'chosen-organisation')
       const chosenFarmObject = farmerData.companies.find((company) => company.id === chosenFarm)

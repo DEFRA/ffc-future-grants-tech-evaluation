@@ -3,8 +3,9 @@ const { setOptionsLabel } = require('../helpers/answer-options')
 const { getYarValue, setYarValue } = require('../helpers/session')
 const urlPrefix = require('../config/server').urlPrefix
 const { formatUKCurrency } = require('../helpers/data-formats')
-
-const getConfirmationId = (guid) => {
+const Uuid = require('uuid')
+const getConfirmationId = () => {
+  const guid = Uuid.v4()
   const prefix = 'FG'
   return `${prefix}-${guid.substr(0, 3)}-${guid.substr(3, 3)}`.toUpperCase()
 }
