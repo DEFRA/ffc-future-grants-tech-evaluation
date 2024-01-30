@@ -98,7 +98,7 @@ const getPage = async (setUpQuestion, request, h) => {
   if (question.title) {
     question = titleInterpolation(question.title, question, request)
   }
-  if (question.label) {
+  if (question.label && Object.keys(question.label).length > 0) {
     question = labelInterpolation(question.label, question, request)
   }
 
